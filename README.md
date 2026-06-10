@@ -132,8 +132,22 @@ The Sara Milan visual foundation is defined in:
 Full production pages, feature architecture, API integration, and UI Kit components will be added in
 later phases.
 
+## UI Kit
+
+Reusable UI primitives live in `src/shared/ui` and are exported through:
+
+```tsx
+import { Button, Input, Price } from '@/shared/ui';
+```
+
+The preview page is available at `/ui-kit`. It is a temporary technical page for checking shared UI
+components, not a production storefront page.
+
+The UI Kit does not contain business logic, backend API calls, product models, order models, or user
+models. ProductCard and ProductGrid will be implemented later in the entity/widget layers.
+
 ## Next steps
 
-1. Prompt 6: UI Kit.
-2. Prompt 7: Layout/Header/Footer.
+1. Prompt 7: Layout/Header/Footer.
+2. Build ProductCard/ProductGrid in the proper entity/widget layers.
 3. Build production storefront pages after the foundation and theme are stable.
