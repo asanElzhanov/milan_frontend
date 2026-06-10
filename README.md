@@ -79,9 +79,22 @@ The Django REST API will be connected in later implementation phases. The future
 configured through `NEXT_PUBLIC_API_URL`. This foundation intentionally avoids API integration for
 now.
 
+## Theme foundation
+
+The Sara Milan visual foundation is defined in:
+
+- `src/app/globals.css` for Tailwind CSS 4 theme tokens, base styles, typography helpers, layout
+  helpers, and premium utility classes.
+- `src/shared/config/theme.ts` for typed theme values used by TypeScript code.
+- `src/shared/lib/format-price.ts` for KZT price formatting with the `ru-KZ` locale.
+- `src/shared/lib/media.ts` for safe media URL handling and image fallback support.
+- `public/images/product-placeholder.svg` for lightweight missing-image placeholders.
+
+Full production pages, feature architecture, API integration, and UI Kit components will be added in
+later phases.
+
 ## Next steps
 
-1. Prompt 3: migrate Sara Milan theme tokens from the prototype.
-2. Add architecture folders for entities, features, and widgets.
-3. Generate or implement the API client from the backend schema.
-4. Build production storefront pages after the foundation and theme are stable.
+1. Prompt 4: add frontend architecture folders for entities, features, and widgets.
+2. Generate or implement the API client from the backend schema.
+3. Build production storefront pages after the foundation and theme are stable.

@@ -1,0 +1,12 @@
+<svg width="800" height="1000" viewBox="0 0 800 1000" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Sara Milan product placeholder</title>
+  <desc id="desc">Minimal Sara Milan placeholder for missing product imagery.</desc>
+  <rect width="800" height="1000" fill="#FCFBF9"/>
+  <rect x="48" y="48" width="704" height="904" fill="#F4EEE6" stroke="#D8CBBC" stroke-width="2"/>
+  <path d="M247 612C314 576 376 539 433 501C491 462 543 418 590 370" stroke="#A37C56" stroke-width="6" stroke-linecap="round"/>
+  <path d="M269 611C318 637 387 647 475 641C537 637 587 626 625 609" stroke="#2B2B2B" stroke-width="5" stroke-linecap="round"/>
+  <path d="M287 589C318 558 348 532 378 511C415 484 447 471 474 470" stroke="#2B2B2B" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="400" cy="390" r="118" stroke="#D8CBBC" stroke-width="2"/>
+  <text x="400" y="785" text-anchor="middle" fill="#2B2B2B" font-family="Georgia, serif" font-size="42" letter-spacing="7">SARA MILAN</text>
+  <text x="400" y="831" text-anchor="middle" fill="#A37C56" font-family="Arial, sans-serif" font-size="16" letter-spacing="5">IMAGE COMING SOON</text>
+</svg>

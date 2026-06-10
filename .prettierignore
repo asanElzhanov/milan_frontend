@@ -3,6 +3,7 @@ node_modules
 out
 build
 coverage
+.audit-*
 package-lock.json
 *.tsbuildinfo
 *.zip

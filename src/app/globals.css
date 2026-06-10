@@ -1,27 +1,192 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --sara-white: #fcfbf9;
+  --sara-beige: #f4eee6;
+  --sara-beige-dark: #d8cbbc;
+  --sara-bronze: #a37c56;
+  --sara-graphite: #2b2b2b;
+  --sara-black: #1a1a1a;
+  --sara-radius-sm: 0.125rem;
+  --sara-radius-md: 0.25rem;
+  --sara-radius-lg: 0.5rem;
+  --sara-container: 1440px;
+  --sara-desktop-padding: 80px;
+
+  --background: var(--sara-white);
+  --foreground: var(--sara-graphite);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
+  --color-sara-white: var(--sara-white);
+  --color-sara-beige: var(--sara-beige);
+  --color-sara-beige-dark: var(--sara-beige-dark);
+  --color-sara-bronze: var(--sara-bronze);
+  --color-sara-graphite: var(--sara-graphite);
+  --color-sara-black: var(--sara-black);
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-fashion: var(--font-playfair), Georgia, serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
   --font-mono: 'Courier New', Courier, monospace;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
+  --radius-sara-sm: var(--sara-radius-sm);
+  --radius-sara-md: var(--sara-radius-md);
+  --radius-sara-lg: var(--sara-radius-lg);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--sara-bronze);
+  color: var(--sara-white);
+}
+
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+@layer components {
+  .font-fashion {
+    font-family: var(--font-playfair), Georgia, serif;
+  }
+
+  .text-display {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 500;
+    line-height: 0.95;
+  }
+
+  .text-heading {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3.75rem);
+    font-weight: 500;
+    line-height: 1.05;
+  }
+
+  .text-subheading {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.15;
+  }
+
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .text-caption {
+    color: color-mix(in srgb, var(--sara-graphite) 68%, transparent);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .text-overline,
+  .uppercase-nav {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .sara-container {
+    width: min(100% - 2.5rem, var(--sara-container));
+    margin-inline: auto;
+  }
+
+  @media (min-width: 768px) {
+    .sara-container {
+      width: calc(100% - (var(--sara-desktop-padding) * 2));
+      max-width: var(--sara-container);
+    }
+  }
+
+  .sara-section {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  .sara-section-lg {
+    padding-block: clamp(5rem, 10vw, 10rem);
+  }
+
+  .sara-border {
+    border: 1px solid color-mix(in srgb, var(--sara-beige-dark) 72%, transparent);
+  }
+
+  .sara-card {
+    border: 1px solid color-mix(in srgb, var(--sara-beige-dark) 70%, transparent);
+    border-radius: var(--sara-radius-lg);
+    background: color-mix(in srgb, var(--sara-white) 88%, white);
+  }
+
+  .sara-focus {
+    outline: 2px solid transparent;
+    outline-offset: 3px;
+  }
+
+  .sara-focus:focus-visible {
+    outline-color: var(--sara-bronze);
+  }
+
+  .luxury-link {
+    color: var(--sara-graphite);
+    text-underline-offset: 0.3em;
+    transition:
+      color 180ms ease,
+      text-decoration-color 180ms ease;
+  }
+
+  .luxury-link:hover {
+    color: var(--sara-bronze);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  .fashion-hero-title {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-weight: 500;
+    line-height: 0.9;
+  }
+
+  .editorial-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 2.5vw, 2rem);
+  }
 }
