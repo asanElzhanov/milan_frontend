@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+build
+coverage
+package-lock.json
+*.tsbuildinfo
+*.zip
+AGENTS.md
+backend-README.md
+docs
