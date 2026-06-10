@@ -146,8 +146,25 @@ components, not a production storefront page.
 The UI Kit does not contain business logic, backend API calls, product models, order models, or user
 models. ProductCard and ProductGrid will be implemented later in the entity/widget layers.
 
+## Layout widgets
+
+Localized storefront pages live under `src/app/[locale]` with `ru` and `kk` support. The root `/`
+redirects to `/ru`; `/ui-kit` and `/theme` remain technical preview pages outside the storefront
+shell.
+
+The production layout shell is composed in `src/app/[locale]/layout.tsx`:
+
+- `src/widgets/header` renders the announcement bar, sticky navigation, mobile drawer, search
+  drawer, locale switcher, account/cart links, and optional wishlist link.
+- `src/widgets/footer` renders localized navigation, contact placeholders, legal links, and
+  newsletter placeholder behavior without fake API calls.
+- `src/shared/lib/routes.ts` contains locale-aware route helpers.
+
+Header categories are fetched only in `NEXT_PUBLIC_API_MODE=real`; mock mode uses safe generic
+fallback links and makes no network call.
+
 ## Next steps
 
-1. Prompt 7: Layout/Header/Footer.
+1. Prompt 8: storefront homepage sections.
 2. Build ProductCard/ProductGrid in the proper entity/widget layers.
 3. Build production storefront pages after the foundation and theme are stable.

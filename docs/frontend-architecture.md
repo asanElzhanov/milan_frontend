@@ -15,8 +15,8 @@ e-commerce.
 - `widgets` contains larger composition blocks such as header, footer, product grid, and account
   sidebar.
 
-This step creates structure only. It does not add API integration, stores, UI Kit components, or
-business logic.
+The current foundation includes shared UI primitives and localized layout widgets, but still avoids
+business page implementations, client stores, forms libraries, and direct backend feature flows.
 
 ## 2. Layers
 
@@ -74,7 +74,23 @@ Large composition blocks:
 
 Each widget has `ui`, `model`, `lib`, and `index.ts` prepared for future implementation.
 
-## 3. Import Rules
+## 3. Layout Widgets
+
+Localized storefront routes live under `src/app/[locale]` with supported locales `ru` and `kk`.
+The root route `/` redirects to `/ru`; unsupported locale segments return `notFound()`.
+
+`src/app/[locale]/layout.tsx` composes:
+
+- `src/widgets/header` for announcement bar, navigation, search drawer, mobile drawer, account/cart
+  links, optional wishlist link, and locale switching.
+- `src/widgets/footer` for localized navigation, contact placeholders, legal links, and newsletter
+  placeholder behavior.
+
+The header category navigation uses the shared API client only in real API mode. In mock mode it
+does not make network calls and falls back to generic links such as catalog, about, delivery, and
+contacts.
+
+## 4. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -85,7 +101,7 @@ Each widget has `ui`, `model`, `lib`, and `index.ts` prepared for future impleme
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 4. Public API Rule
+## 5. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -107,7 +123,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 5. Naming Conventions
+## 6. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -118,8 +134,8 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 6. Planned Next Steps
+## 7. Planned Next Steps
 
-1. Prompt 5: API client foundation from `/api/schema/`.
-2. Prompt 6: UI Kit.
-3. Prompt 7: Layout/Header/Footer.
+1. Prompt 8: storefront homepage sections.
+2. Build ProductCard/ProductGrid in the proper entity/widget layers.
+3. Build catalog, cart, auth, and account flows after the layout shell is stable.
