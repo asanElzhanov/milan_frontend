@@ -73,6 +73,22 @@ src/
     types/
 ```
 
+## Frontend architecture
+
+The source tree is organized into layered frontend modules:
+
+- `src/app` for Next.js routes, layouts, metadata, and app-level composition.
+- `src/shared` for reusable config, utilities, common types, future API client, and future UI
+  primitives.
+- `src/entities` for business entities such as product, category, user, cart, order, and review.
+- `src/features` for user actions such as auth, cart actions, checkout, wishlist, reviews, and
+  promo code flows.
+- `src/widgets` for larger composition blocks such as header, footer, product grid, and account
+  sidebar.
+
+See `docs/frontend-architecture.md` for import rules, public API conventions, and planned next
+steps.
+
 ## Backend connection note
 
 The Django REST API will be connected in later implementation phases. The future API base URL is

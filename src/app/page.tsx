@@ -1,8 +1,7 @@
 import Image from 'next/image';
 
-import { theme } from '@/shared/config/theme';
-import { formatPriceKzt } from '@/shared/lib/format-price';
-import { getMediaUrl } from '@/shared/lib/media';
+import { theme } from '@/shared/config';
+import { formatPriceKzt, getMediaUrl } from '@/shared/lib';
 
 const colorSwatches = [
   { name: 'sara-white', value: theme.colors.saraWhite, className: 'bg-sara-white' },
