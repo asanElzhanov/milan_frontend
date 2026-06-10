@@ -55,6 +55,7 @@ npm run typecheck
 npm run build
 npm run format
 npm run format:check
+npm run api:generate
 ```
 
 ## Project structure
@@ -95,6 +96,28 @@ The Django REST API will be connected in later implementation phases. The future
 configured through `NEXT_PUBLIC_API_URL`. This foundation intentionally avoids API integration for
 now.
 
+## API foundation
+
+API infrastructure lives in `src/shared/api`:
+
+- typed fetch client and API error helpers;
+- query string utilities;
+- temporary token storage placeholder;
+- TanStack Query client config;
+- fallback OpenAPI types in `src/shared/api/generated/schema.ts`.
+
+OpenAPI types are generated with:
+
+```bash
+npm run api:generate
+```
+
+The backend must be running and expose `/api/schema/` for generation. Business API modules such as
+product, auth, cart, and order APIs will be added later inside their corresponding entities/features.
+
+The React Query provider is connected in `src/app/providers.tsx` and mounted from
+`src/app/layout.tsx`.
+
 ## Theme foundation
 
 The Sara Milan visual foundation is defined in:
@@ -111,6 +134,6 @@ later phases.
 
 ## Next steps
 
-1. Prompt 4: add frontend architecture folders for entities, features, and widgets.
-2. Generate or implement the API client from the backend schema.
+1. Prompt 6: UI Kit.
+2. Prompt 7: Layout/Header/Footer.
 3. Build production storefront pages after the foundation and theme are stable.
