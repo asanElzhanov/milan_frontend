@@ -12,9 +12,9 @@ Production frontend foundation for the Sara Milan fashion e-commerce store.
 
 ## Project status
 
-This repository currently contains the production frontend foundation. It does not yet include
-production storefront pages, prototype UI migration, auth, cart, catalog API integration, or backend
-data fetching.
+This repository currently contains the production frontend foundation, localized layout shell, and
+storefront Home page. It does not yet include catalog/product detail pages, auth, cart, checkout, or
+full business API layers.
 
 The prototype audit is available in:
 
@@ -163,8 +163,23 @@ The production layout shell is composed in `src/app/[locale]/layout.tsx`:
 Header categories are fetched only in `NEXT_PUBLIC_API_MODE=real`; mock mode uses safe generic
 fallback links and makes no network call.
 
+## Home page
+
+`/ru` and `/kk` are production storefront Home routes. The Home page lives in
+`src/app/[locale]/home` and uses a local RU/KK dictionary without adding a full i18n library yet.
+
+When `NEXT_PUBLIC_API_MODE=real`, Home safely reads:
+
+- `GET /api/v1/catalog/banners/?position=hero`
+- `GET /api/v1/catalog/categories/`
+- `GET /api/v1/catalog/products/?is_new=true`
+
+When the backend is unavailable or returns an unexpected shape, Home renders graceful fallback
+sections instead of fake product data. ProductCard, ProductGrid, catalog API, and the catalog page
+will be implemented in later prompts.
+
 ## Next steps
 
-1. Prompt 8: storefront homepage sections.
-2. Build ProductCard/ProductGrid in the proper entity/widget layers.
-3. Build production storefront pages after the foundation and theme are stable.
+1. Prompt 9: ProductCard, ProductGrid, and price display refinements.
+2. Build catalog API in the proper entity layer.
+3. Build production catalog, cart, auth, and account flows after the Home page is stable.

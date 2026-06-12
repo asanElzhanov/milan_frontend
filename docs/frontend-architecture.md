@@ -90,7 +90,17 @@ The header category navigation uses the shared API client only in real API mode.
 does not make network calls and falls back to generic links such as catalog, about, delivery, and
 contacts.
 
-## 4. Import Rules
+## 4. Home Page
+
+The storefront Home page is implemented under `src/app/[locale]/home` and is mounted by
+`src/app/[locale]/page.tsx` for `/ru` and `/kk`.
+
+Home is a route-level composition that may use local fetchers, adapters, dictionaries, and temporary
+preview UI while the reusable product and catalog layers are still planned. It safely reads hero
+banners, categories, and new products from backend endpoints only in real API mode, and renders
+fallback sections when the backend is unavailable.
+
+## 5. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -101,7 +111,7 @@ contacts.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 5. Public API Rule
+## 6. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -123,7 +133,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 6. Naming Conventions
+## 7. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -134,8 +144,8 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 7. Planned Next Steps
+## 8. Planned Next Steps
 
-1. Prompt 8: storefront homepage sections.
-2. Build ProductCard/ProductGrid in the proper entity/widget layers.
+1. Prompt 9: ProductCard, ProductGrid, and price display refinements.
+2. Build catalog API in the proper entity layer.
 3. Build catalog, cart, auth, and account flows after the layout shell is stable.

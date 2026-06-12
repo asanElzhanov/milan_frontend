@@ -57,19 +57,30 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const Component = asChild ? Slot : 'button';
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref}
+          aria-disabled={disabled || loading || undefined}
+          className={cn(buttonVariants({ variant, size, fullWidth }), className)}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
+    }
 
     return (
-      <Component
+      <button
         ref={ref}
         className={cn(buttonVariants({ variant, size, fullWidth }), className)}
         disabled={disabled || loading}
-        type={asChild ? undefined : type}
+        type={type}
         {...props}
       >
         {loading ? <Loader2 aria-hidden className="h-4 w-4 animate-spin" /> : null}
         {children}
-      </Component>
+      </button>
     );
   },
 );
