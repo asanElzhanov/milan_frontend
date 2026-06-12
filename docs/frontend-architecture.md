@@ -133,7 +133,16 @@ Catalog consumes `productApi`, `categoryApi`, `brandApi`, `colorApi`, and `sizeA
 Filters, search, sorting, and pagination are stored in canonical URL query params. `ProductGrid`
 remains presentation-only and receives normalized products through props.
 
-## 6. Import Rules
+## 6. Product Detail Page
+
+The production Product detail page is implemented under `src/app/[locale]/product/product-detail`
+and mounted by `src/app/[locale]/product/[slug]/page.tsx`.
+
+Product detail consumes product detail, similar products, and read-only reviews server-side. The
+variant resolver is a pure UI/domain helper with no React or API dependencies. Add-to-cart UI keeps
+quantity and selected `variant_id` locally, but it does not call cart APIs yet.
+
+## 7. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -144,7 +153,7 @@ remains presentation-only and receives normalized products through props.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 7. Public API Rule
+## 8. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -166,7 +175,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 8. Naming Conventions
+## 9. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -177,8 +186,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 9. Planned Next Steps
+## 10. Planned Next Steps
 
-1. Build Product detail.
-2. Build cart token manager, cart API, and cart page.
-3. Build auth, account, checkout, and payment flows.
+1. Build cart token manager, cart API, and cart page.
+2. Build auth, account, checkout, and payment flows.

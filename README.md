@@ -230,11 +230,17 @@ The catalog is available at:
 
 It uses catalog entity API methods, ProductGrid, URL-based filters, sorting and pagination.
 
+## Product detail page
+
+Product detail is available at `/:locale/product/:slug`.
+
+It uses product detail, similar products and read-only reviews endpoints. Add-to-cart UI is prepared
+but cart mutation is connected later through the cart API layer.
+
 ## Next steps
 
 1. Layout/Header/Footer.
 2. Catalog API layer.
 3. ProductCard/ProductGrid.
-4. Product detail page.
-5. Cart token manager/cart API/cart page.
-6. Auth, account, checkout, and payment flows.
+4. Cart token manager/cart API/cart page.
+5. Auth, account, checkout, and payment flows.

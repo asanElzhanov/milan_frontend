@@ -17,6 +17,7 @@ Query hooks for catalog data. It does not render catalog UI.
 - `GET /api/v1/catalog/products/`
 - `GET /api/v1/catalog/products/{slug}/`
 - `GET /api/v1/catalog/products/{slug}/similar/`
+- `GET /api/v1/catalog/products/{slug}/reviews/`
 - `GET /api/v1/catalog/banners/`
 
 ## 3. Canonical Frontend Query Params
@@ -53,8 +54,9 @@ Each entity exposes stable query keys and hooks. Hooks are client-safe and shoul
 server components.
 
 Product UI consumes `ProductListItem`. `ProductGrid` is presentation-only and receives product data
-through props. The Home and Catalog pages use catalog API methods server-side instead of React Query
-hooks.
+through props. The Home, Catalog, and Product detail pages use catalog API methods server-side
+instead of React Query hooks. Product detail also uses a minimal read-only review API for product
+reviews.
 
 ## 6. Mock Mode Behavior
 
@@ -63,10 +65,9 @@ not generate fake catalog data.
 
 ## 7. What Is Intentionally Not Included
 
-- Product detail page.
-- Cart, auth, wishlist, checkout, reviews, or add-to-cart logic.
+- Cart, auth, wishlist, checkout, review mutations, or add-to-cart logic.
 - Mock data or prototype pages.
 
 ## 8. Next Steps
 
-Prompt 13 should implement the Product detail page using the same catalog API layer and product UI.
+Prompt 14 should implement the cart token manager and cart API/page layer.
