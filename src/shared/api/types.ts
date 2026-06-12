@@ -12,6 +12,7 @@ export type ApiQueryValue =
 
 export type ApiRequestOptions = {
   auth?: boolean;
+  cartToken?: boolean;
   headers?: HeadersInit;
   query?: Record<string, ApiQueryValue>;
   signal?: AbortSignal;

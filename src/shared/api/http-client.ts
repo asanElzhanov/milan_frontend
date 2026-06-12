@@ -1,4 +1,5 @@
 import { API_BASE_URL } from './config';
+import { getCartToken } from './cart-token-storage';
 import { ApiError } from './errors';
 import { appendQueryParams } from './query-params';
 import { getAccessToken } from './token-storage';
@@ -61,6 +62,12 @@ const createHeaders = (
 
   if (token && !headers.has('Authorization')) {
     headers.set('Authorization', `Bearer ${token}`);
+  }
+
+  const cartToken = options.cartToken === false ? null : getCartToken();
+
+  if (cartToken && !headers.has('X-Cart-Token')) {
+    headers.set('X-Cart-Token', cartToken);
   }
 
   return headers;

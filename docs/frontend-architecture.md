@@ -42,11 +42,18 @@ Business entities:
 - `product`
 - `category`
 - `brand`
+- `color`
+- `size`
 - `user`
+- `address`
 - `cart`
 - `order`
 - `review`
 - `notification`
+- `wishlist`
+- `delivery-method`
+- `payment`
+- `stock`
 
 Each entity has `api`, `model`, `ui`, `lib`, and `index.ts` folders/files prepared for future code.
 
@@ -60,6 +67,8 @@ User-facing actions and flows:
 - `wishlist`
 - `product-review`
 - `promo-code`
+- `otp`
+- `notifications`
 
 Each feature has `api`, `model`, `ui`, `lib`, and `index.ts` prepared for future implementation.
 
@@ -71,6 +80,7 @@ Large composition blocks:
 - `footer`
 - `product-grid`
 - `account-sidebar`
+- `cart-summary`
 
 Each widget has `ui`, `model`, `lib`, and `index.ts` prepared for future implementation.
 

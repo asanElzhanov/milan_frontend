@@ -21,10 +21,13 @@ import {
   DrawerContent,
   DrawerTrigger,
   EmptyState,
+  ErrorState,
   Input,
   Modal,
   Pagination,
   Price,
+  QuantitySelector,
+  RatingStars,
   Radio,
   SectionTitle,
   Select,
@@ -47,6 +50,7 @@ const radioOptions = [
 export function UiKitPreview() {
   const [checked, setChecked] = useState(false);
   const [page, setPage] = useState(2);
+  const [quantity, setQuantity] = useState(2);
   const [radio, setRadio] = useState('pickup');
   const [select, setSelect] = useState('almaty');
 
@@ -144,6 +148,11 @@ export function UiKitPreview() {
               icon={<ShoppingBag aria-hidden className="h-8 w-8" />}
               title="Nothing here yet"
             />
+            <ErrorState
+              action={<Button variant="outline">Retry</Button>}
+              description="Reusable error state for failed sections without exposing raw backend errors."
+              title="Unable to load section"
+            />
           </div>
         </section>
 
@@ -214,7 +223,7 @@ export function UiKitPreview() {
         </section>
 
         <section className="sara-card space-y-6 p-6">
-          <SectionTitle title="Loading, price, pagination" />
+          <SectionTitle title="Loading, price, rating, quantity" />
           <div className="grid gap-4 sm:grid-cols-3">
             <Skeleton variant="card" />
             <div className="space-y-3">
@@ -224,6 +233,8 @@ export function UiKitPreview() {
             </div>
             <div className="space-y-4">
               <Price oldValue={32900} size="lg" value={25900} />
+              <RatingStars value={4.4} showValue reviewsCount={18} />
+              <QuantitySelector value={quantity} min={1} max={8} onChange={setQuantity} />
               <Pagination onPageChange={setPage} page={page} totalPages={5} />
             </div>
           </div>

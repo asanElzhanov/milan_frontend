@@ -1,3 +1,5 @@
+export * from './cart-token';
+export * from './cart-token-storage';
 export * from './config';
 export * from './errors';
 export * from './http-client';

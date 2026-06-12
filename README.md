@@ -103,6 +103,7 @@ API infrastructure lives in `src/shared/api`:
 - typed fetch client and API error helpers;
 - query string utilities;
 - temporary token storage placeholder;
+- guest cart token storage for `X-Cart-Token`;
 - TanStack Query client config;
 - fallback OpenAPI types in `src/shared/api/generated/schema.ts`.
 
@@ -117,6 +118,16 @@ product, auth, cart, and order APIs will be added later inside their correspondi
 
 The React Query provider is connected in `src/app/providers.tsx` and mounted from
 `src/app/layout.tsx`.
+
+## Backend contract update
+
+The frontend foundation supports the updated backend contract:
+
+- guest cart token through `X-Cart-Token`;
+- cart token storage in `src/shared/api/cart-token-storage.ts`;
+- cart token helper in `src/shared/api/cart-token.ts`;
+- expanded architecture folders for catalog, delivery, payment, wishlist, notifications, stock;
+- UI Kit additions: ErrorState, RatingStars, QuantitySelector.
 
 ## Theme foundation
 
@@ -180,6 +191,10 @@ will be implemented in later prompts.
 
 ## Next steps
 
-1. Prompt 9: ProductCard, ProductGrid, and price display refinements.
-2. Build catalog API in the proper entity layer.
-3. Build production catalog, cart, auth, and account flows after the Home page is stable.
+1. Layout/Header/Footer.
+2. Catalog API layer.
+3. ProductCard/ProductGrid.
+4. Home page.
+5. Catalog page.
+6. Product detail page.
+7. Cart token manager/cart API/cart page.

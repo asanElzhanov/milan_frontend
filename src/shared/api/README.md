@@ -59,7 +59,35 @@ this strategy.
 For now, `401` responses are returned as `ApiError`. Refresh token handling will be added during
 auth integration.
 
-## 7. What Not To Put Here
+## 7. Cart Token
+
+The backend supports guest cart tracking through `X-Cart-Token`.
+
+- `cart-token-storage.ts` stores the guest cart token.
+- `http-client.ts` injects `X-Cart-Token` when available.
+- `persistCartTokenFromResponse` can save `cart_token` returned by cart endpoints.
+- Full cart API integration will be implemented later.
+
+Important future cart and checkout endpoints:
+
+```text
+GET    /api/v1/orders/cart/
+POST   /api/v1/orders/cart/add/
+POST   /api/v1/orders/cart/items/
+PATCH  /api/v1/orders/cart/items/{id}/
+DELETE /api/v1/orders/cart/items/{id}/
+DELETE /api/v1/orders/cart/items/{id}/delete/
+DELETE /api/v1/orders/cart/clear/
+POST   /api/v1/orders/cart/merge/
+POST   /api/v1/orders/cart/promo-code/apply/
+DELETE /api/v1/orders/cart/promo-code/
+POST   /api/v1/orders/checkout/
+```
+
+Pass `{ cartToken: false }` to an API request when a public or auth request should not include
+`X-Cart-Token`.
+
+## 8. What Not To Put Here
 
 Do not put these in `shared/api`:
 

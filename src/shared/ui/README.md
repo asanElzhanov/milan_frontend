@@ -19,10 +19,13 @@
 - Dialog
 - Drawer
 - EmptyState
+- ErrorState
 - Input
 - Modal
 - Pagination
 - Price
+- QuantitySelector
+- RatingStars
 - Radio
 - SectionTitle
 - Select
@@ -42,3 +45,4 @@ import { Button, Input, Price } from '@/shared/ui';
 - Do not make API calls from UI Kit components.
 - Do not use Zustand or React Query in UI Kit components.
 - Do not add page-specific styling to shared primitives.
+- QuantitySelector is UI-only and must not contain cart API logic.
