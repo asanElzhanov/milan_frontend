@@ -1,0 +1,48 @@
+import type { AppLocale } from '@/shared/config';
+
+export const footerDictionary = {
+  ru: {
+    description: 'Премиальная обувь и аксессуары для современного женского гардероба.',
+    navigation: 'Навигация',
+    customer: 'Покупателю',
+    contacts: 'Контакты',
+    contactsPlaceholder: 'Контакты будут добавлены после подтверждения.',
+    newsletterTitle: 'Новости Sara Milan',
+    newsletterDescription: 'Подписка будет доступна позже.',
+    newsletterSoon: 'Скоро',
+    rights: 'Все права защищены.',
+    links: {
+      catalog: 'Каталог',
+      about: 'О бренде',
+      delivery: 'Доставка',
+      faq: 'FAQ',
+      contacts: 'Контакты',
+      account: 'Аккаунт',
+      orders: 'Заказы',
+      privacy: 'Политика конфиденциальности',
+      terms: 'Публичная оферта',
+    },
+  },
+  kk: {
+    description: 'Заманауи әйел гардеробына арналған премиум аяқ киім мен аксессуарлар.',
+    navigation: 'Навигация',
+    customer: 'Сатып алушыға',
+    contacts: 'Байланыс',
+    contactsPlaceholder: 'Байланыс деректері расталғаннан кейін қосылады.',
+    newsletterTitle: 'Sara Milan жаңалықтары',
+    newsletterDescription: 'Жазылу кейін қолжетімді болады.',
+    newsletterSoon: 'Жақында',
+    rights: 'Барлық құқықтар қорғалған.',
+    links: {
+      catalog: 'Каталог',
+      about: 'Бренд туралы',
+      delivery: 'Жеткізу',
+      faq: 'FAQ',
+      contacts: 'Байланыс',
+      account: 'Аккаунт',
+      orders: 'Тапсырыстар',
+      privacy: 'Құпиялылық саясаты',
+      terms: 'Жария оферта',
+    },
+  },
+} as const satisfies Record<AppLocale, object>;

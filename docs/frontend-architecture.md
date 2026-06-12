@@ -105,10 +105,13 @@ contacts.
 The storefront Home page is implemented under `src/app/[locale]/home` and is mounted by
 `src/app/[locale]/page.tsx` for `/ru` and `/kk`.
 
-Home is a route-level composition that may use local fetchers, adapters, dictionaries, and temporary
-preview UI while the reusable product and catalog layers are still planned. It safely reads hero
-banners, categories, and new products from backend endpoints only in real API mode, and renders
-fallback sections when the backend is unavailable.
+Home is currently a storefront placeholder. The production Home page should be implemented after the
+catalog API layer and ProductCard/ProductGrid.
+
+The layout-level widgets live in `src/widgets/header` and `src/widgets/footer`. Header contains
+lightweight fetchers for category tree navigation and cart count, but these are not the full
+catalog/cart business API layers. Full catalog APIs will live under entities, and full cart APIs will
+live under the cart feature later.
 
 ## 5. Import Rules
 

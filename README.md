@@ -12,8 +12,8 @@ Production frontend foundation for the Sara Milan fashion e-commerce store.
 
 ## Project status
 
-This repository currently contains the production frontend foundation, localized layout shell, and
-storefront Home page. It does not yet include catalog/product detail pages, auth, cart, checkout, or
+This repository currently contains the production frontend foundation and localized layout shell. It
+does not yet include the production Home page, catalog/product detail pages, auth, cart, checkout, or
 full business API layers.
 
 The prototype audit is available in:
@@ -174,20 +174,20 @@ The production layout shell is composed in `src/app/[locale]/layout.tsx`:
 Header categories are fetched only in `NEXT_PUBLIC_API_MODE=real`; mock mode uses safe generic
 fallback links and makes no network call.
 
-## Home page
+## Layout widgets
 
-`/ru` and `/kk` are production storefront Home routes. The Home page lives in
-`src/app/[locale]/home` and uses a local RU/KK dictionary without adding a full i18n library yet.
+- Header: `src/widgets/header`
+- Footer: `src/widgets/footer`
+- Locale storefront routes: `src/app/[locale]`
+- Header categories use `/api/v1/catalog/categories/tree/?active=true`
+- Header cart badge uses `/api/v1/orders/cart/`
+- Guest cart token is sent through `X-Cart-Token`
+- Search currently redirects to catalog query and does not call API
+- Wishlist icon is controlled by feature flag
+- Newsletter does not call API yet
 
-When `NEXT_PUBLIC_API_MODE=real`, Home safely reads:
-
-- `GET /api/v1/catalog/banners/?position=hero`
-- `GET /api/v1/catalog/categories/`
-- `GET /api/v1/catalog/products/?is_new=true`
-
-When the backend is unavailable or returns an unexpected shape, Home renders graceful fallback
-sections instead of fake product data. ProductCard, ProductGrid, catalog API, and the catalog page
-will be implemented in later prompts.
+`/ru` and `/kk` are temporary storefront placeholders. The production Home page will be implemented
+after the Catalog API layer and ProductCard/ProductGrid.
 
 ## Next steps
 

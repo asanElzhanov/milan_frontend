@@ -1,5 +1,11 @@
 import type { AppLocale } from '@/shared/config';
 
+export type HeaderNavItem = {
+  id: string;
+  label: string;
+  href: string;
+};
+
 export type HeaderCategory = {
   id: string | number;
   name: string;
@@ -7,12 +13,11 @@ export type HeaderCategory = {
   href: string;
 };
 
-export type HeaderNavItem = {
-  label: string;
-  href: string;
+export type HeaderCartSummary = {
+  count: number;
+  total?: number | string | null;
 };
 
 export type HeaderProps = {
   locale: AppLocale;
-  cartCount?: number;
 };

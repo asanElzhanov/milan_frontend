@@ -1,20 +1,46 @@
 # Header Widget
 
-Production storefront header for localized Sara Milan pages.
+## Purpose
 
-## Responsibilities
+`src/widgets/header` renders the storefront announcement bar, sticky desktop header, mobile drawer,
+search drawer, account/cart links, optional wishlist link, and locale switcher.
 
-- Renders announcement bar, sticky desktop navigation, mobile drawer, search drawer, language
-  switcher, account link, cart link, and optional wishlist link.
-- Accepts the current locale from `src/app/[locale]/layout.tsx`.
-- Fetches catalog categories only when `NEXT_PUBLIC_API_MODE=real`.
-- Uses static safe fallback links in mock mode and when the category endpoint is unavailable.
+## API Endpoints Used
 
-## API Notes
+- `GET /api/v1/catalog/categories/tree/?active=true`
+- `GET /api/v1/orders/cart/`
 
-Category data is requested from `/api/v1/catalog/categories/` through `apiClient`.
+These are lightweight widget fetchers only. They are not the full catalog or cart business API
+layers.
 
-The adapter accepts both array responses and DRF paginated `{ results: [...] }` responses. Supported
-category fields are `id`, `name`, `title`, and `slug`.
+## Category Tree Fallback Behavior
 
-Cart count is intentionally passed as `0` until cart state is implemented in a later prompt.
+Category navigation uses the category tree endpoint in real API mode. Mock mode, backend failures,
+or unexpected response shapes return generic locale-aware navigation links.
+
+## Cart Count Behavior
+
+The cart badge uses the current cart summary from `/api/v1/orders/cart/`. If the backend is
+unavailable or the shape is unknown, the count falls back to `0`.
+
+## X-Cart-Token Behavior
+
+The shared HTTP client injects `X-Cart-Token` when a guest cart token exists. If the cart response
+contains `cart_token` or `cartToken`, the widget fetcher calls `persistCartTokenFromResponse`.
+
+## Search Behavior
+
+Search is client-side navigation only. It redirects to `/{locale}/catalog?search=<query>` and does
+not call a search API.
+
+## Wishlist Feature Flag
+
+The wishlist icon is visible only when `env.features.wishlist === true`. Wishlist API integration is
+not implemented here.
+
+## What Will Be Connected Later
+
+- Full catalog API layer.
+- Full cart API layer and cart page.
+- Auth-aware account behavior.
+- Wishlist API integration.

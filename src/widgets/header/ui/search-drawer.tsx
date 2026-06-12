@@ -5,10 +5,18 @@ import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 
 import type { AppLocale } from '@/shared/config';
-import { withLocale } from '@/shared/lib';
+import { withLocale } from '@/shared/config';
 import { Button, Drawer, DrawerContent, DrawerTrigger, Input } from '@/shared/ui';
 
-export function SearchDrawer({ locale }: { locale: AppLocale }) {
+import type { headerDictionary } from '../lib/header.dictionary';
+
+export function SearchDrawer({
+  dictionary,
+  locale,
+}: {
+  dictionary: (typeof headerDictionary)[AppLocale];
+  locale: AppLocale;
+}) {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
@@ -30,7 +38,7 @@ export function SearchDrawer({ locale }: { locale: AppLocale }) {
     <Drawer onOpenChange={setOpen} open={open}>
       <DrawerTrigger asChild>
         <button
-          aria-label="Поиск"
+          aria-label={dictionary.searchLabel}
           className="sara-focus inline-flex h-10 w-10 items-center justify-center text-sara-graphite hover:text-sara-bronze"
           type="button"
         >
@@ -40,20 +48,20 @@ export function SearchDrawer({ locale }: { locale: AppLocale }) {
       <DrawerContent side="right">
         <form className="space-y-6 pr-8" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <p className="text-overline text-sara-bronze">Поиск</p>
-            <h2 className="font-fashion text-3xl text-sara-black">Найти в каталоге</h2>
+            <p className="text-overline text-sara-bronze">{dictionary.searchLabel}</p>
+            <h2 className="font-fashion text-3xl text-sara-black">{dictionary.searchTitle}</h2>
             <p className="text-sm leading-6 text-sara-graphite/70">
-              Введите запрос, и мы откроем каталог с применённым поиском.
+              {dictionary.searchDescription}
             </p>
           </div>
           <Input
-            label="Поисковый запрос"
+            label={dictionary.searchLabel}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Например: туфли"
+            placeholder={dictionary.searchPlaceholder}
             value={query}
           />
           <Button fullWidth type="submit">
-            Искать
+            {dictionary.searchSubmit}
           </Button>
         </form>
       </DrawerContent>

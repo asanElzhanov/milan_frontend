@@ -24,7 +24,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <>
-      <Header locale={locale} cartCount={0} />
+      <Header locale={locale} />
       <main className="min-h-screen bg-sara-white text-sara-graphite">{children}</main>
       <Footer locale={locale} />
     </>

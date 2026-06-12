@@ -1,0 +1,36 @@
+import type { AppLocale } from '@/shared/config';
+
+export const headerDictionary = {
+  ru: {
+    announcement: 'Бесплатная доставка по Казахстану от 50 000 ₸',
+    searchPlaceholder: 'Поиск товаров',
+    searchLabel: 'Поиск',
+    searchTitle: 'Найти в каталоге',
+    searchDescription: 'Введите запрос, и мы откроем каталог с примененным поиском.',
+    searchSubmit: 'Искать',
+    account: 'Аккаунт',
+    cart: 'Корзина',
+    wishlist: 'Избранное',
+    menu: 'Меню',
+    catalog: 'Каталог',
+    about: 'О бренде',
+    delivery: 'Доставка',
+    contacts: 'Контакты',
+  },
+  kk: {
+    announcement: 'Қазақстан бойынша 50 000 ₸ бастап тегін жеткізу',
+    searchPlaceholder: 'Тауарларды іздеу',
+    searchLabel: 'Іздеу',
+    searchTitle: 'Каталогтан іздеу',
+    searchDescription: 'Сұрауды енгізіңіз, біз каталогты іздеу параметрімен ашамыз.',
+    searchSubmit: 'Іздеу',
+    account: 'Аккаунт',
+    cart: 'Себет',
+    wishlist: 'Таңдаулылар',
+    menu: 'Мәзір',
+    catalog: 'Каталог',
+    about: 'Бренд туралы',
+    delivery: 'Жеткізу',
+    contacts: 'Байланыс',
+  },
+} as const satisfies Record<AppLocale, Record<string, string>>;
