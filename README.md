@@ -12,9 +12,9 @@ Production frontend foundation for the Sara Milan fashion e-commerce store.
 
 ## Project status
 
-This repository currently contains the production frontend foundation and localized layout shell. It
-does not yet include the production Home page, catalog/product detail pages, auth, cart, checkout, or
-full business API layers.
+This repository currently contains the production frontend foundation, localized layout shell,
+catalog API layer, product presentation UI, and production Home page. It does not yet include the
+catalog/product detail pages, auth, cart, checkout, or full feature flows.
 
 The prototype audit is available in:
 
@@ -92,9 +92,9 @@ steps.
 
 ## Backend connection note
 
-The Django REST API will be connected in later implementation phases. The future API base URL is
-configured through `NEXT_PUBLIC_API_URL`. This foundation intentionally avoids API integration for
-now.
+The Django REST API base URL is configured through `NEXT_PUBLIC_API_URL`. Catalog entity APIs are
+used by the Home page, while auth, cart, checkout, and payment feature flows are added in later
+implementation phases.
 
 ## API foundation
 
@@ -140,8 +140,7 @@ The Sara Milan visual foundation is defined in:
 - `src/shared/lib/media.ts` for safe media URL handling and image fallback support.
 - `public/images/product-placeholder.svg` for lightweight missing-image placeholders.
 
-Full production pages, feature architecture, API integration, and UI Kit components will be added in
-later phases.
+Additional production pages and feature flows will be added in later phases.
 
 ## UI Kit
 
@@ -155,7 +154,7 @@ The preview page is available at `/ui-kit`. It is a temporary technical page for
 components, not a production storefront page.
 
 The UI Kit does not contain business logic, backend API calls, product models, order models, or user
-models. ProductCard and ProductGrid will be implemented later in the entity/widget layers.
+models. ProductCard and ProductGrid live in the entity/widget layers.
 
 ## Layout widgets
 
@@ -186,8 +185,7 @@ fallback links and makes no network call.
 - Wishlist icon is controlled by feature flag
 - Newsletter does not call API yet
 
-`/ru` and `/kk` are temporary storefront placeholders. The production Home page will be implemented
-after the Catalog API layer and ProductCard/ProductGrid.
+`/ru` and `/kk` render the production Home page from `src/app/[locale]/home`.
 
 ## Catalog API layer
 
@@ -200,8 +198,8 @@ Catalog API modules live in:
 - `src/entities/size`
 - `src/entities/banner`
 
-The layer provides typed API methods, DTO adapters and React Query hooks. UI components such as
-ProductCard and ProductGrid are implemented later.
+The layer provides typed API methods, DTO adapters and React Query hooks. The Home page uses these
+API methods server-side for banners, categories, new products, and sale products.
 
 ## Product UI
 
@@ -212,12 +210,31 @@ Reusable product UI components live in:
 
 They are presentation-only and receive normalized `ProductListItem` data from the Catalog API layer.
 
+## Home page
+
+The localized Home page lives in `src/app/[locale]/home` and is mounted at `/ru` and `/kk`.
+
+- Hero and promo banners use `/api/v1/catalog/banners/`.
+- Category cards use `/api/v1/catalog/categories/tree/`.
+- Product sections use `/api/v1/catalog/products/` with `is_new` and `is_sale`.
+- Mock mode and API failures render empty states instead of fake catalog data.
+
+## Catalog page
+
+The catalog is available at:
+
+- `/ru/catalog`
+- `/kk/catalog`
+- `/ru/catalog/[categorySlug]`
+- `/kk/catalog/[categorySlug]`
+
+It uses catalog entity API methods, ProductGrid, URL-based filters, sorting and pagination.
+
 ## Next steps
 
 1. Layout/Header/Footer.
 2. Catalog API layer.
 3. ProductCard/ProductGrid.
-4. Home page.
-5. Catalog page.
-6. Product detail page.
-7. Cart token manager/cart API/cart page.
+4. Product detail page.
+5. Cart token manager/cart API/cart page.
+6. Auth, account, checkout, and payment flows.

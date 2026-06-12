@@ -52,8 +52,9 @@ adapters support plain arrays and DRF paginated responses where relevant.
 Each entity exposes stable query keys and hooks. Hooks are client-safe and should not be used in
 server components.
 
-Product UI now consumes `ProductListItem`. `ProductGrid` is presentation-only; catalog and home
-pages will connect catalog hooks to ProductGrid later.
+Product UI consumes `ProductListItem`. `ProductGrid` is presentation-only and receives product data
+through props. The Home and Catalog pages use catalog API methods server-side instead of React Query
+hooks.
 
 ## 6. Mock Mode Behavior
 
@@ -62,13 +63,10 @@ not generate fake catalog data.
 
 ## 7. What Is Intentionally Not Included
 
-- ProductCard and ProductGrid.
-- Home page.
-- Catalog page.
 - Product detail page.
 - Cart, auth, wishlist, checkout, reviews, or add-to-cart logic.
 - Mock data or prototype pages.
 
 ## 8. Next Steps
 
-Prompt 11 should implement the Home page using the catalog API layer and product UI.
+Prompt 13 should implement the Product detail page using the same catalog API layer and product UI.

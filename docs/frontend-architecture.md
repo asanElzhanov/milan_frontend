@@ -106,8 +106,9 @@ contacts.
 The storefront Home page is implemented under `src/app/[locale]/home` and is mounted by
 `src/app/[locale]/page.tsx` for `/ru` and `/kk`.
 
-Home is currently a storefront placeholder. The production Home page should be implemented after the
-catalog API layer and ProductCard/ProductGrid.
+Home fetches banners, categories, new products, and sale products server-side through the catalog
+entity APIs. It uses `Promise.allSettled` and renders empty states in mock mode or on API failure,
+without creating fake catalog data.
 
 The layout-level widgets live in `src/widgets/header` and `src/widgets/footer`. Header contains
 lightweight fetchers for category tree navigation and cart count, but these are not the full
@@ -121,7 +122,18 @@ React Query hooks without UI components.
 Product presentation components live in `src/entities/product/ui`. The reusable product grid lives
 in `src/widgets/product-grid` and receives products via props without fetching data.
 
-## 5. Import Rules
+## 5. Catalog Page
+
+The production Catalog page is implemented under `src/app/[locale]/catalog/catalog` and mounted by:
+
+- `src/app/[locale]/catalog/page.tsx`
+- `src/app/[locale]/catalog/[categorySlug]/page.tsx`
+
+Catalog consumes `productApi`, `categoryApi`, `brandApi`, `colorApi`, and `sizeApi` server-side.
+Filters, search, sorting, and pagination are stored in canonical URL query params. `ProductGrid`
+remains presentation-only and receives normalized products through props.
+
+## 6. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -132,7 +144,7 @@ in `src/widgets/product-grid` and receives products via props without fetching d
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 6. Public API Rule
+## 7. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -154,7 +166,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 7. Naming Conventions
+## 8. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -165,8 +177,8 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 8. Planned Next Steps
+## 9. Planned Next Steps
 
-1. Prompt 9: ProductCard, ProductGrid, and price display refinements.
-2. Build catalog API in the proper entity layer.
-3. Build catalog, cart, auth, and account flows after the layout shell is stable.
+1. Build Product detail.
+2. Build cart token manager, cart API, and cart page.
+3. Build auth, account, checkout, and payment flows.
