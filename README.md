@@ -189,6 +189,20 @@ fallback links and makes no network call.
 `/ru` and `/kk` are temporary storefront placeholders. The production Home page will be implemented
 after the Catalog API layer and ProductCard/ProductGrid.
 
+## Catalog API layer
+
+Catalog API modules live in:
+
+- `src/entities/product`
+- `src/entities/category`
+- `src/entities/brand`
+- `src/entities/color`
+- `src/entities/size`
+- `src/entities/banner`
+
+The layer provides typed API methods, DTO adapters and React Query hooks. UI components such as
+ProductCard and ProductGrid are implemented later.
+
 ## Next steps
 
 1. Layout/Header/Footer.

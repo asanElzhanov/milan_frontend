@@ -42,6 +42,7 @@ Business entities:
 - `product`
 - `category`
 - `brand`
+- `banner`
 - `color`
 - `size`
 - `user`
@@ -112,6 +113,10 @@ The layout-level widgets live in `src/widgets/header` and `src/widgets/footer`. 
 lightweight fetchers for category tree navigation and cart count, but these are not the full
 catalog/cart business API layers. Full catalog APIs will live under entities, and full cart APIs will
 live under the cart feature later.
+
+The catalog API layer now lives in catalog-related entities: `product`, `category`, `brand`,
+`banner`, `color`, and `size`. These modules expose API methods, DTO adapters, query keys, and
+React Query hooks without UI components.
 
 ## 5. Import Rules
 
