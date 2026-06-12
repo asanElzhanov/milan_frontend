@@ -203,6 +203,15 @@ Catalog API modules live in:
 The layer provides typed API methods, DTO adapters and React Query hooks. UI components such as
 ProductCard and ProductGrid are implemented later.
 
+## Product UI
+
+Reusable product UI components live in:
+
+- `src/entities/product/ui`
+- `src/widgets/product-grid`
+
+They are presentation-only and receive normalized `ProductListItem` data from the Catalog API layer.
+
 ## Next steps
 
 1. Layout/Header/Footer.

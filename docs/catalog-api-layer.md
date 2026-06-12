@@ -52,6 +52,9 @@ adapters support plain arrays and DRF paginated responses where relevant.
 Each entity exposes stable query keys and hooks. Hooks are client-safe and should not be used in
 server components.
 
+Product UI now consumes `ProductListItem`. `ProductGrid` is presentation-only; catalog and home
+pages will connect catalog hooks to ProductGrid later.
+
 ## 6. Mock Mode Behavior
 
 When `NEXT_PUBLIC_API_MODE=mock`, catalog API methods return empty arrays or `null`. The layer does
@@ -68,4 +71,4 @@ not generate fake catalog data.
 
 ## 8. Next Steps
 
-Prompt 10 should implement ProductCard and ProductGrid using these entity models.
+Prompt 11 should implement the Home page using the catalog API layer and product UI.

@@ -118,6 +118,9 @@ The catalog API layer now lives in catalog-related entities: `product`, `categor
 `banner`, `color`, and `size`. These modules expose API methods, DTO adapters, query keys, and
 React Query hooks without UI components.
 
+Product presentation components live in `src/entities/product/ui`. The reusable product grid lives
+in `src/widgets/product-grid` and receives products via props without fetching data.
+
 ## 5. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.

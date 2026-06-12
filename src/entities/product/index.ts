@@ -3,3 +3,4 @@ export * from './api/product.keys';
 export * from './api/product.queries';
 export * from './model/product-query.types';
 export * from './model/product.types';
+export * from './ui';
