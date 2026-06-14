@@ -1,4 +1,4 @@
-import { apiClient, isMockApiMode, persistCartTokenFromResponse } from '@/shared/api';
+import { apiClient, isMockApiMode, syncCartTokenFromResponse } from '@/shared/api';
 
 import { adaptHeaderCartSummary } from '../lib/header.adapters';
 import type { HeaderCartSummary } from '../model/types';
@@ -13,7 +13,7 @@ export async function getHeaderCartSummary(): Promise<HeaderCartSummary> {
       auth: false,
     });
 
-    persistCartTokenFromResponse(response);
+    syncCartTokenFromResponse(response);
 
     return adaptHeaderCartSummary(response);
   } catch {

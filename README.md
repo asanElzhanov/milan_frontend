@@ -125,9 +125,21 @@ The frontend foundation supports the updated backend contract:
 
 - guest cart token through `X-Cart-Token`;
 - cart token storage in `src/shared/api/cart-token-storage.ts`;
+- cart token manager in `src/shared/api/cart-token-manager.ts`;
 - cart token helper in `src/shared/api/cart-token.ts`;
 - expanded architecture folders for catalog, delivery, payment, wishlist, notifications, stock;
 - UI Kit additions: ErrorState, RatingStars, QuantitySelector.
+
+## Guest cart token
+
+The frontend supports backend guest cart tracking through `X-Cart-Token`.
+
+Current foundation:
+
+- token storage: `src/shared/api/cart-token-storage.ts`
+- token manager: `src/shared/api/cart-token-manager.ts`
+- header cart badge syncs `cart_token` from cart response
+- future cart API methods must call token sync explicitly
 
 ## Theme foundation
 

@@ -29,7 +29,7 @@ pages or layouts.
 
 Reusable foundation code:
 
-- `api` for the future HTTP/API client.
+- `api` for the HTTP/API client, token handling, and guest cart token foundation.
 - `config` for environment and theme configuration.
 - `lib` for common utilities.
 - `types` for common project-wide types.
@@ -142,7 +142,19 @@ Product detail consumes product detail, similar products, and read-only reviews 
 variant resolver is a pure UI/domain helper with no React or API dependencies. Add-to-cart UI keeps
 quantity and selected `variant_id` locally, but it does not call cart APIs yet.
 
-## 7. Import Rules
+## 7. Guest Cart Token Foundation
+
+Guest cart tracking is a shared API concern. `http-client.ts` injects `X-Cart-Token` when a token is
+available and request options do not disable cart token headers.
+
+`cart-token-storage.ts` handles client-side localStorage access safely for SSR. `cart-token-manager.ts`
+normalizes backend tokens and syncs tokens explicitly from cart responses. The header cart badge uses
+this manager when fetching `/api/v1/orders/cart/`.
+
+`src/features/cart/lib/cart-merge.ts` prepares pure helpers for future Auth integration after login.
+It does not call `/api/v1/orders/cart/merge/`; the Cart API layer will be added next.
+
+## 8. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -153,7 +165,7 @@ quantity and selected `variant_id` locally, but it does not call cart APIs yet.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 8. Public API Rule
+## 9. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -175,7 +187,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 9. Naming Conventions
+## 10. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -186,7 +198,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 10. Planned Next Steps
+## 11. Planned Next Steps
 
-1. Build cart token manager, cart API, and cart page.
+1. Build Cart API layer.
 2. Build auth, account, checkout, and payment flows.

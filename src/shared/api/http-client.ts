@@ -64,6 +64,7 @@ const createHeaders = (
     headers.set('Authorization', `Bearer ${token}`);
   }
 
+  // Cart endpoints use X-Cart-Token for guest cart tracking.
   const cartToken = options.cartToken === false ? null : getCartToken();
 
   if (cartToken && !headers.has('X-Cart-Token')) {

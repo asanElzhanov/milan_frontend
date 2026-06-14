@@ -1,4 +1,5 @@
 export * from './cart-token';
+export * from './cart-token-manager';
 export * from './cart-token-storage';
 export * from './config';
 export * from './errors';

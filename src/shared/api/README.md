@@ -61,12 +61,29 @@ auth integration.
 
 ## 7. Cart Token
 
-The backend supports guest cart tracking through `X-Cart-Token`.
+The backend uses `X-Cart-Token` to identify guest carts.
 
-- `cart-token-storage.ts` stores the guest cart token.
-- `http-client.ts` injects `X-Cart-Token` when available.
-- `persistCartTokenFromResponse` can save `cart_token` returned by cart endpoints.
-- Full cart API integration will be implemented later.
+Files:
+
+- `cart-token-storage.ts` stores the token on the client.
+- `cart-token-manager.ts` normalizes, saves and syncs tokens from cart responses.
+- `http-client.ts` injects `X-Cart-Token` automatically when available.
+- `cart-token.ts` keeps backward-compatible helper exports.
+
+Rules:
+
+- Do not generate fake cart tokens on frontend.
+- Save only tokens returned by backend.
+- Do not clear token automatically when cart is empty.
+- Cart API methods must explicitly call `syncCartTokenFromResponse`.
+- After login, Auth integration should call cart merge if a guest cart token exists.
+
+Example for future cart API methods:
+
+```ts
+const cart = await cartApi.getCart();
+syncCartTokenFromResponse(cart);
+```
 
 Important future cart and checkout endpoints:
 

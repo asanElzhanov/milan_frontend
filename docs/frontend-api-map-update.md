@@ -69,6 +69,12 @@ Optional manager:
 - Header categories should use `/catalog/categories/tree/?active=true`.
 - Header cart count should use `/orders/cart/`.
 - Guest cart must use `X-Cart-Token`.
+- Cart token manager is implemented in `src/shared/api/cart-token-manager.ts`.
+- `X-Cart-Token` is a shared API concern handled by `http-client.ts`.
+- Cart API methods must explicitly sync tokens from cart responses instead of relying on global
+  response auto-sync.
+- A pure cart merge helper is prepared for future Auth integration, but no merge API call is made
+  yet.
 - Promo code should use cart promo-code endpoints.
 - Checkout should use `/orders/checkout/`, not root `/orders/`.
 - Product creation review endpoint is `/catalog/reviews/`.
@@ -84,7 +90,7 @@ Optional manager:
 5. Home page.
 6. Catalog page.
 7. Product detail page.
-8. Cart token manager/cart API/cart page.
+8. Cart API layer.
 9. Promo code.
 10. Auth/API integration with cart merge.
 11. Checkout/delivery/orders/payments.

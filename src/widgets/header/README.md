@@ -26,7 +26,7 @@ unavailable or the shape is unknown, the count falls back to `0`.
 ## X-Cart-Token Behavior
 
 The shared HTTP client injects `X-Cart-Token` when a guest cart token exists. If the cart response
-contains `cart_token` or `cartToken`, the widget fetcher calls `persistCartTokenFromResponse`.
+contains a backend cart token, the widget fetcher calls `syncCartTokenFromResponse`.
 
 ## Search Behavior
 
