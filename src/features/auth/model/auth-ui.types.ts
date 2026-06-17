@@ -30,6 +30,8 @@ export type AuthDictionary = {
   terms: string;
   privacy: string;
   authComingSoon: string;
+  passwordResetEndpointPending: string;
+  registerPendingVerification: string;
   requiredField: string;
   invalidEmailOrPhone: string;
   passwordTooShort: string;

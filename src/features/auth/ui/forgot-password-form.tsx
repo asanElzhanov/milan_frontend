@@ -30,7 +30,7 @@ export function ForgotPasswordForm({ dictionary, locale }: AuthFormProps) {
     }
 
     setError(undefined);
-    setMessage(dictionary.authComingSoon);
+    setMessage(dictionary.passwordResetEndpointPending);
   };
 
   return (

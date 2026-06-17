@@ -1,48 +1,56 @@
-# Auth UI
+# Auth Feature
 
 ## Purpose
 
-`src/features/auth` contains production-ready visual auth forms for login, registration, and password
-recovery. The forms are ready for storefront use but intentionally remain UI-only until the backend
-auth contract is connected.
+`src/features/auth` contains the storefront auth API layer and visual auth forms for login,
+registration, and password recovery.
 
-## Routes
+## Endpoints
 
-- `/:locale/login`
-- `/:locale/register`
-- `/:locale/forgot-password`
+- `POST /api/v1/auth/register/`
+- `POST /api/v1/auth/login/`
+- `POST /api/v1/auth/logout/`
+- `POST /api/v1/auth/refresh/`
+- `GET /api/v1/auth/me/`
 
-## Components
+## Token Storage
 
-- `AuthShell` provides the premium two-column auth layout.
-- `LoginForm` renders identifier, password, and remember-me controls.
-- `RegisterForm` renders customer details, password confirmation, and terms acceptance.
-- `ForgotPasswordForm` renders the password recovery identifier form.
-- `AuthLegalNote` and `AuthDivider` provide shared presentation pieces.
+JWT tokens are stored client-side with `sara_milan_access_token` and
+`sara_milan_refresh_token`. The shared HTTP client injects the access token as
+`Authorization: Bearer <token>` unless a request passes `{ auth: false }`.
 
-## Validation
+This localStorage strategy is temporary. A backend httpOnly cookie strategy is safer and can replace
+it later.
 
-Validation is local only:
+## Current User
 
-- required fields;
-- email format;
-- Kazakhstan-friendly phone numbers;
-- password minimum length;
-- matching password confirmation;
-- required terms acceptance.
+`useCurrentUserQuery` reads the source-of-truth user from `/api/v1/auth/me/`. The user object is not
+stored in localStorage.
+
+## Login/Register Flow
+
+`LoginForm` and `RegisterForm` keep local validation, call real auth mutations, show inline API
+errors, and redirect to a safe callback URL or catalog after token-backed success.
+
+## Cart Merge After Login
+
+After successful login/register with tokens, auth mutations attempt `cartApi.mergeCart()` when a
+guest cart token exists. Merge failures are swallowed so they do not fail authentication.
 
 ## What Is Intentionally Not Included
 
-- real login or register requests;
-- password reset requests;
-- access or refresh token storage;
-- auth store;
-- protected routes;
-- profile/account API;
-- cart merge after login;
-- logout.
+- protected account layout;
+- account/profile API;
+- address API;
+- order history;
+- forgot-password backend request;
+- OTP backend request;
+- role-based manager UI;
+- fake login or mock user.
 
-## Future Backend Integration
+## Future Improvements
 
-The next backend integration step should connect auth endpoints, token/session management, account
-state, protected routes, and cart merge after login without changing the visual route structure.
+- automatic refresh on `401`;
+- httpOnly cookie session strategy;
+- logout UI in account/header;
+- protected account pages.

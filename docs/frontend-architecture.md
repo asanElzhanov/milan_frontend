@@ -195,12 +195,33 @@ Auth UI is implemented in `src/features/auth` and `src/features/otp`, with route
 - `/:locale/forgot-password`
 - `/:locale/otp`
 
-These pages use the shared UI Kit, locale dictionaries, and local validation helpers. They do not
-call backend auth endpoints, do not store tokens, do not create an auth store, and do not introduce
-protected routes. Token/session management, account APIs, OTP backend verification, and cart merge
-after login remain pending integration work.
+These pages use the shared UI Kit, locale dictionaries, and local validation helpers.
 
-## 12. Import Rules
+Login and register forms call the Auth API layer. Forgot-password and OTP remain UI-only until
+backend endpoints are confirmed.
+
+## 12. Auth API Layer
+
+The Auth API layer lives in `src/features/auth`. It includes API methods, token storage/manager,
+React Query hooks, adapters, and form integration for:
+
+- `POST /api/v1/auth/register/`
+- `POST /api/v1/auth/login/`
+- `POST /api/v1/auth/logout/`
+- `POST /api/v1/auth/refresh/`
+- `GET /api/v1/auth/me/`
+
+Access tokens are stored client-side for now and injected by `src/shared/api/http-client.ts` as
+`Authorization: Bearer <token>` unless a request passes `{ auth: false }`. `/auth/me/` remains the
+source of truth for current user data; user objects are not stored in localStorage.
+
+After token-backed login/register, auth mutations attempt guest cart merge through
+`cartApi.mergeCart()` when a guest cart token exists. Merge errors do not fail authentication.
+
+Auto-refresh on `401`, protected account pages, account/profile APIs, order history, address APIs,
+and role-based manager UI remain future work.
+
+## 13. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -211,7 +232,7 @@ after login remain pending integration work.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 13. Public API Rule
+## 14. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -233,7 +254,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 14. Naming Conventions
+## 15. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -244,7 +265,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 15. Planned Next Steps
+## 16. Planned Next Steps
 
-1. Build Auth API layer and session/token handling.
-2. Build account, checkout, and payment flows.
+1. Build account shell and profile pages.
+2. Build checkout and payment flows.

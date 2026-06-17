@@ -1,11 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 
-import { withLocale } from '@/shared/config';
+import { getApiErrorMessage } from '@/shared/api';
+import { getSafeCallbackUrl, withLocale } from '@/shared/config';
 import { Alert, Button, Checkbox, Input } from '@/shared/ui';
 
+import { useRegisterMutation } from '../api/auth.queries';
 import {
   isValidEmail,
   isValidPhone,
@@ -24,6 +27,8 @@ type RegisterErrors = Partial<
 >;
 
 export function RegisterForm({ dictionary, locale }: AuthFormProps) {
+  const router = useRouter();
+  const registerMutation = useRegisterMutation();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -33,9 +38,12 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [errors, setErrors] = useState<RegisterErrors>({});
   const [message, setMessage] = useState<string | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setApiError(null);
+    setMessage(null);
 
     const nextErrors: RegisterErrors = {};
 
@@ -76,17 +84,50 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
     }
 
     setErrors(nextErrors);
-    setMessage(Object.keys(nextErrors).length === 0 ? dictionary.authComingSoon : null);
+
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    registerMutation.mutate(
+      {
+        email: email.trim(),
+        phone: phone.trim(),
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        full_name: `${firstName.trim()} ${lastName.trim()}`.trim(),
+        password,
+        password_confirm: confirmPassword,
+      },
+      {
+        onSuccess: (result) => {
+          if (result.tokens) {
+            const params = new URLSearchParams(window.location.search);
+            const fallback = withLocale(locale, '/catalog');
+
+            router.push(getSafeCallbackUrl(params.get('callbackUrl'), fallback));
+            return;
+          }
+
+          setMessage(dictionary.registerPendingVerification);
+        },
+        onError: (error) => setApiError(getApiErrorMessage(error)),
+      },
+    );
   };
+
+  const isPending = registerMutation.isPending;
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
       {message ? <Alert title={message} variant="info" /> : null}
+      {apiError ? <Alert title={apiError} variant="danger" /> : null}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Input
           autoComplete="given-name"
           error={errors.firstName}
+          disabled={isPending}
           label={dictionary.firstName}
           onChange={(event) => setFirstName(event.target.value)}
           required
@@ -95,6 +136,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
         <Input
           autoComplete="family-name"
           error={errors.lastName}
+          disabled={isPending}
           label={dictionary.lastName}
           onChange={(event) => setLastName(event.target.value)}
           required
@@ -106,6 +148,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
         <Input
           autoComplete="email"
           error={errors.email}
+          disabled={isPending}
           label={dictionary.email}
           onChange={(event) => setEmail(event.target.value)}
           required
@@ -115,6 +158,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
         <Input
           autoComplete="tel"
           error={errors.phone}
+          disabled={isPending}
           label={dictionary.phone}
           onChange={(event) => setPhone(event.target.value)}
           required
@@ -124,6 +168,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
         <Input
           autoComplete="new-password"
           error={errors.password}
+          disabled={isPending}
           label={dictionary.password}
           onChange={(event) => setPassword(event.target.value)}
           required
@@ -133,6 +178,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
         <Input
           autoComplete="new-password"
           error={errors.confirmPassword}
+          disabled={isPending}
           label={dictionary.confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}
           required
@@ -143,12 +189,13 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
 
       <Checkbox
         checked={termsAccepted}
+        disabled={isPending}
         error={errors.terms}
         label={<AuthLegalNote dictionary={dictionary} locale={locale} />}
         onCheckedChange={setTermsAccepted}
       />
 
-      <Button fullWidth type="submit">
+      <Button fullWidth loading={isPending} type="submit">
         {dictionary.registerButton}
       </Button>
 

@@ -1,11 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 
-import { withLocale } from '@/shared/config';
+import { getApiErrorMessage } from '@/shared/api';
+import { getSafeCallbackUrl, withLocale } from '@/shared/config';
 import { Alert, Button, Checkbox, Input } from '@/shared/ui';
 
+import { useLoginMutation } from '../api/auth.queries';
+import { mapIdentifierToLoginPayload } from '../lib/auth.adapters';
 import { isValidEmailOrPhone, validatePassword, validateRequired } from '../lib/auth-ui.validation';
 import type { AuthFormProps } from '../model/auth-ui.types';
 import { AuthDivider } from './auth-divider';
@@ -13,14 +17,17 @@ import { AuthDivider } from './auth-divider';
 type LoginErrors = Partial<Record<'identifier' | 'password', string>>;
 
 export function LoginForm({ dictionary, locale }: AuthFormProps) {
+  const router = useRouter();
+  const loginMutation = useLoginMutation();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<LoginErrors>({});
-  const [message, setMessage] = useState<string | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setApiError(null);
 
     const nextErrors: LoginErrors = {};
 
@@ -37,17 +44,33 @@ export function LoginForm({ dictionary, locale }: AuthFormProps) {
     }
 
     setErrors(nextErrors);
-    setMessage(Object.keys(nextErrors).length === 0 ? dictionary.authComingSoon : null);
+
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    loginMutation.mutate(mapIdentifierToLoginPayload({ identifier, password }), {
+      onSuccess: () => {
+        const params = new URLSearchParams(window.location.search);
+        const fallback = withLocale(locale, '/catalog');
+
+        router.push(getSafeCallbackUrl(params.get('callbackUrl'), fallback));
+      },
+      onError: (error) => setApiError(getApiErrorMessage(error)),
+    });
   };
+
+  const isPending = loginMutation.isPending;
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
-      {message ? <Alert title={message} variant="info" /> : null}
+      {apiError ? <Alert title={apiError} variant="danger" /> : null}
 
       <div className="space-y-4">
         <Input
           autoComplete="username"
           error={errors.identifier}
+          disabled={isPending}
           label={dictionary.identifier}
           onChange={(event) => setIdentifier(event.target.value)}
           required
@@ -57,6 +80,7 @@ export function LoginForm({ dictionary, locale }: AuthFormProps) {
         <Input
           autoComplete="current-password"
           error={errors.password}
+          disabled={isPending}
           label={dictionary.password}
           onChange={(event) => setPassword(event.target.value)}
           required
@@ -68,6 +92,7 @@ export function LoginForm({ dictionary, locale }: AuthFormProps) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Checkbox
           checked={rememberMe}
+          disabled={isPending}
           label={dictionary.rememberMe}
           onCheckedChange={setRememberMe}
         />
@@ -79,7 +104,7 @@ export function LoginForm({ dictionary, locale }: AuthFormProps) {
         </Link>
       </div>
 
-      <Button fullWidth type="submit">
+      <Button fullWidth loading={isPending} type="submit">
         {dictionary.loginButton}
       </Button>
 

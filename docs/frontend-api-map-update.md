@@ -88,8 +88,13 @@ Auth:
 - `/api/v1/catalog/promo/check/` is not used in the MVP cart flow.
 - Auth UI pages are implemented at `/:locale/login`, `/:locale/register`, `/:locale/otp`, and
   `/:locale/forgot-password`.
-- Backend auth requests, token/session management, protected routes, account API, and cart merge
-  after login are still pending.
+- Auth API layer is implemented for login, register, logout, refresh, and current user.
+- Login/register UI is connected to backend auth mutations.
+- Current user query uses `/api/v1/auth/me/` as source of truth.
+- Access token is injected into API requests through `Authorization: Bearer <token>`.
+- Guest cart merge is attempted after successful login/register when a guest cart token exists.
+- OTP and forgot-password backend integration are still pending.
+- Protected account pages, account API, order history, and address API are still pending.
 - Checkout is still pending.
 - Cart page uses backend cart data only; no localStorage cart items are stored.
 - Promo code should use cart promo-code endpoints.
@@ -109,4 +114,5 @@ Auth:
 7. Product detail page.
 8. Auth UI pages.
 9. Auth API integration with cart merge.
-10. Checkout/delivery/orders/payments.
+10. Account shell and profile pages.
+11. Checkout/delivery/orders/payments.

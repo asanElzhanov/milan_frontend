@@ -183,8 +183,23 @@ Auth UI pages are available at:
 - `/:locale/otp`
 - `/:locale/forgot-password`
 
-They are production-ready visual forms with local validation only. Backend auth requests, token
-storage, protected routes and cart merge after login are implemented later.
+Login and registration forms are connected to the Auth API layer. OTP and forgot-password remain
+visual/local-validation flows until backend endpoints are confirmed.
+
+## Auth API layer
+
+Auth API methods and hooks live in `src/features/auth`.
+
+Supported endpoints:
+
+- `POST /api/v1/auth/register/`
+- `POST /api/v1/auth/login/`
+- `POST /api/v1/auth/logout/`
+- `POST /api/v1/auth/refresh/`
+- `GET /api/v1/auth/me/`
+
+The frontend stores JWT tokens client-side for now, injects the access token into API requests, and
+attempts guest cart merge after successful login/register.
 
 ## Theme foundation
 

@@ -6,10 +6,20 @@ const getStorage = (): Storage | null => {
     return null;
   }
 
-  return window.localStorage;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
 };
 
-const getToken = (key: string): string | null => getStorage()?.getItem(key) ?? null;
+const getToken = (key: string): string | null => {
+  try {
+    return getStorage()?.getItem(key) ?? null;
+  } catch {
+    return null;
+  }
+};
 
 const setToken = (key: string, token: string | null): void => {
   const storage = getStorage();
@@ -18,17 +28,22 @@ const setToken = (key: string, token: string | null): void => {
     return;
   }
 
-  if (token) {
-    storage.setItem(key, token);
-    return;
-  }
+  try {
+    if (token?.trim()) {
+      storage.setItem(key, token);
+      return;
+    }
 
-  storage.removeItem(key);
+    storage.removeItem(key);
+  } catch {
+    // localStorage can be unavailable in restricted browser contexts.
+  }
 };
 
 export const getAccessToken = (): string | null => getToken(ACCESS_TOKEN_KEY);
 
-// Temporary localStorage strategy. Prompt 14 auth flow may replace token storage.
+// Temporary localStorage strategy. A backend httpOnly cookie strategy is safer and can replace this
+// when the backend session contract supports it.
 export const setAccessToken = (token: string | null): void => {
   setToken(ACCESS_TOKEN_KEY, token);
 };

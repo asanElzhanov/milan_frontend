@@ -9,7 +9,8 @@ export const authDictionary: Record<AppLocale, AuthDictionary> = {
     registerTitle: 'Создать аккаунт',
     registerSubtitle: 'Зарегистрируйтесь, чтобы отслеживать заказы и сохранять адреса.',
     forgotTitle: 'Восстановление пароля',
-    forgotSubtitle: 'Введите email или телефон, и мы отправим инструкции для восстановления.',
+    forgotSubtitle:
+      'Введите email или телефон. Подключение восстановления пароля будет выполнено после подтверждения backend endpoint.',
     identifier: 'Email или телефон',
     email: 'Email',
     phone: 'Телефон',
@@ -32,7 +33,11 @@ export const authDictionary: Record<AppLocale, AuthDictionary> = {
     termsPrefix: 'Продолжая, вы соглашаетесь с',
     terms: 'условиями использования',
     privacy: 'политикой конфиденциальности',
-    authComingSoon: 'Подключение авторизации к backend будет выполнено на следующем этапе.',
+    authComingSoon: 'Авторизация подключена к backend.',
+    passwordResetEndpointPending:
+      'Запрос восстановления пароля будет подключен после подтверждения backend endpoint.',
+    registerPendingVerification:
+      'Регистрация отправлена. Если backend требует подтверждение, продолжите через код или войдите после проверки.',
     requiredField: 'Обязательное поле',
     invalidEmailOrPhone: 'Введите корректный email или телефон',
     passwordTooShort: 'Пароль должен содержать минимум 8 символов',
@@ -44,7 +49,8 @@ export const authDictionary: Record<AppLocale, AuthDictionary> = {
     registerTitle: 'Аккаунт жасау',
     registerSubtitle: 'Тапсырыстарды бақылау және мекенжайларды сақтау үшін тіркеліңіз.',
     forgotTitle: 'Құпиясөзді қалпына келтіру',
-    forgotSubtitle: 'Email немесе телефон енгізіңіз, біз қалпына келтіру нұсқаулығын жібереміз.',
+    forgotSubtitle:
+      'Email немесе телефон енгізіңіз. Құпиясөзді қалпына келтіру backend endpoint расталғаннан кейін қосылады.',
     identifier: 'Email немесе телефон',
     email: 'Email',
     phone: 'Телефон',
@@ -67,7 +73,11 @@ export const authDictionary: Record<AppLocale, AuthDictionary> = {
     termsPrefix: 'Жалғастыру арқылы сіз',
     terms: 'пайдалану шарттарымен',
     privacy: 'құпиялылық саясатымен',
-    authComingSoon: 'Backend авторизациясын қосу келесі кезеңде орындалады.',
+    authComingSoon: 'Авторизация backend-ке қосылды.',
+    passwordResetEndpointPending:
+      'Құпиясөзді қалпына келтіру сұрауы backend endpoint расталғаннан кейін қосылады.',
+    registerPendingVerification:
+      'Тіркеу жіберілді. Егер backend растауды талап етсе, код арқылы жалғастырыңыз немесе тексеруден кейін кіріңіз.',
     requiredField: 'Міндетті өріс',
     invalidEmailOrPhone: 'Дұрыс email немесе телефон енгізіңіз',
     passwordTooShort: 'Құпиясөз кемінде 8 таңбадан тұруы керек',
