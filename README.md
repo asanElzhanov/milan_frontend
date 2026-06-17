@@ -174,6 +174,18 @@ The cart page supports promo code apply/remove through cart endpoints:
 
 Promo state and discounts are read from the backend cart response.
 
+## Checkout API foundation
+
+Checkout foundation lives in `src/features/checkout`.
+
+It supports:
+
+- delivery methods from `/api/v1/orders/delivery-methods/`;
+- checkout order creation through `/api/v1/orders/checkout/`;
+- saved address and manual address payload preparation.
+
+Checkout UI and payment UI are implemented later.
+
 ## Auth UI
 
 Auth UI pages are available at:

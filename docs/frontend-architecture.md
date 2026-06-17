@@ -262,7 +262,21 @@ presentation-only; account wishlist page passes wishlist state into ProductGrid.
 Guest/localStorage wishlist is intentionally not implemented. Catalog/Home wishlist toggle can be
 expanded later with a client wrapper if needed.
 
-## 16. Import Rules
+## 16. Checkout API Foundation
+
+Delivery methods live in `src/entities/delivery-method` and read
+`/api/v1/orders/delivery-methods/` without fake fallback methods.
+
+Checkout payload helpers and mutation live in `src/features/checkout`. The feature prepares saved
+address checkout through `address_id`, manual address checkout through `delivery_address`, and posts
+to `/api/v1/orders/checkout/`. The shared API client provides `Authorization` and `X-Cart-Token`
+headers when available.
+
+Checkout responses are normalized through `src/entities/order` as `CheckoutOrder` and
+`CheckoutResult`. Checkout page UI, payment UI, payment API, order history, and account orders remain
+future flows.
+
+## 17. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -273,7 +287,7 @@ expanded later with a client wrapper if needed.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 17. Public API Rule
+## 18. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -295,7 +309,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 18. Naming Conventions
+## 19. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -306,7 +320,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 19. Planned Next Steps
+## 20. Planned Next Steps
 
-1. Build Checkout API foundation.
-2. Build checkout and payment flows.
+1. Build Checkout page UI.
+2. Build payment flows.

@@ -17,6 +17,8 @@ export const withLocale = (locale: AppLocale, path = '/'): string => {
 export const routePaths = {
   home: '/',
   catalog: '/catalog',
+  cart: '/cart',
+  checkout: '/checkout',
   account: '/account',
   accountSettings: '/account/settings',
   accountOrders: '/account/orders',
@@ -28,11 +30,17 @@ export const routePaths = {
   register: '/register',
   otp: '/otp',
   forgotPassword: '/forgot-password',
+  payment: '/payment',
+  paymentSuccess: '/payment/success',
+  paymentFail: '/payment/fail',
+  paymentPending: '/payment/pending',
 } as const;
 
 export const localizedRoutes = {
   home: (locale: AppLocale) => withLocale(locale, routePaths.home),
   catalog: (locale: AppLocale) => withLocale(locale, routePaths.catalog),
+  cart: (locale: AppLocale) => withLocale(locale, routePaths.cart),
+  checkout: (locale: AppLocale) => withLocale(locale, routePaths.checkout),
   account: (locale: AppLocale) => withLocale(locale, routePaths.account),
   accountSettings: (locale: AppLocale) => withLocale(locale, routePaths.accountSettings),
   accountOrders: (locale: AppLocale) => withLocale(locale, routePaths.accountOrders),
@@ -44,6 +52,11 @@ export const localizedRoutes = {
   register: (locale: AppLocale) => withLocale(locale, routePaths.register),
   otp: (locale: AppLocale) => withLocale(locale, routePaths.otp),
   forgotPassword: (locale: AppLocale) => withLocale(locale, routePaths.forgotPassword),
+  payment: (locale: AppLocale, orderNumber: string | number) =>
+    withLocale(locale, `${routePaths.payment}/${encodeURIComponent(String(orderNumber))}`),
+  paymentSuccess: (locale: AppLocale) => withLocale(locale, routePaths.paymentSuccess),
+  paymentFail: (locale: AppLocale) => withLocale(locale, routePaths.paymentFail),
+  paymentPending: (locale: AppLocale) => withLocale(locale, routePaths.paymentPending),
 } as const;
 
 export function getSafeCallbackUrl(value: string | null, fallback: string): string {
