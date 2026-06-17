@@ -212,6 +212,13 @@ It uses the current user query from `/api/v1/auth/me/` and shows an auth-require
 is not logged in. Profile editing, addresses, orders, wishlist and notifications are implemented in
 later prompts.
 
+## Address book
+
+The address book is available at `/:locale/account/addresses`.
+
+It uses authenticated address endpoints under `/api/v1/auth/addresses/` and supports list, create,
+edit, delete and default address selection. Saved addresses will be reused by checkout later.
+
 ## Theme foundation
 
 The Sara Milan visual foundation is defined in:

@@ -96,9 +96,13 @@ Auth:
 - OTP and forgot-password backend integration are still pending.
 - Account shell is implemented and uses the current user query.
 - Account settings is read-only until a profile update endpoint is confirmed.
-- Orders, addresses, wishlist, reviews, and notifications account sections are routed placeholders
-  and still pending API integration.
-- Account profile API, order history, and address API are still pending.
+- Address API layer and account addresses page are implemented.
+- Account addresses supports list, create, edit, delete, and default address selection through
+  `/api/v1/auth/addresses/`.
+- Orders, wishlist, reviews, and notifications account sections are routed placeholders and still
+  pending API integration.
+- Account profile API and order history are still pending.
+- Checkout saved address integration is still pending.
 - Checkout is still pending.
 - Cart page uses backend cart data only; no localStorage cart items are stored.
 - Promo code should use cart promo-code endpoints.
@@ -120,4 +124,5 @@ Auth:
 9. Auth API integration with cart merge.
 10. Account shell and profile pages.
 11. Address book API and UI.
-12. Checkout/delivery/orders/payments.
+12. Wishlist.
+13. Checkout/delivery/orders/payments.

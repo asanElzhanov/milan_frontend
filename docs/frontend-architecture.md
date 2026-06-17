@@ -234,7 +234,20 @@ The settings page is read-only until a profile update endpoint is confirmed. Ord
 wishlist, reviews, and notifications routes are placeholders with localized pending messages and no
 feature API calls.
 
-## 14. Import Rules
+## 14. Address Book
+
+The Address API layer lives in `src/entities/address`. It includes normalized address types,
+adapters, selectors, API methods, query keys, and React Query hooks for authenticated endpoints under
+`/api/v1/auth/addresses/`.
+
+Reusable address book UI lives in `src/features/address-book`. The account addresses page is mounted
+at `/:locale/account/addresses` and uses `AccountShell` auth behavior. It supports list, create,
+edit, delete, and default address selection through backend data only.
+
+Saved addresses are prepared for future checkout reuse. Checkout, delivery method selection, order
+creation, and payment remain separate future flows.
+
+## 15. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -245,7 +258,7 @@ feature API calls.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 15. Public API Rule
+## 16. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -267,7 +280,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 16. Naming Conventions
+## 17. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -278,7 +291,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 17. Planned Next Steps
+## 18. Planned Next Steps
 
-1. Build address book API and UI.
+1. Build Wishlist.
 2. Build checkout and payment flows.

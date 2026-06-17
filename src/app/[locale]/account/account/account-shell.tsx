@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import type { AppLocale } from '@/shared/config';
 import { Container } from '@/shared/ui';
 
@@ -7,10 +9,12 @@ import type { AccountNavItem } from './account.types';
 
 export function AccountShell({
   activeKey,
+  children,
   locale,
 }: {
   locale: AppLocale;
   activeKey: AccountNavItem['key'];
+  children?: ReactNode;
 }) {
   const labels = getAccountDictionary(locale);
 
@@ -24,7 +28,9 @@ export function AccountShell({
           </h1>
           <p className="text-body text-sara-graphite/70">{labels.accountSubtitle}</p>
         </div>
-        <AccountShellClient activeKey={activeKey} locale={locale} />
+        <AccountShellClient activeKey={activeKey} locale={locale}>
+          {children}
+        </AccountShellClient>
       </Container>
     </main>
   );

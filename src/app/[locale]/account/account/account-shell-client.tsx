@@ -1,5 +1,7 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { useCurrentUserQuery } from '@/features/auth';
 import type { AppLocale } from '@/shared/config';
 import { Skeleton } from '@/shared/ui';
@@ -17,6 +19,7 @@ import type { AccountDictionary, AccountNavItem } from './account.types';
 export type AccountShellClientProps = {
   locale: AppLocale;
   activeKey: AccountNavItem['key'];
+  children?: ReactNode;
 };
 
 function AccountLoadingState({ label }: { label: string }) {
@@ -63,7 +66,7 @@ function AccountContent({
   }
 }
 
-export function AccountShellClient({ activeKey, locale }: AccountShellClientProps) {
+export function AccountShellClient({ activeKey, children, locale }: AccountShellClientProps) {
   const labels = getAccountDictionary(locale);
   const currentUserQuery = useCurrentUserQuery({ enabled: true });
   const navItems = getAccountNavItems(locale, labels);
@@ -82,12 +85,14 @@ export function AccountShellClient({ activeKey, locale }: AccountShellClientProp
       <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
         <AccountSidebar activeKey={activeKey} items={navItems} labels={labels} locale={locale} />
         <div className="min-w-0">
-          <AccountContent
-            activeKey={activeKey}
-            labels={labels}
-            locale={locale}
-            user={currentUserQuery.data}
-          />
+          {children ?? (
+            <AccountContent
+              activeKey={activeKey}
+              labels={labels}
+              locale={locale}
+              user={currentUserQuery.data}
+            />
+          )}
         </div>
       </div>
     </div>
