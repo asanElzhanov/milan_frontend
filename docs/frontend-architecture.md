@@ -276,6 +276,11 @@ Checkout responses are normalized through `src/entities/order` as `CheckoutOrder
 `CheckoutResult`. Checkout page UI, payment UI, payment API, order history, and account orders remain
 future flows.
 
+The production checkout page is implemented at `/:locale/checkout`. It reads the cart as source of
+truth, supports guest checkout through the cart token header, supports authenticated saved addresses,
+and offers manual address entry for both user states. Payment pages exist as placeholders only; they
+do not call payment APIs or SDKs.
+
 ## 17. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.

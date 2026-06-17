@@ -186,6 +186,15 @@ It supports:
 
 Checkout UI and payment UI are implemented later.
 
+## Checkout page
+
+Checkout is available at `/:locale/checkout`.
+
+It supports guest and authenticated checkout, saved/manual address modes, delivery method selection,
+payment method placeholder and checkout submit through `/api/v1/orders/checkout/`.
+
+Payment provider integration is implemented later.
+
 ## Auth UI
 
 Auth UI pages are available at:

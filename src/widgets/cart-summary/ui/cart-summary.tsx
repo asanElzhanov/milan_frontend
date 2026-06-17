@@ -44,7 +44,14 @@ function SummaryLine({
   );
 }
 
-export function CartSummary({ cart, checkoutHref, disabled = false, labels }: CartSummaryProps) {
+export function CartSummary({
+  cart,
+  checkoutHref,
+  disabled = false,
+  footerSlot,
+  labels,
+  showCheckoutButton = true,
+}: CartSummaryProps) {
   const discountAmount = toPositiveNumber(cart.discountAmount);
   const displayTotal = cart.total ?? cart.totalAfterDiscount ?? cart.subtotal ?? 0;
 
@@ -74,11 +81,15 @@ export function CartSummary({ cart, checkoutHref, disabled = false, labels }: Ca
         </div>
       ) : null}
 
-      <Button asChild disabled={disabled} fullWidth>
-        <Link aria-disabled={disabled || undefined} href={checkoutHref}>
-          {labels.proceedToCheckout}
-        </Link>
-      </Button>
+      {footerSlot ? <div>{footerSlot}</div> : null}
+
+      {showCheckoutButton && checkoutHref ? (
+        <Button asChild disabled={disabled} fullWidth>
+          <Link aria-disabled={disabled || undefined} href={checkoutHref}>
+            {labels.proceedToCheckout}
+          </Link>
+        </Button>
+      ) : null}
     </aside>
   );
 }

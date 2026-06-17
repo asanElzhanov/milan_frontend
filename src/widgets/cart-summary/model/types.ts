@@ -1,5 +1,6 @@
 import type { Cart } from '@/entities/cart';
 import type { AppLocale } from '@/shared/config';
+import type { ReactNode } from 'react';
 
 export type CartSummaryLabels = {
   summaryTitle?: string;
@@ -15,6 +16,8 @@ export type CartSummaryProps = {
   cart: Cart;
   locale: AppLocale;
   labels: CartSummaryLabels;
-  checkoutHref: string;
+  checkoutHref?: string;
   disabled?: boolean;
+  footerSlot?: ReactNode;
+  showCheckoutButton?: boolean;
 };

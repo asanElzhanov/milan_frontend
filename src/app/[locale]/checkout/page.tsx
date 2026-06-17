@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { isSupportedLocale, localizedRoutes, type AppLocale } from '@/shared/config';
-import { Button, Container, EmptyState, SectionTitle } from '@/shared/ui';
+import { isSupportedLocale, type AppLocale } from '@/shared/config';
+
+import { CheckoutPageClient } from './checkout/checkout-page-client';
+import { getCheckoutDictionary } from './checkout/checkout.dictionary';
 
 type CheckoutRouteProps = Readonly<{
   params: Promise<{
@@ -11,9 +12,17 @@ type CheckoutRouteProps = Readonly<{
   }>;
 }>;
 
-export const metadata: Metadata = {
-  title: 'Checkout | Sara Milan',
-};
+export async function generateMetadata({ params }: CheckoutRouteProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!isSupportedLocale(locale)) {
+    notFound();
+  }
+
+  return {
+    title: getCheckoutDictionary(locale).metadataTitle,
+  };
+}
 
 export default async function CheckoutPage({ params }: CheckoutRouteProps) {
   const { locale } = await params;
@@ -24,25 +33,5 @@ export default async function CheckoutPage({ params }: CheckoutRouteProps) {
 
   const appLocale = locale as AppLocale;
 
-  return (
-    <Container className="sara-section">
-      <div className="mx-auto max-w-3xl">
-        <SectionTitle
-          eyebrow="Sara Milan"
-          title="Checkout"
-          description="Checkout page will be implemented next. The API foundation is ready for delivery methods, saved addresses, manual addresses, and order creation."
-        />
-        <EmptyState
-          className="mt-10"
-          title="Checkout UI is pending"
-          description="Return to the cart while the checkout form and payment flow are connected."
-          action={
-            <Button asChild>
-              <Link href={localizedRoutes.cart(appLocale)}>Back to cart</Link>
-            </Button>
-          }
-        />
-      </div>
-    </Container>
-  );
+  return <CheckoutPageClient labels={getCheckoutDictionary(appLocale)} locale={appLocale} />;
 }

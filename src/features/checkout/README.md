@@ -50,10 +50,14 @@ Checkout responses are normalized through `adaptCheckoutResult()` from `src/enti
 
 ## Future Checkout Page
 
-The future page can reuse:
+The checkout page now consumes this foundation at `/:locale/checkout`.
+
+It reuses:
 
 - `useDeliveryMethodsQuery()`
 - `createInitialCheckoutFormValues()`
 - `validateCheckoutForm()`
 - `checkoutFormValuesToPayload()`
 - `useCheckoutMutation()`
+
+Payment provider integration is still pending.

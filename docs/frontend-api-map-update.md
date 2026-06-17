@@ -113,10 +113,14 @@ Auth:
 - Checkout supports saved address payloads through `address_id` and manual address payloads through
   `delivery_address`.
 - Checkout order creation uses `/api/v1/orders/checkout/`.
+- Checkout page is implemented at `/:locale/checkout`.
+- Guest checkout is supported through the shared cart token header.
+- Authenticated checkout supports saved addresses from `/api/v1/auth/addresses/`.
+- Payment routes are placeholders only.
 - Orders, reviews, and notifications account sections are routed placeholders and still pending API
   integration.
 - Account profile API and order history are still pending.
-- Checkout page UI and payment UI are still pending.
+- Payment API and payment UI integration are still pending.
 - Cart page uses backend cart data only; no localStorage cart items are stored.
 - Promo code should use cart promo-code endpoints.
 - Checkout should use `/orders/checkout/`, not root `/orders/`.
