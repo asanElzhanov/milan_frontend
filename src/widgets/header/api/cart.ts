@@ -1,6 +1,6 @@
-import { apiClient, isMockApiMode, syncCartTokenFromResponse } from '@/shared/api';
+import { cartApi, getCartItemsCount } from '@/entities/cart';
+import { isMockApiMode } from '@/shared/api';
 
-import { adaptHeaderCartSummary } from '../lib/header.adapters';
 import type { HeaderCartSummary } from '../model/types';
 
 export async function getHeaderCartSummary(): Promise<HeaderCartSummary> {
@@ -9,13 +9,9 @@ export async function getHeaderCartSummary(): Promise<HeaderCartSummary> {
   }
 
   try {
-    const response = await apiClient.get<unknown>('/api/v1/orders/cart/', {
-      auth: false,
-    });
+    const cart = await cartApi.getCart();
 
-    syncCartTokenFromResponse(response);
-
-    return adaptHeaderCartSummary(response);
+    return { count: getCartItemsCount(cart) };
   } catch {
     return { count: 0 };
   }

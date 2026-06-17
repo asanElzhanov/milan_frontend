@@ -64,6 +64,14 @@ Optional manager:
 - `/api/v1/catalog/stock/adjust/`
 - `/api/v1/catalog/stock/movements/`
 
+Auth:
+
+- `/api/v1/auth/register/`
+- `/api/v1/auth/login/`
+- `/api/v1/auth/logout/`
+- `/api/v1/auth/refresh/`
+- `/api/v1/auth/me/`
+
 ## 3. Important Implementation Changes
 
 - Header categories should use `/catalog/categories/tree/?active=true`.
@@ -73,8 +81,17 @@ Optional manager:
 - `X-Cart-Token` is a shared API concern handled by `http-client.ts`.
 - Cart API methods must explicitly sync tokens from cart responses instead of relying on global
   response auto-sync.
-- A pure cart merge helper is prepared for future Auth integration, but no merge API call is made
-  yet.
+- Cart API layer is implemented in `src/entities/cart`.
+- A pure cart merge helper is prepared for future Auth integration.
+- Cart page is implemented at `/:locale/cart`.
+- Promo code in cart is implemented through cart promo-code endpoints.
+- `/api/v1/catalog/promo/check/` is not used in the MVP cart flow.
+- Auth UI pages are implemented at `/:locale/login`, `/:locale/register`, `/:locale/otp`, and
+  `/:locale/forgot-password`.
+- Backend auth requests, token/session management, protected routes, account API, and cart merge
+  after login are still pending.
+- Checkout is still pending.
+- Cart page uses backend cart data only; no localStorage cart items are stored.
 - Promo code should use cart promo-code endpoints.
 - Checkout should use `/orders/checkout/`, not root `/orders/`.
 - Product creation review endpoint is `/catalog/reviews/`.
@@ -90,7 +107,6 @@ Optional manager:
 5. Home page.
 6. Catalog page.
 7. Product detail page.
-8. Cart API layer.
-9. Promo code.
-10. Auth/API integration with cart merge.
-11. Checkout/delivery/orders/payments.
+8. Auth UI pages.
+9. Auth API integration with cart merge.
+10. Checkout/delivery/orders/payments.

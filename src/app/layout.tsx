@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: 'Sara Milan',
-  description: 'Premium fashion e-commerce store',
+  description: 'Sara Milan',
 };
 
 export default function RootLayout({

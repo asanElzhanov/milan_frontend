@@ -14,6 +14,24 @@ export const withLocale = (locale: AppLocale, path = '/'): string => {
   return normalizedPath ? `/${locale}${normalizedPath}` : `/${locale}`;
 };
 
+export const routePaths = {
+  home: '/',
+  catalog: '/catalog',
+  login: '/login',
+  register: '/register',
+  otp: '/otp',
+  forgotPassword: '/forgot-password',
+} as const;
+
+export const localizedRoutes = {
+  home: (locale: AppLocale) => withLocale(locale, routePaths.home),
+  catalog: (locale: AppLocale) => withLocale(locale, routePaths.catalog),
+  login: (locale: AppLocale) => withLocale(locale, routePaths.login),
+  register: (locale: AppLocale) => withLocale(locale, routePaths.register),
+  otp: (locale: AppLocale) => withLocale(locale, routePaths.otp),
+  forgotPassword: (locale: AppLocale) => withLocale(locale, routePaths.forgotPassword),
+} as const;
+
 export const replaceLocale = (pathname: string, targetLocale: AppLocale): string => {
   const [path = '/', query = ''] = pathname.split('?');
   const segments = path.split('/').filter(Boolean);

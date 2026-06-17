@@ -141,6 +141,51 @@ Current foundation:
 - header cart badge syncs `cart_token` from cart response
 - future cart API methods must call token sync explicitly
 
+## Cart API layer
+
+Cart API methods live in `src/entities/cart`.
+
+Supported endpoints:
+
+- `GET /api/v1/orders/cart/`
+- `POST /api/v1/orders/cart/add/`
+- `POST /api/v1/orders/cart/items/`
+- `PATCH /api/v1/orders/cart/items/{id}/`
+- `DELETE /api/v1/orders/cart/items/{id}/`
+- `DELETE /api/v1/orders/cart/items/{id}/delete/`
+- `DELETE /api/v1/orders/cart/clear/`
+- `POST /api/v1/orders/cart/merge/`
+
+All cart requests support `X-Cart-Token`. Cart page and promo code are implemented later.
+
+## Cart page
+
+The cart page is available at `/:locale/cart`.
+
+It uses the Cart API layer and backend cart as the source of truth. Guest cart tracking is handled
+through `X-Cart-Token`. Checkout is implemented in a later prompt.
+
+## Cart promo code
+
+The cart page supports promo code apply/remove through cart endpoints:
+
+- `POST /api/v1/orders/cart/promo-code/apply/`
+- `DELETE /api/v1/orders/cart/promo-code/`
+
+Promo state and discounts are read from the backend cart response.
+
+## Auth UI
+
+Auth UI pages are available at:
+
+- `/:locale/login`
+- `/:locale/register`
+- `/:locale/otp`
+- `/:locale/forgot-password`
+
+They are production-ready visual forms with local validation only. Backend auth requests, token
+storage, protected routes and cart merge after login are implemented later.
+
 ## Theme foundation
 
 The Sara Milan visual foundation is defined in:
@@ -254,5 +299,4 @@ but cart mutation is connected later through the cart API layer.
 1. Layout/Header/Footer.
 2. Catalog API layer.
 3. ProductCard/ProductGrid.
-4. Cart token manager/cart API/cart page.
-5. Auth, account, checkout, and payment flows.
+4. Auth, account, checkout, and payment flows.

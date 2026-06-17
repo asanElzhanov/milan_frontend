@@ -152,9 +152,55 @@ normalizes backend tokens and syncs tokens explicitly from cart responses. The h
 this manager when fetching `/api/v1/orders/cart/`.
 
 `src/features/cart/lib/cart-merge.ts` prepares pure helpers for future Auth integration after login.
-It does not call `/api/v1/orders/cart/merge/`; the Cart API layer will be added next.
 
-## 8. Import Rules
+## 8. Cart API Layer
+
+The Cart API layer lives in `src/entities/cart`. It includes normalized cart model types, safe
+adapters, query keys, API methods, React Query hooks, and pure selectors.
+
+Cart API methods use the shared `apiClient`, support `X-Cart-Token`, and explicitly sync cart
+tokens from cart responses before adapting data. Mock API mode returns an empty cart without fake
+items or network calls.
+
+## 9. Cart Page
+
+The Cart page is implemented at `src/app/[locale]/cart`. It is a client-side interactive page that
+uses Cart API hooks for reading the backend cart, updating quantities, removing items, and clearing
+the cart.
+
+The backend cart remains the source of truth. The page does not store cart items in localStorage and
+does not introduce a client cart store. After successful cart mutations, the page refreshes the route
+so the server-rendered header cart badge can update.
+
+## 10. Cart Promo Code
+
+The cart page includes promo code apply/remove UI. Promo mutations live in `src/entities/cart` and
+use cart endpoints:
+
+- `POST /api/v1/orders/cart/promo-code/apply/`
+- `DELETE /api/v1/orders/cart/promo-code/`
+
+The frontend does not call `/api/v1/catalog/promo/check/` in the MVP cart flow and does not create
+fake promo validation or fake discounts. Promo state, discounts, and totals are read from the backend
+cart response.
+
+Checkout, auth integration, product detail add-to-cart integration, and payment remain future flows.
+
+## 11. Auth UI
+
+Auth UI is implemented in `src/features/auth` and `src/features/otp`, with routes mounted at:
+
+- `/:locale/login`
+- `/:locale/register`
+- `/:locale/forgot-password`
+- `/:locale/otp`
+
+These pages use the shared UI Kit, locale dictionaries, and local validation helpers. They do not
+call backend auth endpoints, do not store tokens, do not create an auth store, and do not introduce
+protected routes. Token/session management, account APIs, OTP backend verification, and cart merge
+after login remain pending integration work.
+
+## 12. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -165,7 +211,7 @@ It does not call `/api/v1/orders/cart/merge/`; the Cart API layer will be added 
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 9. Public API Rule
+## 13. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -187,7 +233,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 10. Naming Conventions
+## 14. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -198,7 +244,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 11. Planned Next Steps
+## 15. Planned Next Steps
 
-1. Build Cart API layer.
-2. Build auth, account, checkout, and payment flows.
+1. Build Auth API layer and session/token handling.
+2. Build account, checkout, and payment flows.

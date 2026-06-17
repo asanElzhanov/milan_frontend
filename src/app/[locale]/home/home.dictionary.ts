@@ -5,9 +5,8 @@ import type { HomeDictionary } from './home.types';
 const homeDictionary = {
   ru: {
     metadata: {
-      title: 'Sara Milan - женская обувь и аксессуары',
-      description:
-        'Премиальная витрина Sara Milan: новые поступления, сезонные предложения, категории и избранные баннеры.',
+      title: 'Sara Milan',
+      description: 'Sara Milan',
     },
     hero: {
       eyebrow: 'Sara Milan',
@@ -82,9 +81,8 @@ const homeDictionary = {
   },
   kk: {
     metadata: {
-      title: 'Sara Milan - әйелдер аяқ киімі және аксессуарлар',
-      description:
-        'Sara Milan премиум витринасы: жаңа түсімдер, маусымдық ұсыныстар, санаттар және таңдаулы баннерлер.',
+      title: 'Sara Milan',
+      description: 'Sara Milan',
     },
     hero: {
       eyebrow: 'Sara Milan',

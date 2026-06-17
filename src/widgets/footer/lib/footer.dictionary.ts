@@ -2,7 +2,6 @@ import type { AppLocale } from '@/shared/config';
 
 export const footerDictionary = {
   ru: {
-    description: 'Премиальная обувь и аксессуары для современного женского гардероба.',
     navigation: 'Навигация',
     customer: 'Покупателю',
     contacts: 'Контакты',
@@ -24,7 +23,6 @@ export const footerDictionary = {
     },
   },
   kk: {
-    description: 'Заманауи әйел гардеробына арналған премиум аяқ киім мен аксессуарлар.',
     navigation: 'Навигация',
     customer: 'Сатып алушыға',
     contacts: 'Байланыс',

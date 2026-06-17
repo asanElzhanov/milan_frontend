@@ -1,21 +1,21 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { AuthShell, LoginForm, getAuthDictionary } from '@/features/auth';
+import { AuthShell, RegisterForm, getAuthDictionary } from '@/features/auth';
 import { isSupportedLocale, type AppLocale } from '@/shared/config';
 
-type LoginRouteProps = Readonly<{
+type RegisterRouteProps = Readonly<{
   params: Promise<{
     locale: string;
   }>;
 }>;
 
 const metadataTitle: Record<AppLocale, string> = {
-  ru: 'Вход — Sara Milan',
-  kk: 'Кіру — Sara Milan',
+  ru: 'Регистрация — Sara Milan',
+  kk: 'Тіркелу — Sara Milan',
 };
 
-export async function generateMetadata({ params }: LoginRouteProps): Promise<Metadata> {
+export async function generateMetadata({ params }: RegisterRouteProps): Promise<Metadata> {
   const { locale } = await params;
 
   if (!isSupportedLocale(locale)) {
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: LoginRouteProps): Promise<Met
   };
 }
 
-export default async function LoginPage({ params }: LoginRouteProps) {
+export default async function RegisterPage({ params }: RegisterRouteProps) {
   const { locale } = await params;
 
   if (!isSupportedLocale(locale)) {
@@ -37,8 +37,12 @@ export default async function LoginPage({ params }: LoginRouteProps) {
   const dictionary = getAuthDictionary(locale);
 
   return (
-    <AuthShell locale={locale} subtitle={dictionary.loginSubtitle} title={dictionary.loginTitle}>
-      <LoginForm dictionary={dictionary} locale={locale} />
+    <AuthShell
+      locale={locale}
+      subtitle={dictionary.registerSubtitle}
+      title={dictionary.registerTitle}
+    >
+      <RegisterForm dictionary={dictionary} locale={locale} />
     </AuthShell>
   );
 }

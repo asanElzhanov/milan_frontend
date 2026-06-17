@@ -48,8 +48,8 @@ const products = await apiClient.get('/api/v1/catalog/products/');
 
 `src/app/providers.tsx` creates the `QueryClient` and wraps the App Router tree.
 
-Entity and feature hooks will be added later in their own modules. Do not add product, auth, cart,
-or order hooks directly to `shared/api`.
+Entity and feature hooks live in their own modules. Do not add product, auth, cart, or order hooks
+directly to `shared/api`.
 
 ## 6. Auth / Token Note
 
@@ -78,7 +78,7 @@ Rules:
 - Cart API methods must explicitly call `syncCartTokenFromResponse`.
 - After login, Auth integration should call cart merge if a guest cart token exists.
 
-Example for future cart API methods:
+Example used by cart API methods:
 
 ```ts
 const cart = await cartApi.getCart();

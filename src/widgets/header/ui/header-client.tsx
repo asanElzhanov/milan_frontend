@@ -31,7 +31,7 @@ export function HeaderClient({
       <div className="bg-sara-bronze px-5 py-2 text-center text-xs font-medium uppercase tracking-[0.18em] text-sara-white">
         {dictionary.announcement}
       </div>
-      <header className="sticky top-0 z-40 border-b border-sara-beige-dark/60 bg-sara-white/95 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-sara-beige-dark/60 bg-sara-beige/95 backdrop-blur">
         <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 md:px-[80px]">
           <div className="flex flex-1 items-center gap-3">
             <MobileMenu
@@ -54,10 +54,14 @@ export function HeaderClient({
           </div>
 
           <Link
-            className="sara-focus font-fashion text-2xl tracking-[0.18em] text-sara-black md:text-3xl"
+            className="sara-focus inline-flex items-center justify-center"
             href={withLocale(locale)}
           >
-            SARA MILAN
+            <img
+              alt="Sara Milan"
+              className="h-10 w-[180px] object-contain md:h-12 md:w-[220px]"
+              src="/images/saramilan-logo.svg"
+            />
           </Link>
 
           <div className="flex flex-1 items-center justify-end gap-1 md:gap-3">

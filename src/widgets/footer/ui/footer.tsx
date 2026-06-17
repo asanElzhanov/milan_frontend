@@ -19,9 +19,6 @@ export function Footer({ locale }: FooterProps) {
             <Link className="font-fashion text-3xl tracking-[0.18em]" href={withLocale(locale)}>
               SARA MILAN
             </Link>
-            <p className="max-w-sm text-sm leading-6 text-sara-beige/75">
-              {dictionary.description}
-            </p>
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2">
