@@ -94,7 +94,11 @@ Auth:
 - Access token is injected into API requests through `Authorization: Bearer <token>`.
 - Guest cart merge is attempted after successful login/register when a guest cart token exists.
 - OTP and forgot-password backend integration are still pending.
-- Protected account pages, account API, order history, and address API are still pending.
+- Account shell is implemented and uses the current user query.
+- Account settings is read-only until a profile update endpoint is confirmed.
+- Orders, addresses, wishlist, reviews, and notifications account sections are routed placeholders
+  and still pending API integration.
+- Account profile API, order history, and address API are still pending.
 - Checkout is still pending.
 - Cart page uses backend cart data only; no localStorage cart items are stored.
 - Promo code should use cart promo-code endpoints.
@@ -115,4 +119,5 @@ Auth:
 8. Auth UI pages.
 9. Auth API integration with cart merge.
 10. Account shell and profile pages.
-11. Checkout/delivery/orders/payments.
+11. Address book API and UI.
+12. Checkout/delivery/orders/payments.

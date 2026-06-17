@@ -79,7 +79,7 @@ export function HeaderClient({
                 <Heart aria-hidden className="h-5 w-5" />
               </HeaderIconLink>
             ) : null}
-            <HeaderIconLink href={withLocale(locale, '/login')} label={dictionary.account}>
+            <HeaderIconLink href={withLocale(locale, '/account')} label={dictionary.account}>
               <User aria-hidden className="h-5 w-5" />
             </HeaderIconLink>
             <HeaderIconLink

@@ -1,11 +1,21 @@
-import { PlaceholderPage } from '../../_components/placeholder-page';
+import { notFound } from 'next/navigation';
 
-export default function WishlistPlaceholderPage() {
-  return (
-    <PlaceholderPage
-      title="Избранное"
-      description="Избранное будет реализовано после Auth integration и Wishlist API layer."
-      note="Раздел пока не вызывает API и не содержит бизнес-логики."
-    />
-  );
+import { isSupportedLocale } from '@/shared/config';
+
+import { AccountShell } from '../account/account-shell';
+
+type AccountWishlistRouteProps = Readonly<{
+  params: Promise<{
+    locale: string;
+  }>;
+}>;
+
+export default async function AccountWishlistPage({ params }: AccountWishlistRouteProps) {
+  const { locale } = await params;
+
+  if (!isSupportedLocale(locale)) {
+    notFound();
+  }
+
+  return <AccountShell activeKey="wishlist" locale={locale} />;
 }

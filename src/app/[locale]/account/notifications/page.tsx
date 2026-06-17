@@ -4,18 +4,18 @@ import { isSupportedLocale } from '@/shared/config';
 
 import { AccountShell } from '../account/account-shell';
 
-type AccountOrdersRouteProps = Readonly<{
+type AccountNotificationsRouteProps = Readonly<{
   params: Promise<{
     locale: string;
   }>;
 }>;
 
-export default async function AccountOrdersPage({ params }: AccountOrdersRouteProps) {
+export default async function AccountNotificationsPage({ params }: AccountNotificationsRouteProps) {
   const { locale } = await params;
 
   if (!isSupportedLocale(locale)) {
     notFound();
   }
 
-  return <AccountShell activeKey="orders" locale={locale} />;
+  return <AccountShell activeKey="notifications" locale={locale} />;
 }

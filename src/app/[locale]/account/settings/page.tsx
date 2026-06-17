@@ -3,20 +3,20 @@ import { notFound } from 'next/navigation';
 
 import { isSupportedLocale, type AppLocale } from '@/shared/config';
 
-import { AccountShell } from './account/account-shell';
+import { AccountShell } from '../account/account-shell';
 
-type AccountRouteProps = Readonly<{
+type AccountSettingsRouteProps = Readonly<{
   params: Promise<{
     locale: string;
   }>;
 }>;
 
 const metadataTitle: Record<AppLocale, string> = {
-  ru: 'Личный кабинет — Sara Milan',
-  kk: 'Жеке кабинет — Sara Milan',
+  ru: 'Настройки аккаунта — Sara Milan',
+  kk: 'Аккаунт баптаулары — Sara Milan',
 };
 
-export async function generateMetadata({ params }: AccountRouteProps): Promise<Metadata> {
+export async function generateMetadata({ params }: AccountSettingsRouteProps): Promise<Metadata> {
   const { locale } = await params;
 
   if (!isSupportedLocale(locale)) {
@@ -28,12 +28,12 @@ export async function generateMetadata({ params }: AccountRouteProps): Promise<M
   };
 }
 
-export default async function AccountPage({ params }: AccountRouteProps) {
+export default async function AccountSettingsPage({ params }: AccountSettingsRouteProps) {
   const { locale } = await params;
 
   if (!isSupportedLocale(locale)) {
     notFound();
   }
 
-  return <AccountShell activeKey="overview" locale={locale} />;
+  return <AccountShell activeKey="settings" locale={locale} />;
 }

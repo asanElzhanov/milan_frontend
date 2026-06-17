@@ -221,7 +221,20 @@ After token-backed login/register, auth mutations attempt guest cart merge throu
 Auto-refresh on `401`, protected account pages, account/profile APIs, order history, address APIs,
 and role-based manager UI remain future work.
 
-## 13. Import Rules
+## 13. Account Shell
+
+The Account shell is implemented under `src/app/[locale]/account/account` and mounted by account
+routes such as `/:locale/account` and `/:locale/account/settings`.
+
+`AccountShellClient` uses `useCurrentUserQuery`, so `/api/v1/auth/me/` remains the current user
+source of truth. If no user is available, the shell renders an auth-required state instead of fake
+profile data. Logout uses the existing auth mutation flow.
+
+The settings page is read-only until a profile update endpoint is confirmed. Orders, addresses,
+wishlist, reviews, and notifications routes are placeholders with localized pending messages and no
+feature API calls.
+
+## 14. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -232,7 +245,7 @@ and role-based manager UI remain future work.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 14. Public API Rule
+## 15. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -254,7 +267,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 15. Naming Conventions
+## 16. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -265,7 +278,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 16. Planned Next Steps
+## 17. Planned Next Steps
 
-1. Build account shell and profile pages.
+1. Build address book API and UI.
 2. Build checkout and payment flows.

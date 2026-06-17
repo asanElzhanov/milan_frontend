@@ -201,6 +201,17 @@ Supported endpoints:
 The frontend stores JWT tokens client-side for now, injects the access token into API requests, and
 attempts guest cart merge after successful login/register.
 
+## Account shell
+
+The account area is available at:
+
+- `/:locale/account`
+- `/:locale/account/settings`
+
+It uses the current user query from `/api/v1/auth/me/` and shows an auth-required state when the user
+is not logged in. Profile editing, addresses, orders, wishlist and notifications are implemented in
+later prompts.
+
 ## Theme foundation
 
 The Sara Milan visual foundation is defined in:
