@@ -39,7 +39,7 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
     <Container className="sara-section space-y-16">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
         <ProductDetailGallery items={galleryItems} productName={data.product.name} />
-        <ProductDetailInfo dictionary={dictionary} product={data.product} />
+        <ProductDetailInfo dictionary={dictionary} locale={locale} product={data.product} />
       </div>
 
       <ProductDescription dictionary={dictionary} product={data.product} />

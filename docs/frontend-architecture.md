@@ -247,7 +247,22 @@ edit, delete, and default address selection through backend data only.
 Saved addresses are prepared for future checkout reuse. Checkout, delivery method selection, order
 creation, and payment remain separate future flows.
 
-## 15. Import Rules
+## 15. Wishlist
+
+The Wishlist API layer lives in `src/entities/wishlist`. It normalizes backend wishlist responses
+into stable `items`, `productIds`, and `count` fields and exposes React Query hooks for:
+
+- `GET /api/v1/auth/wishlist/`
+- `POST /api/v1/auth/wishlist/toggle/{product_id}/`
+
+`src/features/wishlist` contains authenticated toggle UI. ProductCard and ProductGrid remain
+presentation-only; account wishlist page passes wishlist state into ProductGrid. Product detail uses
+`WishlistToggleButton` client-side without adding wishlist fetches to product detail server data.
+
+Guest/localStorage wishlist is intentionally not implemented. Catalog/Home wishlist toggle can be
+expanded later with a client wrapper if needed.
+
+## 16. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -258,7 +273,7 @@ creation, and payment remain separate future flows.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 16. Public API Rule
+## 17. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -280,7 +295,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 17. Naming Conventions
+## 18. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -291,7 +306,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 18. Planned Next Steps
+## 19. Planned Next Steps
 
-1. Build Wishlist.
+1. Build Checkout API foundation.
 2. Build checkout and payment flows.

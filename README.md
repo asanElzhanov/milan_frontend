@@ -219,6 +219,17 @@ The address book is available at `/:locale/account/addresses`.
 It uses authenticated address endpoints under `/api/v1/auth/addresses/` and supports list, create,
 edit, delete and default address selection. Saved addresses will be reused by checkout later.
 
+## Wishlist
+
+Wishlist is available at `/:locale/account/wishlist`.
+
+It uses authenticated endpoints:
+
+- `GET /api/v1/auth/wishlist/`
+- `POST /api/v1/auth/wishlist/toggle/:product_id/`
+
+Wishlist is backend-driven and does not use localStorage fallback.
+
 ## Theme foundation
 
 The Sara Milan visual foundation is defined in:

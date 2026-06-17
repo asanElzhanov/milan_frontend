@@ -4,6 +4,8 @@ import { useMemo, useState } from 'react';
 
 import type { ProductDetail } from '@/entities/product';
 import { ProductBadges, ProductPrice, ProductRating } from '@/entities/product';
+import { WishlistToggleButton } from '@/features/wishlist';
+import type { AppLocale } from '@/shared/config';
 
 import { ProductAddToCart } from './product-add-to-cart';
 import type { ProductDetailDictionary } from './product-detail.types';
@@ -13,10 +15,11 @@ import { resolveSelectedVariant } from './variant-resolver';
 
 type ProductDetailInfoProps = {
   dictionary: ProductDetailDictionary;
+  locale: AppLocale;
   product: ProductDetail;
 };
 
-export function ProductDetailInfo({ dictionary, product }: ProductDetailInfoProps) {
+export function ProductDetailInfo({ dictionary, locale, product }: ProductDetailInfoProps) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const selectedVariant = useMemo(
@@ -65,6 +68,7 @@ export function ProductDetailInfo({ dictionary, product }: ProductDetailInfoProp
       />
 
       <ProductStock dictionary={dictionary} product={product} selectedVariant={selectedVariant} />
+      <WishlistToggleButton locale={locale} productId={product.id} variant="button" />
       <ProductAddToCart
         dictionary={dictionary}
         product={product}

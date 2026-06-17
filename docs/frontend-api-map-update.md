@@ -53,6 +53,11 @@ Reviews:
 - `/api/v1/catalog/products/{slug}/reviews/`
 - `/api/v1/catalog/reviews/`
 
+Wishlist:
+
+- `/api/v1/auth/wishlist/`
+- `/api/v1/auth/wishlist/toggle/{product_id}/`
+
 Notifications:
 
 - `/api/v1/notifications/`
@@ -99,8 +104,12 @@ Auth:
 - Address API layer and account addresses page are implemented.
 - Account addresses supports list, create, edit, delete, and default address selection through
   `/api/v1/auth/addresses/`.
-- Orders, wishlist, reviews, and notifications account sections are routed placeholders and still
-  pending API integration.
+- Wishlist API layer and account wishlist page are implemented.
+- Product detail wishlist toggle is implemented client-side through authenticated wishlist
+  mutation.
+- Catalog/Home wishlist toggle remains future work unless wrapped client-side.
+- Orders, reviews, and notifications account sections are routed placeholders and still pending API
+  integration.
 - Account profile API and order history are still pending.
 - Checkout saved address integration is still pending.
 - Checkout is still pending.
@@ -124,5 +133,5 @@ Auth:
 9. Auth API integration with cart merge.
 10. Account shell and profile pages.
 11. Address book API and UI.
-12. Wishlist.
+12. Checkout API foundation.
 13. Checkout/delivery/orders/payments.

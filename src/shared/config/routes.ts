@@ -64,6 +64,12 @@ export function getSafeCallbackUrl(value: string | null, fallback: string): stri
   }
 }
 
+export function loginWithCallback(locale: AppLocale, callbackPath: string): string {
+  const callbackUrl = getSafeCallbackUrl(callbackPath, withLocale(locale));
+
+  return `${withLocale(locale, '/login')}?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+}
+
 export const replaceLocale = (pathname: string, targetLocale: AppLocale): string => {
   const [path = '/', query = ''] = pathname.split('?');
   const segments = path.split('/').filter(Boolean);
