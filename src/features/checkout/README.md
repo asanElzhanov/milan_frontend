@@ -3,7 +3,7 @@
 ## Purpose
 
 `src/features/checkout` prepares checkout payloads and submits the current backend cart as an order.
-It contains no checkout form UI, payment UI, redirects, or fake order data.
+It contains no fake order data and keeps payment source of truth in the checkout response/backend.
 
 ## Endpoint
 
@@ -42,7 +42,7 @@ Checkout responses are normalized through `adaptCheckoutResult()` from `src/enti
 
 - Checkout page UI
 - Payment UI
-- Payment API
+- Payment status API
 - Order history
 - Account orders page
 - Fake order data
@@ -60,4 +60,6 @@ It reuses:
 - `checkoutFormValuesToPayload()`
 - `useCheckoutMutation()`
 
-Payment provider integration is still pending.
+Payment provider start integration now lives in `src/entities/payment`. Checkout remains responsible
+only for order creation and redirect compatibility through `paymentUrl`, `redirectUrl`,
+`/:locale/payment/:id`, or `/:locale/payment/pending`.

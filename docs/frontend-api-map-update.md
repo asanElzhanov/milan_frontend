@@ -116,11 +116,15 @@ Auth:
 - Checkout page is implemented at `/:locale/checkout`.
 - Guest checkout is supported through the shared cart token header.
 - Authenticated checkout supports saved addresses from `/api/v1/auth/addresses/`.
-- Payment routes are placeholders only.
+- Payment API/UI integration is implemented for confirmed provider create endpoints.
+- Payment routes are implemented at `/:locale/payment/:orderNumber`, `/:locale/payment/success`,
+  `/:locale/payment/fail`, and `/:locale/payment/pending`.
+- Payment status endpoint remains pending backend contract; no fake status polling is implemented.
+- Stripe and Kaspi SDKs are not used because the frontend expects backend-provided redirect URLs.
 - Orders, reviews, and notifications account sections are routed placeholders and still pending API
   integration.
 - Account profile API and order history are still pending.
-- Payment API and payment UI integration are still pending.
+- Payment status API integration is still pending.
 - Cart page uses backend cart data only; no localStorage cart items are stored.
 - Promo code should use cart promo-code endpoints.
 - Checkout should use `/orders/checkout/`, not root `/orders/`.

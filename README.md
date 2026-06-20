@@ -193,7 +193,27 @@ Checkout is available at `/:locale/checkout`.
 It supports guest and authenticated checkout, saved/manual address modes, delivery method selection,
 payment method placeholder and checkout submit through `/api/v1/orders/checkout/`.
 
-Payment provider integration is implemented later.
+Checkout redirects directly to backend-provided `paymentUrl` / `redirectUrl` when present. If only
+an order number is returned, it navigates to `/:locale/payment/:orderNumber`.
+
+## Payment API and pages
+
+Payment pages are available at:
+
+- `/:locale/payment/:orderNumber`
+- `/:locale/payment/success`
+- `/:locale/payment/fail`
+- `/:locale/payment/pending`
+
+Confirmed payment start/create endpoints:
+
+- `POST /api/v1/payments/kaspi/create/`
+- `POST /api/v1/payments/stripe/create-intent/`
+
+Payment status endpoints are not confirmed in the current OpenAPI fallback or docs, so status
+polling is disabled and documented as pending backend contract. The frontend does not fake payment
+success, does not use Stripe/Kaspi SDKs, and treats checkout/payment redirects from backend as the
+source of truth.
 
 ## Auth UI
 

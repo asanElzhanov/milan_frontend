@@ -278,10 +278,28 @@ future flows.
 
 The production checkout page is implemented at `/:locale/checkout`. It reads the cart as source of
 truth, supports guest checkout through the cart token header, supports authenticated saved addresses,
-and offers manual address entry for both user states. Payment pages exist as placeholders only; they
-do not call payment APIs or SDKs.
+and offers manual address entry for both user states. Checkout redirects to backend-provided
+`paymentUrl` / `redirectUrl` when present, otherwise to `/:locale/payment/:orderNumber`.
 
-## 17. Import Rules
+## 17. Payment API and Pages
+
+Payment integration lives in `src/entities/payment` and `src/app/[locale]/payment`.
+
+Confirmed payment start/create endpoints:
+
+- `POST /api/v1/payments/kaspi/create/`
+- `POST /api/v1/payments/stripe/create-intent/`
+
+The payment order page can call those provider endpoints and safely redirect to backend-provided
+`paymentUrl`, `redirectUrl`, or `qrUrl`. External payment URLs must be `https://`; relative URLs must
+remain local paths.
+
+Payment status endpoints are not confirmed in the current OpenAPI fallback or docs, so
+`paymentApi.getPaymentStatus()` returns `null` and payment status polling is disabled. Result pages
+are production-looking return placeholders and do not claim backend success without a confirmed
+status source.
+
+## 18. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -292,7 +310,7 @@ do not call payment APIs or SDKs.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 18. Public API Rule
+## 19. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -314,7 +332,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 19. Naming Conventions
+## 20. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -325,7 +343,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 20. Planned Next Steps
+## 21. Planned Next Steps
 
-1. Build Checkout page UI.
-2. Build payment flows.
+1. Confirm payment status endpoint contract.
+2. Build order history and order detail.

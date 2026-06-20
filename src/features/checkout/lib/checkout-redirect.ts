@@ -1,4 +1,5 @@
 import type { CheckoutResult } from '@/entities/order';
+import { isRelativePaymentUrl, isSafeExternalPaymentUrl } from '@/entities/payment';
 import { type AppLocale, localizedRoutes } from '@/shared/config';
 
 const isUnsafeUrl = (url: string): boolean => {
@@ -10,21 +11,15 @@ const isUnsafeUrl = (url: string): boolean => {
 };
 
 export function isExternalUrl(url: string): boolean {
-  if (isUnsafeUrl(url)) {
-    return false;
-  }
-
-  try {
-    const parsedUrl = new URL(url, 'https://sara-milan.local');
-
-    return parsedUrl.origin !== 'https://sara-milan.local';
-  } catch {
-    return false;
-  }
+  return isSafeExternalPaymentUrl(url);
 }
 
 const getSafeRedirectUrl = (url: string | null | undefined): string | null => {
-  if (!url?.trim() || isUnsafeUrl(url)) {
+  if (
+    !url?.trim() ||
+    isUnsafeUrl(url) ||
+    (!isRelativePaymentUrl(url) && !isSafeExternalPaymentUrl(url))
+  ) {
     return null;
   }
 

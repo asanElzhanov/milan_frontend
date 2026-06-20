@@ -1,14 +1,30 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { isSupportedLocale, type AppLocale } from '@/shared/config';
+import { isSupportedLocale, localizedRoutes, type AppLocale } from '@/shared/config';
+import { Button, Container, SectionTitle } from '@/shared/ui';
 
-import { PaymentPlaceholder } from '../payment-placeholder';
+import { PaymentResultCard } from '../payment-result-card';
+import { getPaymentDictionary } from '../payment.dictionary';
 
 type PaymentStatusPageProps = Readonly<{
   params: Promise<{
     locale: string;
   }>;
 }>;
+
+export async function generateMetadata({ params }: PaymentStatusPageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!isSupportedLocale(locale)) {
+    return {};
+  }
+
+  return {
+    title: locale === 'kk' ? 'Төлем күтілуде — Sara Milan' : 'Ожидаем оплату — Sara Milan',
+  };
+}
 
 export default async function PaymentPendingPage({ params }: PaymentStatusPageProps) {
   const { locale } = await params;
@@ -17,13 +33,29 @@ export default async function PaymentPendingPage({ params }: PaymentStatusPagePr
     notFound();
   }
 
-  const title = locale === 'kk' ? 'Төлемге өту' : 'Переход к оплате';
-  const description =
-    locale === 'kk'
-      ? 'Тапсырыс жасалды. Төлем экраны келесі кезеңде қосылады.'
-      : 'Заказ создан. Экран оплаты будет подключён на следующем этапе.';
+  const appLocale = locale as AppLocale;
+  const labels = getPaymentDictionary(appLocale);
 
   return (
-    <PaymentPlaceholder description={description} locale={locale as AppLocale} title={title} />
+    <Container className="sara-section">
+      <SectionTitle eyebrow="Sara Milan" title={labels.pendingTitle} />
+      <div className="mt-10 max-w-3xl">
+        <PaymentResultCard
+          title={labels.pendingTitle}
+          description={labels.pendingDescription}
+          status="pending"
+          actions={
+            <>
+              <Button asChild>
+                <Link href={localizedRoutes.catalog(appLocale)}>{labels.backToCatalog}</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href={localizedRoutes.accountOrders(appLocale)}>{labels.goToOrders}</Link>
+              </Button>
+            </>
+          }
+        />
+      </div>
+    </Container>
   );
 }

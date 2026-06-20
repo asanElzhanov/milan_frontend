@@ -1,8 +1,10 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { isSupportedLocale, type AppLocale } from '@/shared/config';
 
-import { PaymentPlaceholder } from '../payment-placeholder';
+import { getPaymentDictionary } from '../payment.dictionary';
+import { PaymentPageClient } from './payment-page-client';
 
 type PaymentOrderPageProps = Readonly<{
   params: Promise<{
@@ -11,6 +13,18 @@ type PaymentOrderPageProps = Readonly<{
   }>;
 }>;
 
+export async function generateMetadata({ params }: PaymentOrderPageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  if (!isSupportedLocale(locale)) {
+    return {};
+  }
+
+  return {
+    title: locale === 'kk' ? 'Тапсырысты төлеу — Sara Milan' : 'Оплата заказа — Sara Milan',
+  };
+}
+
 export default async function PaymentOrderPage({ params }: PaymentOrderPageProps) {
   const { locale, orderNumber } = await params;
 
@@ -18,13 +32,11 @@ export default async function PaymentOrderPage({ params }: PaymentOrderPageProps
     notFound();
   }
 
-  const title = locale === 'kk' ? 'Төлемге өту' : 'Переход к оплате';
-  const description =
-    locale === 'kk'
-      ? `Тапсырыс ${orderNumber} жасалды. Төлем провайдері келесі кезеңде қосылады.`
-      : `Заказ ${orderNumber} создан. Платёжный провайдер будет подключён на следующем этапе.`;
-
   return (
-    <PaymentPlaceholder description={description} locale={locale as AppLocale} title={title} />
+    <PaymentPageClient
+      labels={getPaymentDictionary(locale as AppLocale)}
+      locale={locale as AppLocale}
+      orderNumber={decodeURIComponent(orderNumber)}
+    />
   );
 }
