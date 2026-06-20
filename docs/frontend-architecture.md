@@ -299,7 +299,24 @@ Payment status endpoints are not confirmed in the current OpenAPI fallback or do
 are production-looking return placeholders and do not claim backend success without a confirmed
 status source.
 
-## 18. Import Rules
+## 18. Order History and Detail
+
+Order history integration lives in `src/entities/order` and `src/app/[locale]/account/orders`.
+
+Confirmed order endpoints:
+
+- `GET /api/v1/orders/history/`
+- `GET /api/v1/orders/{order_number}/`
+
+The account order list and detail pages render inside `AccountShell`, preserving the existing
+auth-required behavior. They show order status, payment status, timeline, items, delivery snapshots,
+payment details, and backend-owned totals. Continue-payment actions use a safe backend payment URL
+when one is present, otherwise they link to `/:locale/payment/:orderNumber`.
+
+Cancellation, refund, reorder, admin/manager orders, review creation from orders, localStorage
+orders, and fake order data are intentionally not implemented.
+
+## 19. Import Rules
 
 - `shared` does not import from `entities`, `features`, or `widgets`.
 - `entities` may import only from `shared`.
@@ -310,7 +327,7 @@ status source.
 - Do not import directly from internal files of another module when a public API exists through
   `index.ts`.
 
-## 19. Public API Rule
+## 20. Public API Rule
 
 Every module folder should expose an `index.ts` public API.
 
@@ -332,7 +349,7 @@ import { formatPriceKzt } from '@/shared/lib/format-price';
 Direct imports in app-level files are acceptable when they simplify Next.js usage, but business
 modules should prefer public APIs.
 
-## 20. Naming Conventions
+## 21. Naming Conventions
 
 - Components: `PascalCase`.
 - Hooks: `useSomething`.
@@ -343,7 +360,7 @@ modules should prefer public APIs.
 - Server/client components should use `'use client'` only when the component actually needs client
   behavior.
 
-## 21. Planned Next Steps
+## 22. Planned Next Steps
 
 1. Confirm payment status endpoint contract.
-2. Build order history and order detail.
+2. Build product reviews and account reviews.

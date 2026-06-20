@@ -215,6 +215,17 @@ polling is disabled and documented as pending backend contract. The frontend doe
 success, does not use Stripe/Kaspi SDKs, and treats checkout/payment redirects from backend as the
 source of truth.
 
+## Order history
+
+Order history is available at:
+
+- `/:locale/account/orders`
+- `/:locale/account/orders/:orderNumber`
+
+It uses authenticated order endpoints when available and renders order status, payment status,
+items, delivery and totals. Continue-payment links use a safe backend payment URL when present or
+fall back to the local payment route for the order number.
+
 ## Auth UI
 
 Auth UI pages are available at:

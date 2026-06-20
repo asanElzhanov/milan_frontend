@@ -121,9 +121,17 @@ Auth:
   `/:locale/payment/fail`, and `/:locale/payment/pending`.
 - Payment status endpoint remains pending backend contract; no fake status polling is implemented.
 - Stripe and Kaspi SDKs are not used because the frontend expects backend-provided redirect URLs.
-- Orders, reviews, and notifications account sections are routed placeholders and still pending API
+- Order endpoint discovery is documented in `docs/order-endpoint-discovery.md`.
+- Order history/detail pages are implemented at `/:locale/account/orders` and
+  `/:locale/account/orders/:orderNumber`.
+- Order history uses `GET /api/v1/orders/history/`; order detail uses
+  `GET /api/v1/orders/{order_number}/`.
+- Order continue-payment CTAs link to a safe backend payment URL or
+  `/:locale/payment/:orderNumber`.
+- Order cancellation, refund, reorder, admin, and manager flows are intentionally not implemented.
+- Reviews and notifications account sections are routed placeholders and still pending API
   integration.
-- Account profile API and order history are still pending.
+- Account profile API is still pending.
 - Payment status API integration is still pending.
 - Cart page uses backend cart data only; no localStorage cart items are stored.
 - Promo code should use cart promo-code endpoints.
