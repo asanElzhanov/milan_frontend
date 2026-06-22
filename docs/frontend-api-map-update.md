@@ -129,8 +129,10 @@ Auth:
 - Order continue-payment CTAs link to a safe backend payment URL or
   `/:locale/payment/:orderNumber`.
 - Order cancellation, refund, reorder, admin, and manager flows are intentionally not implemented.
-- Reviews and notifications account sections are routed placeholders and still pending API
-  integration.
+- Product reviews list/create are implemented through the confirmed nested product endpoint.
+- Account reviews UI is implemented, but its API integration remains pending because no
+  current-user reviews endpoint contract is confirmed.
+- Review moderation statuses are normalized and rendered; eligibility remains backend-controlled.
 - Account profile API is still pending.
 - Payment status API integration is still pending.
 - Cart page uses backend cart data only; no localStorage cart items are stored.

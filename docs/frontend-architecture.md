@@ -364,3 +364,12 @@ modules should prefer public APIs.
 
 1. Confirm payment status endpoint contract.
 2. Build product reviews and account reviews.
+## Reviews
+
+The review entity normalizes arrays, DRF pagination, and common response wrappers. Product detail
+uses a full client reviews section with server initial data, public reading, authenticated create,
+and backend-controlled moderation. The account reviews route uses `AccountShell` and has complete
+loading/error/empty/list UI; its real API call stays disabled behind a readable contract-pending
+error until a current-user reviews endpoint is confirmed. See `docs/review-endpoint-discovery.md`.
+
+Eligibility is backend-controlled; frontend does not fake purchase verification.

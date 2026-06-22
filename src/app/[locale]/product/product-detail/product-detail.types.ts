@@ -1,5 +1,5 @@
 import type { ProductDetail, ProductListItem, ProductVariant } from '@/entities/product';
-import type { ProductReview } from '@/entities/review';
+import type { ReviewListResponse } from '@/entities/review';
 import type { AppLocale } from '@/shared/config';
 
 export type ProductDetailPageProps = {
@@ -10,7 +10,7 @@ export type ProductDetailPageProps = {
 export type ProductDetailData = {
   product: ProductDetail | null;
   similarProducts: ProductListItem[];
-  reviews: ProductReview[];
+  reviews: ReviewListResponse;
   hasError: boolean;
 };
 

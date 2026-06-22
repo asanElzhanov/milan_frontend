@@ -1,19 +1,58 @@
 import { apiClient, isMockApiMode } from '@/shared/api';
 
-import { adaptProductReviewList } from '../lib/review.adapters';
-import type { ProductReview } from '../model/review.types';
+import { adaptReview, adaptReviewList } from '../lib/review.adapters';
+import type {
+  CreateProductReviewPayload,
+  ProductReview,
+  ReviewListResponse,
+} from '../model/review.types';
+
+const PRODUCT_REVIEWS_ENDPOINT = '/api/v1/catalog/products/{slug}/reviews/';
+
+export const reviewEndpointConfig = {
+  productList: PRODUCT_REVIEWS_ENDPOINT,
+  productCreate: PRODUCT_REVIEWS_ENDPOINT,
+  accountList: null,
+  productCreateConfigured: true,
+  accountListConfigured: false,
+} as const;
+
+export const createEmptyReviewList = (page = 1): ReviewListResponse => ({
+  reviews: [],
+  count: 0,
+  currentPage: page,
+  totalPages: 1,
+});
+
+const productReviewsPath = (slug: string) =>
+  `/api/v1/catalog/products/${encodeURIComponent(slug)}/reviews/`;
 
 export const reviewApi = {
-  async getProductReviews(slug: string): Promise<ProductReview[]> {
+  async getProductReviews(slug: string): Promise<ReviewListResponse> {
+    if (isMockApiMode) return createEmptyReviewList();
+    const response = await apiClient.get<unknown>(productReviewsPath(slug), {
+      auth: false,
+      cartToken: false,
+    });
+    return adaptReviewList(response);
+  },
+
+  async createProductReview(
+    slug: string,
+    payload: CreateProductReviewPayload,
+  ): Promise<ProductReview | null> {
     if (isMockApiMode) {
-      return [];
+      throw new Error('Создание отзывов недоступно в mock API mode.');
     }
+    const response = await apiClient.post<unknown>(productReviewsPath(slug), payload, {
+      cartToken: false,
+    });
+    return adaptReview(response);
+  },
 
-    const response = await apiClient.get<unknown>(
-      `/api/v1/catalog/products/${encodeURIComponent(slug)}/reviews/`,
-      { auth: false, cartToken: false },
-    );
-
-    return adaptProductReviewList(response);
+  async getMyReviews(params?: { page?: number }): Promise<ReviewListResponse> {
+    const page = params?.page && params.page > 0 ? params.page : 1;
+    if (isMockApiMode) return createEmptyReviewList(page);
+    throw new Error('Backend endpoint для отзывов текущего пользователя пока не подтверждён.');
   },
 };

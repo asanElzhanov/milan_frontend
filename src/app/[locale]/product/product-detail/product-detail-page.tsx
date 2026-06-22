@@ -45,6 +45,7 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
       <ProductDescription dictionary={dictionary} product={data.product} />
       <ProductReviewsPreview
         dictionary={dictionary}
+        locale={locale}
         product={data.product}
         reviews={data.reviews}
       />

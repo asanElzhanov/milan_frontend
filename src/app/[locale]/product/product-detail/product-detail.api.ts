@@ -13,7 +13,10 @@ export async function getProductDetailData(slug: string): Promise<ProductDetailD
   return {
     product: productResult.status === 'fulfilled' ? productResult.value : null,
     similarProducts: similarResult.status === 'fulfilled' ? similarResult.value : [],
-    reviews: reviewsResult.status === 'fulfilled' ? reviewsResult.value : [],
+    reviews:
+      reviewsResult.status === 'fulfilled'
+        ? reviewsResult.value
+        : { reviews: [], count: 0, currentPage: 1, totalPages: 1 },
     hasError: productResult.status === 'rejected',
   };
 }

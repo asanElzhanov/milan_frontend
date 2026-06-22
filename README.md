@@ -396,3 +396,10 @@ but cart mutation is connected later through the cart API layer.
 2. Catalog API layer.
 3. ProductCard/ProductGrid.
 4. Auth, account, checkout, and payment flows.
+
+## Reviews
+
+Reviews are shown on product detail pages and in `/:locale/account/reviews`.
+
+Review creation is authenticated and backend-controlled. The frontend does not fake purchase
+eligibility or moderation state.

@@ -1,35 +1,150 @@
-import { getArrayFromResponse, isRecord, toNumberOrNull, toStringOrNull } from '@/shared/lib';
+import { isRecord, toNumberOrNull, toStringOrNull } from '@/shared/lib';
 
-import type { ProductReview } from '../model/review.types';
+import type {
+  CreateProductReviewPayload,
+  ProductReview,
+  ReviewListResponse,
+} from '../model/review.types';
 
-const readId = (record: Record<string, unknown>, fallback: string): string | number =>
-  typeof record.id === 'string' || typeof record.id === 'number' ? record.id : fallback;
-
-export const adaptProductReview = (value: unknown): ProductReview | null => {
-  if (!isRecord(value)) {
-    return null;
+const readId = (...values: unknown[]): string | number | null => {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim()) return value;
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
   }
-
-  const rating = toNumberOrNull(value.rating);
-
-  if (!rating) {
-    return null;
-  }
-
-  return {
-    id: readId(value, `${toStringOrNull(value.created_at) ?? 'review'}-${rating}`),
-    productId:
-      typeof value.product === 'string' || typeof value.product === 'number' ? value.product : null,
-    productSlug: toStringOrNull(value.product_slug),
-    authorName: toStringOrNull(value.user_name ?? value.author_name ?? value.author),
-    rating,
-    text: toStringOrNull(value.text ?? value.comment),
-    status: toStringOrNull(value.status),
-    createdAt: toStringOrNull(value.created_at ?? value.createdAt),
-  };
+  return null;
 };
 
-export const adaptProductReviewList = (response: unknown): ProductReview[] =>
-  getArrayFromResponse(response)
-    .map(adaptProductReview)
-    .filter((item): item is ProductReview => Boolean(item));
+const readString = (...values: unknown[]): string | null => {
+  for (const value of values) {
+    const result = toStringOrNull(value);
+    if (result) return result;
+  }
+  return null;
+};
+
+const unwrapReview = (raw: unknown): unknown => {
+  if (!isRecord(raw)) return raw;
+  if (raw.review !== undefined) return raw.review;
+  if (isRecord(raw.data) && raw.data.review !== undefined) return raw.data.review;
+  if (isRecord(raw.data) && (raw.data.id !== undefined || raw.data.rating !== undefined)) {
+    return raw.data;
+  }
+  return raw;
+};
+
+export function adaptReview(raw: unknown): ProductReview | null {
+  const source = unwrapReview(raw);
+  if (!isRecord(source)) return null;
+
+  const product = isRecord(source.product) ? source.product : {};
+  const id = readId(source.id, source.pk);
+  if (id === null) return null;
+
+  const parsedRating = toNumberOrNull(source.rating);
+  const rating = parsedRating === null ? 0 : Math.min(5, Math.max(1, parsedRating));
+
+  return {
+    id,
+    productId: readId(source.product_id, source.productId, product.id, product.pk),
+    productSlug: readString(source.product_slug, source.productSlug, product.slug),
+    productName: readString(source.product_name, source.productName, product.name, product.title),
+    productImageUrl: readString(
+      source.product_image,
+      source.product_image_url,
+      source.productImageUrl,
+      product.main_image,
+      product.image,
+    ),
+    orderId: readId(source.order_id, source.orderId, source.order),
+    orderNumber: readString(source.order_number, source.orderNumber),
+    authorName: readString(source.author_name, source.authorName, source.author),
+    userName: readString(source.user_name, source.userName, source.username),
+    rating,
+    title: readString(source.title),
+    text: readString(source.text, source.comment, source.body),
+    advantages: readString(source.advantages, source.pros),
+    disadvantages: readString(source.disadvantages, source.cons),
+    status: readString(source.status),
+    isApproved:
+      typeof source.is_approved === 'boolean'
+        ? source.is_approved
+        : typeof source.isApproved === 'boolean'
+          ? source.isApproved
+          : undefined,
+    createdAt: readString(source.created_at, source.createdAt),
+    updatedAt: readString(source.updated_at, source.updatedAt),
+  };
+}
+
+const unwrapList = (raw: unknown): unknown => {
+  if (!isRecord(raw)) return raw;
+  if (Array.isArray(raw.results) || Array.isArray(raw.reviews)) return raw;
+  if (raw.data !== undefined) return raw.data;
+  return raw;
+};
+
+const pageFromLink = (value: unknown, offset: number): number | null => {
+  if (typeof value !== 'string' || !value) return null;
+  try {
+    const page = Number(new URL(value, 'https://sara-milan.local').searchParams.get('page') ?? 1);
+    return Number.isInteger(page) && page > 0 ? page + offset : null;
+  } catch {
+    return null;
+  }
+};
+
+export function adaptReviewList(raw: unknown): ReviewListResponse {
+  const source = unwrapList(raw);
+  const record = isRecord(source) ? source : {};
+  const items = Array.isArray(source)
+    ? source
+    : Array.isArray(record.results)
+      ? record.results
+      : Array.isArray(record.reviews)
+        ? record.reviews
+        : record.review !== undefined
+          ? [record.review]
+          : [];
+  const reviews = items
+    .map(adaptReview)
+    .filter((review): review is ProductReview => Boolean(review));
+  const count = Math.max(toNumberOrNull(record.count) ?? reviews.length, 0);
+  const currentPage = Math.max(
+    toNumberOrNull(record.current_page ?? record.currentPage ?? record.page) ??
+      pageFromLink(record.previous, 1) ??
+      pageFromLink(record.next, -1) ??
+      1,
+    1,
+  );
+  const pageSize = Math.max(items.length, 1);
+  const totalPages = Math.max(
+    toNumberOrNull(record.total_pages ?? record.totalPages) ?? Math.ceil(count / pageSize),
+    1,
+  );
+
+  return { reviews, count, currentPage, totalPages };
+}
+
+export function createReviewPayload(input: {
+  rating: number;
+  title?: string;
+  text?: string;
+  advantages?: string;
+  disadvantages?: string;
+  orderId?: string | number | null;
+}): CreateProductReviewPayload {
+  const payload: CreateProductReviewPayload = {
+    rating: Math.min(5, Math.max(1, Math.round(input.rating))),
+  };
+  const fields = ['title', 'text', 'advantages', 'disadvantages'] as const;
+  fields.forEach((field) => {
+    const value = input[field]?.trim();
+    if (value) payload[field] = value;
+  });
+  if (input.orderId !== null && input.orderId !== undefined) payload.order_id = input.orderId;
+  return payload;
+}
+
+export const adaptProductReview = adaptReview;
+export const adaptProductReviewList = (raw: unknown): ProductReview[] =>
+  adaptReviewList(raw).reviews;
