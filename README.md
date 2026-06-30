@@ -403,3 +403,14 @@ Reviews are shown on product detail pages and in `/:locale/account/reviews`.
 
 Review creation is authenticated and backend-controlled. The frontend does not fake purchase
 eligibility or moderation state.
+
+## Notifications
+
+Notifications are available at `/:locale/account/notifications`.
+
+The frontend uses:
+
+- `GET /api/v1/notifications/`
+- `POST /api/v1/notifications/read-all/`
+
+Realtime notifications, push notifications and notification preferences are not implemented yet.

@@ -140,6 +140,12 @@ Auth:
 - Checkout should use `/orders/checkout/`, not root `/orders/`.
 - Product creation review endpoint is `/catalog/reviews/`.
 - Notifications are no longer placeholder-only.
+- Notification endpoint discovery is documented in `docs/notification-endpoint-discovery.md`.
+- Account notifications are implemented at `/:locale/account/notifications`.
+- Notifications use `GET /api/v1/notifications/` and `POST /api/v1/notifications/read-all/`.
+- Individual notification mark-as-read remains pending because no individual read endpoint is
+  confirmed.
+- Realtime notifications, push notifications, and notification preferences remain pending.
 - Manager stock is optional if Django Admin is enough.
 
 ## 4. Updated Prompt Order

@@ -4,6 +4,7 @@ import { Heart, ShoppingBag, User } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
+import { NotificationHeaderBadge } from '@/features/notifications';
 import type { AppLocale } from '@/shared/config';
 import { env, withLocale } from '@/shared/config';
 
@@ -81,6 +82,7 @@ export function HeaderClient({
             ) : null}
             <HeaderIconLink href={withLocale(locale, '/account')} label={dictionary.account}>
               <User aria-hidden className="h-5 w-5" />
+              <NotificationHeaderBadge />
             </HeaderIconLink>
             <HeaderIconLink
               badge={cartCount}

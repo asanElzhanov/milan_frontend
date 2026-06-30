@@ -373,3 +373,23 @@ loading/error/empty/list UI; its real API call stays disabled behind a readable 
 error until a current-user reviews endpoint is confirmed. See `docs/review-endpoint-discovery.md`.
 
 Eligibility is backend-controlled; frontend does not fake purchase verification.
+
+## Notifications
+
+Notification integration lives in `src/entities/notification`,
+`src/app/[locale]/account/notifications`, and `src/features/notifications`.
+
+Confirmed notification endpoints:
+
+- `GET /api/v1/notifications/`
+- `POST /api/v1/notifications/read-all/`
+
+The account notifications page renders inside `AccountShell`, uses backend notifications as the
+source of truth, supports unread/read visual states, pagination, loading, empty, and error states,
+and exposes a read-all mutation. A small client-only header unread badge is attached to the existing
+account icon.
+
+Individual mark-as-read is pending backend contract because no individual read endpoint is
+confirmed. Realtime updates, push notifications, email notification settings, notification
+preferences, localStorage notification state, and fake notification data are intentionally not
+implemented. See `docs/notification-endpoint-discovery.md`.
