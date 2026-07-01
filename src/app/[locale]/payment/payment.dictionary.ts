@@ -21,6 +21,7 @@ export type PaymentDictionary = {
   paymentUnavailableDescription: string;
   statusUnavailableDescription: string;
   noRedirectDescription: string;
+  stripeElementsRequired: string;
   startPaymentError: string;
   backToCatalog: string;
   goToOrders: string;
@@ -40,18 +41,21 @@ const paymentDictionary = {
     continuePayment: 'Продолжить оплату',
     checkStatus: 'Проверить статус',
     pendingTitle: 'Ожидаем оплату',
-    pendingDescription: 'Если вы уже оплатили заказ, статус обновится после подтверждения backend.',
+    pendingDescription:
+      'Если вы уже оплатили заказ, статус обновится после подтверждения платежа backend-системой.',
     successTitle: 'Оплата прошла успешно',
     successDescription: 'Спасибо за заказ. Мы свяжемся с вами для подтверждения.',
     failTitle: 'Оплата не прошла',
     failDescription: 'Попробуйте еще раз или выберите другой способ оплаты.',
     paymentUnavailableTitle: 'Оплата пока недоступна',
     paymentUnavailableDescription:
-      'Backend endpoint для статуса оплаты не подтвержден. Заказ создан, оплату можно продолжить через подтвержденный provider endpoint.',
+      'Endpoint статуса оплаты пока не подтвержден. Если заказ создан, оплату можно продолжить через подтвержденный provider endpoint.',
     statusUnavailableDescription:
-      'Автоматическая проверка статуса оплаты ожидает backend contract. Фронтенд не показывает fake success.',
+      'Автоматическая проверка статуса оплаты ожидает подтверждения backend contract. Фронтенд не показывает неподтвержденный успешный статус.',
     noRedirectDescription:
       'Backend не вернул ссылку для оплаты. Проверьте статус заказа позже или обратитесь в Sara Milan.',
+    stripeElementsRequired:
+      'Stripe вернул client_secret. Для оплаты картой требуется подключить Stripe Elements; frontend не показывает фейковый успешный статус.',
     startPaymentError: 'Не удалось начать оплату',
     backToCatalog: 'Вернуться в каталог',
     goToOrders: 'Мои заказы',
@@ -70,18 +74,20 @@ const paymentDictionary = {
     checkStatus: 'Статусты тексеру',
     pendingTitle: 'Төлем күтілуде',
     pendingDescription:
-      'Егер тапсырысты төлеген болсаңыз, статус backend растауынан кейін жаңарады.',
+      'Егер тапсырысты төлеген болсаңыз, статус backend жүйесі растағаннан кейін жаңарады.',
     successTitle: 'Төлем сәтті өтті',
     successDescription: 'Тапсырысыңыз үшін рақмет. Біз растау үшін хабарласамыз.',
     failTitle: 'Төлем орындалмады',
     failDescription: 'Қайталап көріңіз немесе басқа төлем әдісін таңдаңыз.',
     paymentUnavailableTitle: 'Төлем әзірге қолжетімсіз',
     paymentUnavailableDescription:
-      'Төлем статусына арналған backend endpoint расталмаған. Тапсырыс жасалды, төлемді расталған provider endpoint арқылы жалғастыруға болады.',
+      'Төлем статусы endpoint әзірге расталмаған. Тапсырыс жасалса, төлемді расталған provider endpoint арқылы жалғастыруға болады.',
     statusUnavailableDescription:
-      'Төлем статусын автоматты тексеру backend contract күтіп тұр. Фронтенд fake success көрсетпейді.',
+      'Төлем статусын автоматты тексеру backend contract расталуын күтіп тұр. Фронтенд расталмаған сәтті статусты көрсетпейді.',
     noRedirectDescription:
       'Backend төлем сілтемесін қайтармады. Тапсырыс статусын кейінірек тексеріңіз немесе Sara Milan-ға хабарласыңыз.',
+    stripeElementsRequired:
+      'Stripe client_secret қайтарды. Картамен төлеу үшін Stripe Elements қосу қажет; frontend жалған сәтті статус көрсетпейді.',
     startPaymentError: 'Төлемді бастау мүмкін болмады',
     backToCatalog: 'Каталогқа қайту',
     goToOrders: 'Менің тапсырыстарым',

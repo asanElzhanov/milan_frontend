@@ -8,8 +8,10 @@ import { mergeGuestCartAfterAuth } from '@/features/cart';
 import type {
   LoginPayload,
   LogoutPayload,
+  ChangePasswordPayload,
   RefreshPayload,
   RegisterPayload,
+  UpdateProfilePayload,
 } from '../model/auth.types';
 import { hasAuthTokens } from '../lib/auth-token-storage';
 import { authApi } from './auth.api';
@@ -88,6 +90,27 @@ export function useLogoutMutation() {
       await queryClient.invalidateQueries({ queryKey: authKeys.all });
       await queryClient.invalidateQueries({ queryKey: cartKeys.current() });
     },
+  });
+}
+
+export function useUpdateProfileMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: UpdateProfilePayload) => authApi.updateMe(payload),
+    retry: false,
+    onSuccess: (user) => {
+      if (user) {
+        queryClient.setQueryData(authKeys.me(), user);
+      }
+    },
+  });
+}
+
+export function useChangePasswordMutation() {
+  return useMutation({
+    mutationFn: (payload: ChangePasswordPayload) => authApi.changePassword(payload),
+    retry: false,
   });
 }
 

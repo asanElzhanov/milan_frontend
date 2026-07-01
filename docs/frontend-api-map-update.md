@@ -74,7 +74,7 @@ Auth:
 - `/api/v1/auth/register/`
 - `/api/v1/auth/login/`
 - `/api/v1/auth/logout/`
-- `/api/v1/auth/refresh/`
+- `/api/v1/auth/token/refresh/`
 - `/api/v1/auth/me/`
 
 ## 3. Important Implementation Changes
@@ -146,6 +146,17 @@ Auth:
 - Individual notification mark-as-read remains pending because no individual read endpoint is
   confirmed.
 - Realtime notifications, push notifications, and notification preferences remain pending.
+- Static informational pages are implemented for about, delivery, payment, FAQ, contacts, privacy,
+  and terms.
+- Static pages use localized metadata through the shared SEO helper.
+- `robots.ts` and `sitemap.ts` are implemented for configured site URLs.
+- Dynamic product/category sitemap generation remains pending and is intentionally not fetched at
+  build time.
+- Complex SEO microdata is intentionally not implemented.
+- Final QA documentation is available in `docs/frontend-final-qa.md`.
+- Endpoint implementation status is summarized in `docs/frontend-api-coverage.md`.
+- Production handoff checks are listed in `docs/production-readiness-checklist.md` and
+  `docs/manual-smoke-test.md`.
 - Manager stock is optional if Django Admin is enough.
 
 ## 4. Updated Prompt Order

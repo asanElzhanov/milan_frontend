@@ -36,15 +36,15 @@ export function mapIdentifierToLoginPayload(input: {
 }): LoginPayload {
   const identifier = input.identifier.trim();
 
-  if (isValidEmail(identifier)) {
+  if (!isValidEmail(identifier)) {
     return {
-      email: identifier,
+      email: '',
       password: input.password,
     };
   }
 
   return {
-    phone: identifier,
+    email: identifier,
     password: input.password,
   };
 }

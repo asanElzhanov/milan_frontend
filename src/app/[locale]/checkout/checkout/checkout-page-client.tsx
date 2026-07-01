@@ -7,7 +7,7 @@ import { getDefaultAddress, useAddressesQuery } from '@/entities/address';
 import { useCartQuery } from '@/entities/cart';
 import { getActiveDeliveryMethods, useDeliveryMethodsQuery } from '@/entities/delivery-method';
 import {
-  checkoutFormValuesToPayload,
+  checkoutFormValuesToPayloadWithContext,
   createInitialCheckoutFormValues,
   hasCheckoutFormErrors,
   isExternalUrl,
@@ -146,7 +146,11 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
 
     try {
       const result = await checkoutMutation.mutateAsync(
-        checkoutFormValuesToPayload(effectiveValues),
+        checkoutFormValuesToPayloadWithContext(effectiveValues, {
+          addresses,
+          cart: cartQuery.data,
+          deliveryMethods: activeDeliveryMethods,
+        }),
       );
       const redirectUrl = resolveCheckoutRedirect({ locale, result });
 

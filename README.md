@@ -12,9 +12,9 @@ Production frontend foundation for the Sara Milan fashion e-commerce store.
 
 ## Project status
 
-This repository currently contains the production frontend foundation, localized layout shell,
-catalog API layer, product presentation UI, and production Home page. It does not yet include the
-catalog/product detail pages, auth, cart, checkout, or full feature flows.
+This repository contains the production frontend foundation, localized layout shell, UI kit,
+catalog/home/product/cart/auth/account/address/wishlist/checkout/payment/orders/reviews/
+notifications flows, static pages, and SEO basics for the Sara Milan storefront.
 
 The prototype audit is available in:
 
@@ -36,15 +36,22 @@ npm install
 
 Create a local `.env.local` from `.env.example` when local overrides are needed.
 
-| Variable                        | Default                 | Purpose                                              |
-| ------------------------------- | ----------------------- | ---------------------------------------------------- |
-| `NEXT_PUBLIC_API_URL`           | `http://localhost:8000` | Django REST API base URL for future API integration. |
-| `NEXT_PUBLIC_API_MODE`          | `mock`                  | Public mode flag for development.                    |
-| `NEXT_PUBLIC_SITE_URL`          | `http://localhost:3000` | Frontend site URL.                                   |
-| `NEXT_PUBLIC_DEFAULT_LOCALE`    | `ru`                    | Default locale.                                      |
-| `NEXT_PUBLIC_SUPPORTED_LOCALES` | `ru,kk`                 | Supported locales.                                   |
-| `NEXT_PUBLIC_ENABLE_WISHLIST`   | `false`                 | Wishlist feature flag.                               |
-| `NEXT_PUBLIC_ENABLE_NEWSLETTER` | `false`                 | Newsletter feature flag.                             |
+| Variable                        | Default                        | Purpose                                                |
+| ------------------------------- | ------------------------------ | ------------------------------------------------------ |
+| `NEXT_PUBLIC_API_BASE_URL`      | `http://localhost:8000/api/v1` | Django REST API base URL including API prefix.         |
+| `NEXT_PUBLIC_API_MODE`          | `real`                         | `real` for backend integration, `mock` for fallback.   |
+| `NEXT_PUBLIC_SITE_URL`          | `http://localhost:3000`        | Frontend site URL for SEO, sitemap and canonical URLs. |
+| `NEXT_PUBLIC_DEFAULT_LOCALE`    | `ru`                           | Default locale.                                        |
+| `NEXT_PUBLIC_SUPPORTED_LOCALES` | `ru,kk`                        | Supported locales.                                     |
+| `NEXT_PUBLIC_ENABLE_WISHLIST`   | `false`                        | Wishlist feature flag.                                 |
+| `NEXT_PUBLIC_ENABLE_NEWSLETTER` | `false`                        | Newsletter feature flag.                               |
+| `NEXT_PUBLIC_CONTACT_PHONE`     | empty                          | Optional public phone shown on contacts page.          |
+| `NEXT_PUBLIC_CONTACT_EMAIL`     | empty                          | Optional public email shown on contacts page.          |
+| `NEXT_PUBLIC_CONTACT_INSTAGRAM` | empty                          | Optional public Instagram shown on contacts page.      |
+| `NEXT_PUBLIC_CONTACT_ADDRESS`   | empty                          | Optional public address shown on contacts page.        |
+
+For production, configure `NEXT_PUBLIC_API_BASE_URL`, `NEXT_PUBLIC_SITE_URL`, backend CORS, and
+public contact values only after they are confirmed by the business.
 
 ## Development commands
 
@@ -57,6 +64,8 @@ npm run format
 npm run format:check
 npm run api:generate
 ```
+
+There is no project test script yet. Use `docs/manual-smoke-test.md` before production handoff.
 
 ## Project structure
 
@@ -79,8 +88,7 @@ src/
 The source tree is organized into layered frontend modules:
 
 - `src/app` for Next.js routes, layouts, metadata, and app-level composition.
-- `src/shared` for reusable config, utilities, common types, future API client, and future UI
-  primitives.
+- `src/shared` for reusable config, utilities, common types, API client, and UI primitives.
 - `src/entities` for business entities such as product, category, user, cart, order, and review.
 - `src/features` for user actions such as auth, cart actions, checkout, wishlist, reviews, and
   promo code flows.
@@ -92,9 +100,9 @@ steps.
 
 ## Backend connection note
 
-The Django REST API base URL is configured through `NEXT_PUBLIC_API_URL`. Catalog entity APIs are
-used by the Home page, while auth, cart, checkout, and payment feature flows are added in later
-implementation phases.
+The Django REST API base URL is configured through `NEXT_PUBLIC_API_BASE_URL`, including `/api/v1`.
+Catalog, cart, auth, checkout, payment, orders, reviews, wishlist, addresses, and notification
+modules use the shared API client and normalized adapters.
 
 ## API foundation
 
@@ -102,7 +110,7 @@ API infrastructure lives in `src/shared/api`:
 
 - typed fetch client and API error helpers;
 - query string utilities;
-- temporary token storage placeholder;
+- SSR-safe temporary token storage;
 - guest cart token storage for `X-Cart-Token`;
 - TanStack Query client config;
 - fallback OpenAPI types in `src/shared/api/generated/schema.ts`.
@@ -113,8 +121,8 @@ OpenAPI types are generated with:
 npm run api:generate
 ```
 
-The backend must be running and expose `/api/schema/` for generation. Business API modules such as
-product, auth, cart, and order APIs will be added later inside their corresponding entities/features.
+The backend must be running and expose `/api/schema/` for generation. Endpoint coverage is tracked
+in `docs/frontend-api-coverage.md`.
 
 The React Query provider is connected in `src/app/providers.tsx` and mounted from
 `src/app/layout.tsx`.
@@ -184,14 +192,14 @@ It supports:
 - checkout order creation through `/api/v1/orders/checkout/`;
 - saved address and manual address payload preparation.
 
-Checkout UI and payment UI are implemented later.
+Checkout UI and payment UI are implemented.
 
 ## Checkout page
 
 Checkout is available at `/:locale/checkout`.
 
 It supports guest and authenticated checkout, saved/manual address modes, delivery method selection,
-payment method placeholder and checkout submit through `/api/v1/orders/checkout/`.
+payment method selection and checkout submit through `/api/v1/orders/checkout/`.
 
 Checkout redirects directly to backend-provided `paymentUrl` / `redirectUrl` when present. If only
 an order number is returned, it navigates to `/:locale/payment/:orderNumber`.
@@ -235,8 +243,8 @@ Auth UI pages are available at:
 - `/:locale/otp`
 - `/:locale/forgot-password`
 
-Login and registration forms are connected to the Auth API layer. OTP and forgot-password remain
-visual/local-validation flows until backend endpoints are confirmed.
+Login, registration, and authenticated OTP request/verify flows are connected to the Auth API layer.
+Forgot-password remains a visual/local-validation flow until a backend endpoint is confirmed.
 
 ## Auth API layer
 
@@ -247,8 +255,12 @@ Supported endpoints:
 - `POST /api/v1/auth/register/`
 - `POST /api/v1/auth/login/`
 - `POST /api/v1/auth/logout/`
-- `POST /api/v1/auth/refresh/`
+- `POST /api/v1/auth/token/refresh/`
 - `GET /api/v1/auth/me/`
+- `PATCH /api/v1/auth/me/`
+- `POST /api/v1/auth/change-password/`
+- `POST /api/v1/auth/otp/request/`
+- `POST /api/v1/auth/otp/verify/`
 
 The frontend stores JWT tokens client-side for now, injects the access token into API requests, and
 attempts guest cart merge after successful login/register.
@@ -319,8 +331,8 @@ The production layout shell is composed in `src/app/[locale]/layout.tsx`:
 
 - `src/widgets/header` renders the announcement bar, sticky navigation, mobile drawer, search
   drawer, locale switcher, account/cart links, and optional wishlist link.
-- `src/widgets/footer` renders localized navigation, contact placeholders, legal links, and
-  newsletter placeholder behavior without fake API calls.
+- `src/widgets/footer` renders localized navigation, neutral contact copy, legal links, and
+  deferred newsletter behavior without API calls.
 - `src/shared/lib/routes.ts` contains locale-aware route helpers.
 
 Header categories are fetched only in `NEXT_PUBLIC_API_MODE=real`; mock mode uses safe generic
@@ -387,8 +399,8 @@ It uses catalog entity API methods, ProductGrid, URL-based filters, sorting and 
 
 Product detail is available at `/:locale/product/:slug`.
 
-It uses product detail, similar products and read-only reviews endpoints. Add-to-cart UI is prepared
-but cart mutation is connected later through the cart API layer.
+It uses product detail, similar products and read-only reviews endpoints. Add-to-cart sends the
+selected `variant_id` and quantity through the cart API layer.
 
 ## Next steps
 
@@ -411,6 +423,84 @@ Notifications are available at `/:locale/account/notifications`.
 The frontend uses:
 
 - `GET /api/v1/notifications/`
+- `POST /api/v1/notifications/{id}/mark-read/`
+- `POST /api/v1/notifications/mark-all-read/`
 - `POST /api/v1/notifications/read-all/`
 
 Realtime notifications, push notifications and notification preferences are not implemented yet.
+
+## Static pages and SEO
+
+Static informational pages are available for both locales:
+
+- `/:locale/about`
+- `/:locale/delivery`
+- `/:locale/payment`
+- `/:locale/faq`
+- `/:locale/contacts`
+- `/:locale/privacy`
+- `/:locale/terms`
+
+The project also includes localized metadata, not-found pages, robots and sitemap helpers.
+
+## Route Map Summary
+
+- Public: `/:locale`, `/:locale/catalog`, `/:locale/catalog/:categorySlug`,
+  `/:locale/product/:slug`
+- Auth: `/:locale/login`, `/:locale/register`, `/:locale/otp`,
+  `/:locale/forgot-password`
+- Cart and checkout: `/:locale/cart`, `/:locale/checkout`
+- Payment: `/:locale/payment`, `/:locale/payment/:orderNumber`,
+  `/:locale/payment/success`, `/:locale/payment/fail`, `/:locale/payment/pending`
+- Account: `/:locale/account`, settings, addresses, wishlist, orders, reviews, notifications
+- Static: about, delivery, FAQ, contacts, privacy, terms
+- System: `robots.txt`, `sitemap.xml`, localized and global not-found pages
+
+## Known Pending Backend Contracts
+
+- Forgot-password endpoint
+- Account current-user reviews endpoint
+- Payment status endpoint
+- Newsletter or contact form endpoint
+
+## Production Checklist
+
+Before production, review:
+
+- `docs/frontend-final-qa.md`
+- `docs/frontend-api-coverage.md`
+- `docs/production-readiness-checklist.md`
+- `docs/manual-smoke-test.md`
+- `docs/deployment.md`
+- `docs/deployment-checklist.md`
+- `docs/backend-integration-notes.md`
+- `docs/hosting-options.md`
+
+Minimum automated checks:
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+npm run format:check
+```
+
+## Deployment
+
+Use `.env.production.example` as the public production env checklist. Build with `npm run build`
+and run with `npm run start` for a Node deployment, or configure the same commands on a managed
+Next.js host.
+
+Docker is optional. Production container packaging is provided through `Dockerfile` and
+`docker-compose.yml`, with usage documented in `docs/docker.md`. `.dockerignore` is included so
+container builds do not copy local env files or build artifacts.
+
+Backend integration notes:
+
+- configure backend CORS for `NEXT_PUBLIC_SITE_URL`;
+- set `NEXT_PUBLIC_API_BASE_URL` to the public backend API;
+- allow `Authorization: Bearer <access>` and `X-Cart-Token`;
+- configure media/CDN image hosts before enabling remote image optimization;
+- keep payment redirects HTTPS.
+
+After deploy, run `docs/manual-smoke-test.md` and `docs/deployment-checklist.md`.

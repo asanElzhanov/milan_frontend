@@ -45,7 +45,6 @@ export function Footer({ locale }: FooterProps) {
             <div>
               <h2 className="text-overline mb-5 text-sara-beige">{dictionary.contacts}</h2>
               <div className="space-y-3 text-sm text-sara-beige/75">
-                {/* TODO: replace contact placeholders after business confirms public contacts. */}
                 <p>{dictionary.contactsPlaceholder}</p>
               </div>
             </div>

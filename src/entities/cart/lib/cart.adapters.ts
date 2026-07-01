@@ -1,4 +1,10 @@
-import { isRecord, toBooleanOrUndefined, toNumberOrNull, toStringOrNull } from '@/shared/lib';
+import {
+  getMediaUrl,
+  isRecord,
+  toBooleanOrUndefined,
+  toNumberOrNull,
+  toStringOrNull,
+} from '@/shared/lib';
 
 import type { Cart, CartItem, CartProductSnapshot, CartVariantSnapshot } from '../model/cart.types';
 
@@ -106,7 +112,9 @@ const adaptProductSnapshot = (raw: unknown): CartProductSnapshot => {
     name: toStringOrNull(raw.name ?? raw.title) ?? 'Product',
     slug: toStringOrNull(raw.slug),
     sku: toStringOrNull(raw.sku),
-    imageUrl: toStringOrNull(raw.image_url ?? raw.imageUrl ?? raw.image ?? raw.main_image),
+    imageUrl: getMediaUrl(
+      toStringOrNull(raw.image_url ?? raw.imageUrl ?? raw.image ?? raw.main_image),
+    ),
     brandName: toStringOrNull(raw.brand_name ?? raw.brandName) ?? readNestedLabel(raw.brand),
     categoryName:
       toStringOrNull(raw.category_name ?? raw.categoryName) ?? readNestedLabel(raw.category),
@@ -174,7 +182,7 @@ export function adaptCartItem(raw: unknown): CartItem | null {
     variant,
     quantity: readQuantity(raw.quantity),
     unitPrice: readPrice(raw.unit_price ?? raw.unitPrice ?? raw.price),
-    totalPrice: readPrice(raw.total_price ?? raw.totalPrice),
+    totalPrice: readPrice(raw.line_total ?? raw.total_price ?? raw.totalPrice),
     availableStock: availableStock ?? variant.availableStock,
     inStock: inStock ?? variant.inStock,
   };
@@ -210,6 +218,9 @@ export function adaptCart(raw: unknown): Cart {
       toStringOrNull(root.cart_token ?? root.cartToken),
     items,
     itemsCount,
+    totalQuantity:
+      toNumberOrNull(record.total_quantity ?? record.totalQuantity ?? root.total_quantity) ??
+      sumItemQuantities(items),
     subtotal: readPrice(record.subtotal ?? root.subtotal),
     discountAmount: readPrice(
       record.discount_amount ??

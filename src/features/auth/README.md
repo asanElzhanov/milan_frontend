@@ -10,7 +10,7 @@ registration, and password recovery.
 - `POST /api/v1/auth/register/`
 - `POST /api/v1/auth/login/`
 - `POST /api/v1/auth/logout/`
-- `POST /api/v1/auth/refresh/`
+- `POST /api/v1/auth/token/refresh/`
 - `GET /api/v1/auth/me/`
 
 ## Token Storage

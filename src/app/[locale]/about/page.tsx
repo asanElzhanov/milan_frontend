@@ -1,11 +1,52 @@
-import { PlaceholderPage } from '../_components/placeholder-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-export default function AboutPage() {
+import { isSupportedLocale, localizedRoutes, type AppLocale } from '@/shared/config';
+import { createPageMetadata } from '@/shared/lib';
+import { Button } from '@/shared/ui';
+
+import { getStaticDictionary } from '../static/static.dictionary';
+import { StaticPageSection } from '../static/static-page-section';
+import { StaticPageShell } from '../static/static-page-shell';
+
+type StaticRouteProps = Readonly<{ params: Promise<{ locale: string }> }>;
+
+export async function generateMetadata({ params }: StaticRouteProps): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isSupportedLocale(locale)) return {};
+  const page = getStaticDictionary(locale).about;
+
+  return createPageMetadata({
+    title: page.metaTitle,
+    description: page.metaDescription,
+    locale,
+    path: '/about',
+  });
+}
+
+export default async function AboutPage({ params }: StaticRouteProps) {
+  const { locale } = await params;
+  if (!isSupportedLocale(locale)) notFound();
+  const dictionary = getStaticDictionary(locale);
+  const page = dictionary.about;
+
   return (
-    <PlaceholderPage
-      title="О бренде"
-      description="Редакционный контент Sara Milan будет подготовлен после структуры storefront."
-      note="Пока здесь нет маркетингового текста, чтобы не закреплять неподтвержденный контент."
-    />
+    <StaticPageShell locale={locale} title={page.title} subtitle={page.subtitle}>
+      {page.sections?.map((section) => (
+        <StaticPageSection key={section.title} title={section.title}>
+          {section.body.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </StaticPageSection>
+      ))}
+      <div>
+        <Button asChild>
+          <Link href={localizedRoutes.catalog(locale as AppLocale)}>
+            {dictionary.labels.catalog}
+          </Link>
+        </Button>
+      </div>
+    </StaticPageShell>
   );
 }

@@ -10,7 +10,7 @@ import { Alert, Button, Checkbox, Input } from '@/shared/ui';
 
 import { useLoginMutation } from '../api/auth.queries';
 import { mapIdentifierToLoginPayload } from '../lib/auth.adapters';
-import { isValidEmailOrPhone, validatePassword, validateRequired } from '../lib/auth-ui.validation';
+import { isValidEmail, validatePassword, validateRequired } from '../lib/auth-ui.validation';
 import type { AuthFormProps } from '../model/auth-ui.types';
 import { AuthDivider } from './auth-divider';
 
@@ -33,7 +33,7 @@ export function LoginForm({ dictionary, locale }: AuthFormProps) {
 
     if (!validateRequired(identifier)) {
       nextErrors.identifier = dictionary.requiredField;
-    } else if (!isValidEmailOrPhone(identifier)) {
+    } else if (!isValidEmail(identifier)) {
       nextErrors.identifier = dictionary.invalidEmailOrPhone;
     }
 

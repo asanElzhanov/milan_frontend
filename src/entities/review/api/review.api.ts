@@ -8,10 +8,11 @@ import type {
 } from '../model/review.types';
 
 const PRODUCT_REVIEWS_ENDPOINT = '/api/v1/catalog/products/{slug}/reviews/';
+const CREATE_REVIEW_ENDPOINT = '/api/v1/catalog/reviews/';
 
 export const reviewEndpointConfig = {
   productList: PRODUCT_REVIEWS_ENDPOINT,
-  productCreate: PRODUCT_REVIEWS_ENDPOINT,
+  productCreate: CREATE_REVIEW_ENDPOINT,
   accountList: null,
   productCreateConfigured: true,
   accountListConfigured: false,
@@ -30,10 +31,12 @@ const productReviewsPath = (slug: string) =>
 export const reviewApi = {
   async getProductReviews(slug: string): Promise<ReviewListResponse> {
     if (isMockApiMode) return createEmptyReviewList();
+
     const response = await apiClient.get<unknown>(productReviewsPath(slug), {
       auth: false,
       cartToken: false,
     });
+
     return adaptReviewList(response);
   },
 
@@ -42,17 +45,28 @@ export const reviewApi = {
     payload: CreateProductReviewPayload,
   ): Promise<ProductReview | null> {
     if (isMockApiMode) {
-      throw new Error('Создание отзывов недоступно в mock API mode.');
+      throw new Error('Создание отзывов недоступно в текущем режиме API.');
     }
-    const response = await apiClient.post<unknown>(productReviewsPath(slug), payload, {
-      cartToken: false,
-    });
+
+    const response = await apiClient.post<unknown>(
+      CREATE_REVIEW_ENDPOINT,
+      {
+        product_slug: slug,
+        ...payload,
+      },
+      {
+        cartToken: false,
+      },
+    );
+
     return adaptReview(response);
   },
 
   async getMyReviews(params?: { page?: number }): Promise<ReviewListResponse> {
     const page = params?.page && params.page > 0 ? params.page : 1;
+
     if (isMockApiMode) return createEmptyReviewList(page);
-    throw new Error('Backend endpoint для отзывов текущего пользователя пока не подтверждён.');
+
+    throw new Error('Backend endpoint для отзывов текущего пользователя пока не подтвержден.');
   },
 };

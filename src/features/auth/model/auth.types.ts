@@ -6,9 +6,7 @@ export type AuthTokens = {
 };
 
 export type LoginPayload = {
-  identifier?: string;
-  email?: string;
-  phone?: string;
+  email: string;
   password: string;
 };
 
@@ -19,7 +17,7 @@ export type RegisterPayload = {
   last_name?: string;
   full_name?: string;
   password: string;
-  password_confirm?: string;
+  password2: string;
 };
 
 export type RefreshPayload = {
@@ -28,6 +26,28 @@ export type RefreshPayload = {
 
 export type LogoutPayload = {
   refresh?: string | null;
+};
+
+export type UpdateProfilePayload = {
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+};
+
+export type ChangePasswordPayload = {
+  old_password: string;
+  new_password: string;
+};
+
+export type OtpPurpose = 'email_verify' | 'phone_verify';
+
+export type OtpRequestPayload = {
+  purpose: OtpPurpose;
+};
+
+export type OtpVerifyPayload = {
+  purpose: OtpPurpose;
+  code: string;
 };
 
 export type AuthResult = {

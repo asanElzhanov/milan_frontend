@@ -13,12 +13,9 @@ export type PaymentStatus =
   | string;
 
 export type PaymentStartPayload = {
-  order_number?: string;
-  order_id?: string | number;
+  order_number: string;
+  email?: string;
   provider: PaymentProvider;
-  return_url?: string;
-  success_url?: string;
-  fail_url?: string;
 };
 
 export type PaymentSession = {
@@ -29,6 +26,7 @@ export type PaymentSession = {
   status?: PaymentStatus | null;
   paymentUrl?: string | null;
   redirectUrl?: string | null;
+  clientSecret?: string | null;
   qrUrl?: string | null;
   amount?: number | string | null;
   currency?: string | null;

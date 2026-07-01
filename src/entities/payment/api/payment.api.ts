@@ -10,7 +10,7 @@ import type {
 const KASPI_CREATE_ENDPOINT = '/api/v1/payments/kaspi/create/';
 const STRIPE_CREATE_INTENT_ENDPOINT = '/api/v1/payments/stripe/create-intent/';
 const PAYMENT_START_DISABLED = 'Payment start endpoint is not configured';
-const PAYMENT_START_MOCK_DISABLED = 'Payment API is disabled in mock mode';
+const PAYMENT_START_MOCK_DISABLED = 'Payment is disabled in the current API mode';
 
 export const paymentEndpointConfig = {
   start: {
@@ -46,7 +46,10 @@ export const paymentApi = {
       throw new Error(PAYMENT_START_DISABLED);
     }
 
-    const response = await apiClient.post<unknown>(endpoint, payload);
+    const response = await apiClient.post<unknown>(endpoint, {
+      order_number: payload.order_number,
+      email: payload.email,
+    });
 
     return adaptPaymentSession(response);
   },

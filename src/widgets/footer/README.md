@@ -3,7 +3,7 @@
 ## Purpose
 
 `src/widgets/footer` renders the storefront footer with brand copy, navigation, customer links,
-contact placeholders, and newsletter placeholder behavior.
+neutral contact copy, and deferred newsletter behavior.
 
 ## Locale-Aware Links
 
@@ -11,13 +11,13 @@ All links are generated with the active locale prefix, for example `/ru/catalog`
 
 ## Newsletter Behavior
 
-The newsletter form is disabled when shown and never sends fake API requests. Full newsletter
-integration will be added only after a backend endpoint is confirmed.
+The newsletter form is disabled when shown and never sends API requests. Full newsletter integration
+will be added only after a backend endpoint is confirmed.
 
-## Contacts Placeholders
+## Contacts
 
-The footer does not invent phone, email, or social links. Contact details remain placeholder text
-until business confirms public contacts.
+The footer does not invent phone, email, or social links. Contact details remain neutral text until
+business confirms public contacts.
 
 ## What Will Be Connected Later
 

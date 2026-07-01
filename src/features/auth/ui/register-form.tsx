@@ -97,7 +97,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
         last_name: lastName.trim(),
         full_name: `${firstName.trim()} ${lastName.trim()}`.trim(),
         password,
-        password_confirm: confirmPassword,
+        password2: confirmPassword,
       },
       {
         onSuccess: (result) => {

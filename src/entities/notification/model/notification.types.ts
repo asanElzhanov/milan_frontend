@@ -25,3 +25,9 @@ export type NotificationListResponse = {
   currentPage: number;
   totalPages: number;
 };
+
+export type NotificationFilters = {
+  is_read?: boolean;
+  event_type?: string;
+  page?: number;
+};

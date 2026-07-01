@@ -139,20 +139,14 @@ export function createAddressPayload(input: {
 }): AddressPayload {
   return {
     title: cleanString(input.title),
-    recipient_name: cleanString(input.recipientName),
-    full_name: cleanString(input.fullName),
-    phone: cleanString(input.phone),
     country: cleanString(input.country),
-    region: cleanString(input.region),
     city: cleanString(input.city),
-    district: cleanString(input.district),
-    street: cleanString(input.street),
-    house: cleanString(input.house),
+    street:
+      cleanString(input.street) ??
+      [cleanString(input.addressLine1), cleanString(input.house)].filter(Boolean).join(' ') ??
+      undefined,
     apartment: cleanString(input.apartment),
     postal_code: cleanString(input.postalCode),
-    address_line_1: cleanString(input.addressLine1),
-    address_line_2: cleanString(input.addressLine2),
-    comment: cleanString(input.comment),
     is_default: input.isDefault,
   };
 }

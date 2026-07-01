@@ -4,7 +4,7 @@ import { adaptAddress, adaptAddressList } from '../lib/address.adapters';
 import type { Address, CreateAddressPayload, UpdateAddressPayload } from '../model/address.types';
 
 const ADDRESSES_ENDPOINT = '/api/v1/auth/addresses/';
-const ADDRESS_MUTATION_DISABLED = 'Address API is disabled in mock mode';
+const ADDRESS_MUTATION_DISABLED = 'Address changes are disabled in the current API mode';
 
 const getAddressEndpoint = (id: string | number) =>
   `${ADDRESSES_ENDPOINT}${encodeURIComponent(String(id))}/`;

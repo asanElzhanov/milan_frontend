@@ -3,6 +3,8 @@
 import { useState } from 'react';
 
 import type { ProductDetail, ProductVariant } from '@/entities/product';
+import { useCreateCartItemMutation } from '@/entities/cart';
+import { getApiErrorMessage } from '@/shared/api';
 import { Button, QuantitySelector } from '@/shared/ui';
 
 import type { ProductDetailDictionary } from './product-detail.types';
@@ -17,11 +19,30 @@ type ProductAddToCartProps = {
 export function ProductAddToCart({ dictionary, product, selectedVariant }: ProductAddToCartProps) {
   const [quantity, setQuantity] = useState(1);
   const [notice, setNotice] = useState<string | null>(null);
+  const addCartItemMutation = useCreateCartItemMutation();
   const hasVariants = (product.variants?.length ?? 0) > 0;
   const variantRequired = hasVariants && !selectedVariant;
   const inStock = hasVariants ? isVariantInStock(selectedVariant) : product.inStock !== false;
   const stockQuantity = getVariantStockQuantity(selectedVariant) ?? undefined;
-  const disabled = variantRequired || !inStock;
+  const disabled = variantRequired || !inStock || addCartItemMutation.isPending;
+
+  const handleAddToCart = () => {
+    if (!selectedVariant) {
+      setNotice(dictionary.selectVariant);
+      return;
+    }
+
+    addCartItemMutation.mutate(
+      {
+        variant_id: selectedVariant.id,
+        quantity,
+      },
+      {
+        onSuccess: () => setNotice(dictionary.addedToCart),
+        onError: (error) => setNotice(getApiErrorMessage(error)),
+      },
+    );
+  };
 
   return (
     <div className="space-y-3">
@@ -35,11 +56,8 @@ export function ProductAddToCart({ dictionary, product, selectedVariant }: Produ
         <Button
           disabled={disabled}
           fullWidth
-          onClick={() => {
-            // Future cart mutation will use selectedVariant.id as variant_id plus quantity.
-            void selectedVariant?.id;
-            setNotice(dictionary.cartComingSoon);
-          }}
+          loading={addCartItemMutation.isPending}
+          onClick={handleAddToCart}
         >
           {dictionary.addToCart}
         </Button>

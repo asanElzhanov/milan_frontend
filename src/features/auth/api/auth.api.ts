@@ -12,13 +12,17 @@ import {
 import type {
   AuthResult,
   AuthTokens,
+  ChangePasswordPayload,
   LoginPayload,
   LogoutPayload,
+  OtpRequestPayload,
+  OtpVerifyPayload,
   RefreshPayload,
   RegisterPayload,
+  UpdateProfilePayload,
 } from '../model/auth.types';
 
-const AUTH_DISABLED_ERROR = 'Auth API is disabled in mock mode';
+const AUTH_DISABLED_ERROR = 'Auth API is disabled in the current API mode';
 
 export const authApi = {
   async login(payload: LoginPayload): Promise<AuthResult> {
@@ -85,7 +89,7 @@ export const authApi = {
     }
 
     const response = await apiClient.post<unknown>(
-      '/api/v1/auth/refresh/',
+      '/api/v1/auth/token/refresh/',
       { refresh },
       { auth: false },
     );
@@ -101,5 +105,55 @@ export const authApi = {
     const response = await apiClient.get<unknown>('/api/v1/auth/me/');
 
     return adaptUser(response);
+  },
+
+  async updateMe(payload: UpdateProfilePayload): Promise<User | null> {
+    if (isMockApiMode) {
+      throw new ApiError({
+        status: 503,
+        message: AUTH_DISABLED_ERROR,
+        code: 'auth_mock_mode',
+      });
+    }
+
+    const response = await apiClient.patch<unknown>('/api/v1/auth/me/', payload);
+
+    return adaptUser(response);
+  },
+
+  async changePassword(payload: ChangePasswordPayload): Promise<void> {
+    if (isMockApiMode) {
+      throw new ApiError({
+        status: 503,
+        message: AUTH_DISABLED_ERROR,
+        code: 'auth_mock_mode',
+      });
+    }
+
+    await apiClient.post<unknown>('/api/v1/auth/change-password/', payload);
+  },
+
+  async requestOtp(payload: OtpRequestPayload): Promise<unknown> {
+    if (isMockApiMode) {
+      throw new ApiError({
+        status: 503,
+        message: AUTH_DISABLED_ERROR,
+        code: 'auth_mock_mode',
+      });
+    }
+
+    return apiClient.post<unknown>('/api/v1/auth/otp/request/', payload);
+  },
+
+  async verifyOtp(payload: OtpVerifyPayload): Promise<unknown> {
+    if (isMockApiMode) {
+      throw new ApiError({
+        status: 503,
+        message: AUTH_DISABLED_ERROR,
+        code: 'auth_mock_mode',
+      });
+    }
+
+    return apiClient.post<unknown>('/api/v1/auth/otp/verify/', payload);
   },
 };

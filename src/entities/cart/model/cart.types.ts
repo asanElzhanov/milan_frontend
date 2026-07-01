@@ -35,6 +35,7 @@ export type Cart = {
   cartToken?: string | null;
   items: CartItem[];
   itemsCount: number;
+  totalQuantity?: number;
   subtotal?: number | string | null;
   discountAmount?: number | string | null;
   totalAfterDiscount?: number | string | null;
@@ -60,7 +61,7 @@ export type UpdateCartItemPayload = {
 };
 
 export type CartMergePayload = {
-  cart_token?: string;
+  guest_cart_token: string;
 };
 
 export type ApplyPromoCodePayload = {

@@ -56,7 +56,11 @@ export function adaptReview(raw: unknown): ProductReview | null {
       product.image,
     ),
     orderId: readId(source.order_id, source.orderId, source.order),
-    orderNumber: readString(source.order_number, source.orderNumber),
+    orderNumber: readString(
+      source.order_number,
+      source.orderNumber,
+      isRecord(source.order) ? source.order.order_number : undefined,
+    ),
     authorName: readString(source.author_name, source.authorName, source.author),
     userName: readString(source.user_name, source.userName, source.username),
     rating,
@@ -65,6 +69,13 @@ export function adaptReview(raw: unknown): ProductReview | null {
     advantages: readString(source.advantages, source.pros),
     disadvantages: readString(source.disadvantages, source.cons),
     status: readString(source.status),
+    images: Array.isArray(source.images) ? source.images : undefined,
+    isVerifiedPurchase:
+      typeof source.is_verified_purchase === 'boolean'
+        ? source.is_verified_purchase
+        : typeof source.isVerifiedPurchase === 'boolean'
+          ? source.isVerifiedPurchase
+          : undefined,
     isApproved:
       typeof source.is_approved === 'boolean'
         ? source.is_approved
@@ -132,6 +143,9 @@ export function createReviewPayload(input: {
   advantages?: string;
   disadvantages?: string;
   orderId?: string | number | null;
+  orderNumber?: string | null;
+  productId?: string | number | null;
+  productSlug?: string | null;
 }): CreateProductReviewPayload {
   const payload: CreateProductReviewPayload = {
     rating: Math.min(5, Math.max(1, Math.round(input.rating))),
@@ -142,6 +156,10 @@ export function createReviewPayload(input: {
     if (value) payload[field] = value;
   });
   if (input.orderId !== null && input.orderId !== undefined) payload.order_id = input.orderId;
+  if (input.orderNumber) payload.order_number = input.orderNumber;
+  if (input.productId !== null && input.productId !== undefined)
+    payload.product_id = input.productId;
+  if (input.productSlug) payload.product_slug = input.productSlug;
   return payload;
 }
 

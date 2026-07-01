@@ -11,6 +11,8 @@ export type User = {
   role?: UserRole | null;
   isActive?: boolean;
   isStaff?: boolean;
+  isVerified?: boolean;
   isEmailVerified?: boolean;
   isPhoneVerified?: boolean;
+  dateJoined?: string | null;
 };

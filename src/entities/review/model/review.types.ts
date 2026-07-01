@@ -8,6 +8,8 @@ export type ProductReview = {
   productImageUrl?: string | null;
   orderId?: string | number | null;
   orderNumber?: string | null;
+  images?: unknown[];
+  isVerifiedPurchase?: boolean;
   authorName?: string | null;
   userName?: string | null;
   rating: number;
@@ -35,4 +37,7 @@ export type CreateProductReviewPayload = {
   advantages?: string;
   disadvantages?: string;
   order_id?: string | number;
+  order_number?: string;
+  product_id?: string | number;
+  product_slug?: string;
 };

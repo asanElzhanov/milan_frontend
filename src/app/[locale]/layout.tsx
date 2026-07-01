@@ -39,4 +39,8 @@ export const metadata = {
       kk: '/kk',
     },
   },
+  openGraph: {
+    siteName: 'Sara Milan',
+    type: 'website',
+  },
 };

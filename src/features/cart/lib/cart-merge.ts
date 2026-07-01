@@ -1,5 +1,5 @@
 import { cartApi } from '@/entities/cart';
-import { getCartToken, hasCartToken } from '@/shared/api';
+import { clearCartToken, getCartToken, hasCartToken } from '@/shared/api';
 
 export function shouldMergeGuestCartAfterLogin(): boolean {
   return hasCartToken();
@@ -10,9 +10,12 @@ export function getGuestCartTokenForMerge(): string | null {
 }
 
 export async function mergeGuestCartAfterAuth(): Promise<void> {
-  if (!hasCartToken()) {
+  const guestCartToken = getCartToken();
+
+  if (!guestCartToken) {
     return;
   }
 
-  await cartApi.mergeCart();
+  await cartApi.mergeCart({ guest_cart_token: guestCartToken });
+  clearCartToken();
 }

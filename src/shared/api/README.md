@@ -7,14 +7,14 @@ The shared API layer provides frontend infrastructure only:
 - fetch-based HTTP client;
 - OpenAPI type generation;
 - TanStack Query provider;
-- temporary token storage placeholder;
+- SSR-safe temporary token storage for the current integration;
 - `mock` / `real` API mode config.
 
 Business API modules are intentionally not implemented here.
 
 ## 2. Environment
 
-- `NEXT_PUBLIC_API_URL` points to the Django REST API base URL.
+- `NEXT_PUBLIC_API_BASE_URL` points to the Django REST API base URL including `/api/v1`.
 - `NEXT_PUBLIC_API_MODE` supports `mock` and `real`.
 
 Unknown API mode values fall back to `mock`.

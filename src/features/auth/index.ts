@@ -4,8 +4,10 @@ export {
   useCurrentUserQuery,
   useLoginMutation,
   useLogoutMutation,
+  useChangePasswordMutation,
   useRefreshTokenMutation,
   useRegisterMutation,
+  useUpdateProfileMutation,
 } from './api/auth.queries';
 export { getAuthDictionary } from './auth.dictionary';
 export { adaptAuthResult, mapIdentifierToLoginPayload } from './lib/auth.adapters';
@@ -40,8 +42,12 @@ export type {
   AuthTokens,
   LoginPayload,
   LogoutPayload,
+  ChangePasswordPayload,
+  OtpRequestPayload,
+  OtpVerifyPayload,
   RefreshPayload,
   RegisterPayload,
+  UpdateProfilePayload,
 } from './model/auth.types';
 export type { AuthDictionary, AuthFormProps, AuthShellProps } from './model/auth-ui.types';
 export { AuthDivider } from './ui/auth-divider';

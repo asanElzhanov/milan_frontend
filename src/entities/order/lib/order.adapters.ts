@@ -1,4 +1,4 @@
-import { isRecord, toNumberOrNull, toStringOrNull } from '@/shared/lib';
+import { getMediaUrl, isRecord, toNumberOrNull, toStringOrNull } from '@/shared/lib';
 
 import type {
   CheckoutOrder,
@@ -48,6 +48,16 @@ const readPrice = (...values: unknown[]): number | string | null => {
   }
 
   return null;
+};
+
+const readBoolean = (...values: unknown[]): boolean | undefined => {
+  for (const value of values) {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+  }
+
+  return undefined;
 };
 
 const readNestedLabel = (value: unknown): string | null => {
@@ -161,15 +171,17 @@ export function adaptOrderItem(raw: unknown): OrderItem | null {
     productName,
     productSlug: readString(raw.product_slug, raw.productSlug, product.slug),
     sku: readString(raw.sku, product.sku, variant.sku),
-    imageUrl: readString(
-      raw.image_url,
-      raw.imageUrl,
-      raw.main_image,
-      raw.image,
-      product.image_url,
-      product.imageUrl,
-      product.main_image,
-      product.image,
+    imageUrl: getMediaUrl(
+      readString(
+        raw.image_url,
+        raw.imageUrl,
+        raw.main_image,
+        raw.image,
+        product.image_url,
+        product.imageUrl,
+        product.main_image,
+        product.image,
+      ),
     ),
     variantId: readId(raw.variant_id, raw.variantId, variant.id, variant.pk),
     color: readString(raw.color, raw.color_name, raw.colorName) ?? readNestedLabel(variant.color),
@@ -187,8 +199,8 @@ export function adaptOrder(raw: unknown): Order | null {
     return null;
   }
 
-  const id = readId(source.id, source.pk);
-  const orderNumber = readString(source.order_number, source.orderNumber, source.number, id);
+  const orderNumber = readString(source.order_number, source.orderNumber, source.number);
+  const id = readId(source.id, source.pk, orderNumber);
 
   if (id === null || !orderNumber) {
     return null;
@@ -226,8 +238,17 @@ export function adaptOrder(raw: unknown): Order | null {
     deliveryAddress: adaptAddress(
       source.delivery_address ?? source.deliveryAddress ?? source.address,
     ),
+    deliveryAddressText: readString(source.delivery_address, source.deliveryAddress),
     delivery: adaptDelivery(source.delivery ?? source.delivery_method ?? source.deliveryMethod),
+    deliveryMethodCode: readString(source.delivery_method_code, source.deliveryMethodCode),
+    deliveryMethodName: readString(source.delivery_method_name, source.deliveryMethodName),
+    deliveryRequiresManagerCalculation: readBoolean(
+      source.delivery_requires_manager_calculation,
+      source.deliveryRequiresManagerCalculation,
+    ),
+    deliveryPriceIsFinal: readBoolean(source.delivery_price_is_final, source.deliveryPriceIsFinal),
     comment: readString(source.comment, source.notes),
+    statusHistory: Array.isArray(source.status_history) ? source.status_history : undefined,
     createdAt: readString(source.created_at, source.createdAt),
     updatedAt: readString(source.updated_at, source.updatedAt),
   };
@@ -282,7 +303,8 @@ export function adaptCheckoutOrder(raw: unknown): CheckoutOrder | null {
     return null;
   }
 
-  const id = readId(record.id, record.pk);
+  const orderNumber = readString(record.order_number, record.orderNumber, record.number);
+  const id = readId(record.id, record.pk, orderNumber);
 
   if (id === null) {
     return null;
@@ -290,13 +312,18 @@ export function adaptCheckoutOrder(raw: unknown): CheckoutOrder | null {
 
   return {
     id,
-    orderNumber: readString(record.order_number, record.orderNumber, record.number),
+    orderNumber,
     status: readString(record.status),
     paymentStatus: readString(record.payment_status, record.paymentStatus),
     total: readPrice(record.total, record.total_amount, record.amount),
     currency: readString(record.currency),
     paymentUrl: readString(record.payment_url, record.paymentUrl),
     paymentProvider: readString(record.payment_provider, record.paymentProvider),
+    deliveryRequiresManagerCalculation: readBoolean(
+      record.delivery_requires_manager_calculation,
+      record.deliveryRequiresManagerCalculation,
+    ),
+    deliveryPriceIsFinal: readBoolean(record.delivery_price_is_final, record.deliveryPriceIsFinal),
     createdAt: readString(record.created_at, record.createdAt),
   };
 }

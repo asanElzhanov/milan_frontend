@@ -8,7 +8,7 @@ import {
 import type { ToggleWishlistResult, Wishlist } from '../model/wishlist.types';
 
 const WISHLIST_ENDPOINT = '/api/v1/auth/wishlist/';
-const WISHLIST_MUTATION_DISABLED = 'Wishlist API is disabled in mock mode';
+const WISHLIST_MUTATION_DISABLED = 'Wishlist changes are disabled in the current API mode';
 
 export const wishlistApi = {
   async getWishlist(): Promise<Wishlist> {

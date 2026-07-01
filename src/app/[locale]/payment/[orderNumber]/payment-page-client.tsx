@@ -18,7 +18,7 @@ import {
   type PaymentProvider,
 } from '@/entities/payment';
 import { getApiErrorMessage } from '@/shared/api';
-import { type AppLocale, env, localizedRoutes } from '@/shared/config';
+import { type AppLocale, localizedRoutes } from '@/shared/config';
 import { Alert, Badge, Button, Container, SectionTitle } from '@/shared/ui';
 
 import { PaymentResultCard } from '../payment-result-card';
@@ -39,14 +39,6 @@ const paymentProviders: Array<{
   { provider: 'kaspi', labelKey: 'payWithKaspi', icon: Landmark },
   { provider: 'stripe', labelKey: 'payWithCard', icon: CreditCard },
 ];
-
-const createAbsoluteUrl = (path: string): string => {
-  if (typeof window !== 'undefined') {
-    return new URL(path, window.location.origin).toString();
-  }
-
-  return new URL(path, env.siteUrl).toString();
-};
 
 export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageClientProps) {
   const router = useRouter();
@@ -84,9 +76,6 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
       const session = await startPaymentMutation.mutateAsync({
         order_number: orderNumber,
         provider,
-        return_url: createAbsoluteUrl(localizedRoutes.paymentPending(locale)),
-        success_url: createAbsoluteUrl(localizedRoutes.paymentSuccess(locale)),
-        fail_url: createAbsoluteUrl(localizedRoutes.paymentFail(locale)),
       });
       const redirectUrl = getPaymentRedirectUrl(session);
 
@@ -97,6 +86,11 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
 
       if (redirectUrl && isRelativePaymentUrl(redirectUrl)) {
         router.push(redirectUrl);
+        return;
+      }
+
+      if (provider === 'stripe' && session?.clientSecret) {
+        setNotice(labels.stripeElementsRequired);
         return;
       }
 

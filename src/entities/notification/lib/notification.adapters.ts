@@ -121,7 +121,13 @@ export function adaptNotification(raw: unknown): Notification | null {
 
   return {
     id,
-    type: readString(raw.notification_type, raw.notificationType, raw.type),
+    type: readString(
+      raw.event_type,
+      raw.eventType,
+      raw.notification_type,
+      raw.notificationType,
+      raw.type,
+    ),
     title,
     message,
     isRead,

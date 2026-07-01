@@ -1,4 +1,10 @@
-import { apiClient, isMockApiMode, syncCartTokenFromResponse } from '@/shared/api';
+import {
+  apiClient,
+  getAccessToken,
+  getCartToken,
+  isMockApiMode,
+  syncCartTokenFromResponse,
+} from '@/shared/api';
 
 import { adaptCart, createEmptyCart } from '../lib/cart.adapters';
 import type {
@@ -28,6 +34,10 @@ export const cartApi = {
       return createEmptyCart();
     }
 
+    if (!getAccessToken() && !getCartToken()) {
+      return createEmptyCart();
+    }
+
     const response = await apiClient.get<unknown>(CART_ENDPOINT);
 
     return toCart(response);
@@ -38,7 +48,7 @@ export const cartApi = {
       return createEmptyCart();
     }
 
-    const response = await apiClient.post<unknown>('/api/v1/orders/cart/add/', payload);
+    const response = await apiClient.post<unknown>('/api/v1/orders/cart/items/', payload);
 
     return toCart(response);
   },

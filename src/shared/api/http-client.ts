@@ -2,7 +2,13 @@ import { API_BASE_URL } from './config';
 import { getCartToken } from './cart-token-storage';
 import { ApiError } from './errors';
 import { appendQueryParams } from './query-params';
-import { getAccessToken } from './token-storage';
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from './token-storage';
 import type { ApiClientConfig, ApiRequestOptions, HttpMethod } from './types';
 
 type RequestBody = BodyInit | object | unknown[] | null;
@@ -17,8 +23,34 @@ export type ApiClient = {
 
 const isAbsoluteUrl = (path: string): boolean => /^https?:\/\//i.test(path);
 
+const normalizeBaseUrl = (baseUrl: string): string => baseUrl.replace(/\/+$/, '') + '/';
+
+const normalizePath = (baseUrl: string, path: string): string => {
+  if (isAbsoluteUrl(path)) {
+    return path;
+  }
+
+  const basePath = (() => {
+    try {
+      return new URL(baseUrl).pathname.replace(/\/+$/, '');
+    } catch {
+      return '';
+    }
+  })();
+
+  if (basePath.endsWith('/api/v1') && path.startsWith('/api/v1/')) {
+    return path.slice('/api/v1/'.length);
+  }
+
+  return path.replace(/^\/+/, '');
+};
+
 const createUrl = (baseUrl: string, path: string, query?: ApiRequestOptions['query']): string => {
-  const url = isAbsoluteUrl(path) ? path : new URL(path, baseUrl).toString();
+  const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
+  const normalizedPath = normalizePath(normalizedBaseUrl, path);
+  const url = isAbsoluteUrl(normalizedPath)
+    ? normalizedPath
+    : new URL(normalizedPath, normalizedBaseUrl).toString();
 
   return appendQueryParams(url, query);
 };
@@ -49,6 +81,10 @@ const createHeaders = (
 ): Headers => {
   const headers = new Headers(config.defaultHeaders);
   const optionHeaders = new Headers(options.headers);
+
+  if (!headers.has('Accept')) {
+    headers.set('Accept', 'application/json');
+  }
 
   optionHeaders.forEach((value, key) => {
     headers.set(key, value);
@@ -101,24 +137,97 @@ export const createApiClient = (config: Partial<ApiClientConfig> = {}): ApiClien
     credentials: config.credentials,
   };
 
+  let refreshPromise: Promise<boolean> | null = null;
+
+  const refreshAccessToken = async (): Promise<boolean> => {
+    const refresh = getRefreshToken();
+
+    if (!refresh) {
+      clearTokens();
+      return false;
+    }
+
+    try {
+      const response = await fetch(createUrl(clientConfig.baseUrl, '/auth/token/refresh/'), {
+        body: JSON.stringify({ refresh }),
+        credentials: clientConfig.credentials,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      });
+      const payload = await parseResponse(response);
+
+      if (!response.ok || typeof payload !== 'object' || payload === null) {
+        clearTokens();
+        return false;
+      }
+
+      const record = payload as Record<string, unknown>;
+      const access = typeof record.access === 'string' ? record.access : null;
+      const nextRefresh = typeof record.refresh === 'string' ? record.refresh : null;
+
+      if (!access) {
+        clearTokens();
+        return false;
+      }
+
+      setAccessToken(access);
+
+      if (nextRefresh) {
+        setRefreshToken(nextRefresh);
+      }
+
+      return true;
+    } catch {
+      clearTokens();
+      return false;
+    }
+  };
+
+  const shouldAttemptRefresh = (
+    status: number,
+    path: string,
+    options: ApiRequestOptions,
+  ): boolean =>
+    status === 401 &&
+    options.auth !== false &&
+    !path.includes('/auth/token/refresh/') &&
+    !path.includes('/auth/logout/');
+
   const request = async <T>(
     method: HttpMethod,
     path: string,
     body?: RequestBody,
     options: ApiRequestOptions = {},
   ): Promise<T> => {
-    const response = await fetch(createUrl(clientConfig.baseUrl, path, options.query), {
-      body: createBody(body),
-      credentials: options.credentials ?? clientConfig.credentials,
-      headers: createHeaders(body, options, clientConfig),
-      method,
-      signal: options.signal,
-    });
+    const execute = () =>
+      fetch(createUrl(clientConfig.baseUrl, path, options.query), {
+        body: createBody(body),
+        credentials: options.credentials ?? clientConfig.credentials,
+        headers: createHeaders(body, options, clientConfig),
+        method,
+        signal: options.signal,
+      });
 
-    const payload = await parseResponse(response);
+    let response = await execute();
+    let payload = await parseResponse(response);
+
+    if (!response.ok && shouldAttemptRefresh(response.status, path, options)) {
+      refreshPromise ??= refreshAccessToken().finally(() => {
+        refreshPromise = null;
+      });
+
+      const refreshed = await refreshPromise;
+
+      if (refreshed) {
+        response = await execute();
+        payload = await parseResponse(response);
+      }
+    }
 
     if (!response.ok) {
-      // Refresh token flow will be added in the auth integration prompt.
       throw new ApiError({
         status: response.status,
         payload,

@@ -1,10 +1,17 @@
 import { adaptCheckoutResult, type CheckoutResult } from '@/entities/order';
-import { ApiError, apiClient, isMockApiMode, syncCartTokenFromResponse } from '@/shared/api';
+import {
+  ApiError,
+  apiClient,
+  clearCartToken,
+  getAccessToken,
+  isMockApiMode,
+  syncCartTokenFromResponse,
+} from '@/shared/api';
 
 import type { CheckoutPayload } from '../model/checkout.types';
 
 const CHECKOUT_ENDPOINT = '/api/v1/orders/checkout/';
-const CHECKOUT_MUTATION_DISABLED = 'Checkout API is disabled in mock mode';
+const CHECKOUT_MUTATION_DISABLED = 'Checkout is disabled in the current API mode';
 
 const throwMockCheckoutError = (): never => {
   throw new ApiError({
@@ -24,6 +31,12 @@ export const checkoutApi = {
 
     syncCartTokenFromResponse(response);
 
-    return adaptCheckoutResult(response);
+    const result = adaptCheckoutResult(response);
+
+    if (!getAccessToken() && result.order?.orderNumber) {
+      clearCartToken();
+    }
+
+    return result;
   },
 };

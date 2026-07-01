@@ -17,8 +17,15 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Sara Milan',
+  title: {
+    default: 'Sara Milan',
+    template: '%s',
+  },
   description: 'Sara Milan',
+  openGraph: {
+    siteName: 'Sara Milan',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({

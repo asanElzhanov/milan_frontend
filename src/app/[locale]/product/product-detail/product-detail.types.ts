@@ -41,7 +41,7 @@ export type ProductDetailDictionary = {
   notFoundTitle: string;
   notFoundDescription: string;
   backToCatalog: string;
-  cartComingSoon: string;
+  addedToCart: string;
 };
 
 export type SelectedVariantState = {

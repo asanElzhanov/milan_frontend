@@ -14,6 +14,7 @@ export const getFooterLinkGroups = (locale: AppLocale): FooterLinkGroup[] => {
         { label: dictionary.links.catalog, href: withLocale(locale, '/catalog') },
         { label: dictionary.links.about, href: withLocale(locale, '/about') },
         { label: dictionary.links.delivery, href: withLocale(locale, '/delivery') },
+        { label: dictionary.links.payment, href: withLocale(locale, '/payment') },
         { label: dictionary.links.faq, href: withLocale(locale, '/faq') },
         { label: dictionary.links.contacts, href: withLocale(locale, '/contacts') },
       ],

@@ -6,8 +6,8 @@ Sara Milan uses a layered frontend architecture inspired by Feature-Sliced Desig
 e-commerce.
 
 - `app` owns Next.js routes, layouts, metadata, and app-level providers.
-- `shared` contains reusable infrastructure: config, utilities, common types, future UI primitives,
-  and the future API client.
+- `shared` contains reusable infrastructure: config, utilities, common types, UI primitives, and the
+  API client.
 - `entities` contains business entities such as product, category, brand, user, cart, order, review,
   and notification.
 - `features` contains user actions and business capabilities such as auth, cart actions, checkout,
@@ -15,8 +15,9 @@ e-commerce.
 - `widgets` contains larger composition blocks such as header, footer, product grid, and account
   sidebar.
 
-The current foundation includes shared UI primitives and localized layout widgets, but still avoids
-business page implementations, client stores, forms libraries, and direct backend feature flows.
+The current foundation includes shared UI primitives, localized layout widgets, API-backed feature
+flows, static pages, and SEO basics. Backend-pending contracts are documented rather than replaced
+with generated frontend data.
 
 ## 2. Layers
 
@@ -94,8 +95,8 @@ The root route `/` redirects to `/ru`; unsupported locale segments return `notFo
 
 - `src/widgets/header` for announcement bar, navigation, search drawer, mobile drawer, account/cart
   links, optional wishlist link, and locale switching.
-- `src/widgets/footer` for localized navigation, contact placeholders, legal links, and newsletter
-  placeholder behavior.
+- `src/widgets/footer` for localized navigation, neutral contact copy, legal links, and deferred
+  newsletter behavior.
 
 The header category navigation uses the shared API client only in real API mode. In mock mode it
 does not make network calls and falls back to generic links such as catalog, about, delivery, and
@@ -208,7 +209,7 @@ React Query hooks, adapters, and form integration for:
 - `POST /api/v1/auth/register/`
 - `POST /api/v1/auth/login/`
 - `POST /api/v1/auth/logout/`
-- `POST /api/v1/auth/refresh/`
+- `POST /api/v1/auth/token/refresh/`
 - `GET /api/v1/auth/me/`
 
 Access tokens are stored client-side for now and injected by `src/shared/api/http-client.ts` as
@@ -231,8 +232,8 @@ source of truth. If no user is available, the shell renders an auth-required sta
 profile data. Logout uses the existing auth mutation flow.
 
 The settings page is read-only until a profile update endpoint is confirmed. Orders, addresses,
-wishlist, reviews, and notifications routes are placeholders with localized pending messages and no
-feature API calls.
+wishlist, reviews, and notifications have dedicated routes; backend-pending pieces render graceful
+states and confirmed endpoints use entity/feature API layers.
 
 ## 14. Address Book
 
@@ -393,3 +394,43 @@ Individual mark-as-read is pending backend contract because no individual read e
 confirmed. Realtime updates, push notifications, email notification settings, notification
 preferences, localStorage notification state, and fake notification data are intentionally not
 implemented. See `docs/notification-endpoint-discovery.md`.
+
+## Static Pages and SEO
+
+Static informational pages live in `src/app/[locale]` with shared static page helpers in
+`src/app/[locale]/static`.
+
+Implemented localized routes:
+
+- `/:locale/about`
+- `/:locale/delivery`
+- `/:locale/payment`
+- `/:locale/faq`
+- `/:locale/contacts`
+- `/:locale/privacy`
+- `/:locale/terms`
+
+The shared `createPageMetadata()` helper in `src/shared/lib/seo.ts` sets localized titles,
+descriptions, Open Graph defaults, canonical URLs, and alternate locale links. `robots.ts` and
+`sitemap.ts` use the configured site URL. The sitemap includes only stable static localized routes;
+dynamic product/category sitemap generation is pending.
+
+Static pages use breadcrumbs and local dictionary content. The contacts page reads public contact
+values from environment config and does not invent phone, email, social, or address details.
+
+Complex SEO microdata, blog, CMS integration, dynamic content APIs, and fake legal/company details
+are intentionally not implemented.
+
+## Final QA And Production Readiness
+
+Final QA documentation lives in:
+
+- `docs/frontend-final-qa.md`
+- `docs/frontend-api-coverage.md`
+- `docs/production-readiness-checklist.md`
+- `docs/manual-smoke-test.md`
+
+The final audit confirms route registration through `next build`, API coverage status, auth/cart/
+checkout/payment safety assumptions, loading/error/empty state coverage, security basics, and known
+pending backend contracts. Manual browser and mobile smoke testing is still required before real
+production release.

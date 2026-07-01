@@ -85,6 +85,7 @@ export function adaptPaymentSession(raw: unknown): PaymentSession | null {
     status: readString(record.status, record.payment_status, record.paymentStatus),
     paymentUrl,
     redirectUrl: readString(record.redirect_url, record.redirectUrl),
+    clientSecret: readString(record.client_secret, record.clientSecret),
     qrUrl: readString(record.qr_url, record.qrUrl),
     amount: readStringOrNumber(record.amount, record.amount_total, record.total),
     currency: readString(record.currency),
@@ -92,7 +93,13 @@ export function adaptPaymentSession(raw: unknown): PaymentSession | null {
     createdAt: readString(record.created_at, record.createdAt),
   };
 
-  if (!session.id && !session.orderId && !session.orderNumber && !getSessionUrl(session)) {
+  if (
+    !session.id &&
+    !session.orderId &&
+    !session.orderNumber &&
+    !session.clientSecret &&
+    !getSessionUrl(session)
+  ) {
     return null;
   }
 

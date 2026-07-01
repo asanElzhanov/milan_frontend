@@ -62,7 +62,9 @@ export function adaptUser(raw: unknown): User | null {
     role: readString(record.role),
     isActive: readBoolean(record.is_active),
     isStaff: readBoolean(record.is_staff),
+    isVerified: readBoolean(record.is_verified),
     isEmailVerified: readBoolean(record.is_email_verified),
     isPhoneVerified: readBoolean(record.is_phone_verified),
+    dateJoined: readString(record.date_joined),
   };
 }

@@ -23,7 +23,7 @@ const productDetailDictionary = {
     notFoundTitle: 'Товар не найден',
     notFoundDescription: 'Возможно, товар был снят с продажи или ссылка устарела.',
     backToCatalog: 'Вернуться в каталог',
-    cartComingSoon: 'Добавление в корзину будет подключено на следующем этапе.',
+    addedToCart: 'Товар добавлен в корзину.',
   },
   kk: {
     size: 'Өлшем',
@@ -45,7 +45,7 @@ const productDetailDictionary = {
     notFoundTitle: 'Тауар табылмады',
     notFoundDescription: 'Тауар сатылымнан алынған болуы немесе сілтеме ескірген болуы мүмкін.',
     backToCatalog: 'Каталогқа қайту',
-    cartComingSoon: 'Себетке қосу келесі кезеңде қосылады.',
+    addedToCart: 'Тауар себетке қосылды.',
   },
 } as const satisfies Record<AppLocale, ProductDetailDictionary>;
 

@@ -8,13 +8,21 @@ const toStringArray = (value: unknown): string[] | undefined => {
     return [value];
   }
 
-  if (!Array.isArray(value)) {
-    return undefined;
+  if (Array.isArray(value)) {
+    const messages = value
+      .flatMap((item) => toStringArray(item) ?? [])
+      .filter((item) => item.trim().length > 0);
+
+    return messages.length > 0 ? messages : undefined;
   }
 
-  const messages = value.filter((item): item is string => typeof item === 'string');
+  if (isRecord(value)) {
+    const messages = Object.values(value).flatMap((item) => toStringArray(item) ?? []);
 
-  return messages.length > 0 ? messages : undefined;
+    return messages.length > 0 ? messages : undefined;
+  }
+
+  return undefined;
 };
 
 const getValidationErrors = (payload: unknown): ApiValidationErrors | undefined => {
@@ -48,6 +56,12 @@ const getPayloadMessage = (payload: unknown): string | undefined => {
     return payload.detail;
   }
 
+  const detailMessages = toStringArray(payload.detail);
+
+  if (detailMessages) {
+    return detailMessages.join(' ');
+  }
+
   const nonFieldErrors = toStringArray(payload.non_field_errors);
 
   if (nonFieldErrors) {
@@ -59,7 +73,13 @@ const getPayloadMessage = (payload: unknown): string | undefined => {
     ? Object.values(validationErrors).flat().at(0)
     : undefined;
 
-  return firstValidationMessage;
+  if (firstValidationMessage) {
+    return firstValidationMessage;
+  }
+
+  const nestedMessages = toStringArray(payload);
+
+  return nestedMessages?.join(' ');
 };
 
 export class ApiError extends Error {

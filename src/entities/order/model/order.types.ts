@@ -82,8 +82,14 @@ export type Order = {
   customerPhone?: string | null;
 
   deliveryAddress?: OrderAddressSnapshot | null;
+  deliveryAddressText?: string | null;
   delivery?: OrderDeliverySnapshot | null;
+  deliveryMethodCode?: string | null;
+  deliveryMethodName?: string | null;
+  deliveryRequiresManagerCalculation?: boolean;
+  deliveryPriceIsFinal?: boolean;
   comment?: string | null;
+  statusHistory?: unknown[];
 
   createdAt?: string | null;
   updatedAt?: string | null;
@@ -105,6 +111,8 @@ export type CheckoutOrder = {
   currency?: string | null;
   paymentUrl?: string | null;
   paymentProvider?: string | null;
+  deliveryRequiresManagerCalculation?: boolean;
+  deliveryPriceIsFinal?: boolean;
   createdAt?: string | null;
 };
 

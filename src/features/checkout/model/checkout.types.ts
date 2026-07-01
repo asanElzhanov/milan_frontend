@@ -1,23 +1,21 @@
-import type { AddressPayload } from '@/entities/address';
-
-export type CheckoutCustomerPayload = {
-  full_name?: string;
-  email?: string;
-  phone?: string;
-};
-
 export type CheckoutAddressMode = 'saved' | 'manual';
 
 export type CheckoutPaymentMethod = 'kaspi' | 'stripe' | 'cash' | string;
 
 export type CheckoutPayload = {
-  customer?: CheckoutCustomerPayload;
-  address_id?: string | number;
-  delivery_address?: AddressPayload;
+  customer_name?: string;
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  phone?: string;
+  city?: string;
+  delivery_address?: string;
+  delivery_method?: string;
   delivery_method_id?: string | number;
   delivery_method_code?: string;
-  payment_method?: CheckoutPaymentMethod;
   comment?: string;
+  cart_token?: string;
+  promo_code?: string;
 };
 
 export type CheckoutFormValues = {
