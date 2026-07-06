@@ -30,7 +30,7 @@ export const buildQueryString = (query?: ApiRequestOptions['query']): string => 
     appendValue(params, key, value);
   });
 
-  const queryString = params.toString();
+  const queryString = params.toString().replace(/%2C/gi, ',');
 
   return queryString ? `?${queryString}` : '';
 };

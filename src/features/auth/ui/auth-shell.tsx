@@ -61,8 +61,7 @@ export function AuthShell({ aside, children, locale, subtitle, title }: AuthShel
                 {aside}
                 <Button
                   asChild
-                  className="border-sara-white text-sara-white hover:bg-sara-white hover:text-sara-graphite"
-                  variant="outline"
+                  variant="outlineInverted"
                 >
                   <Link href={withLocale(locale, '/catalog')}>{copy.catalog}</Link>
                 </Button>

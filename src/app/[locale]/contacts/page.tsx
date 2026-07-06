@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { env, isSupportedLocale } from '@/shared/config';
 import { createPageMetadata } from '@/shared/lib';
+import { Button } from '@/shared/ui';
 
 import { getStaticDictionary } from '../static/static.dictionary';
 import { StaticPageSection } from '../static/static-page-section';
@@ -37,12 +38,21 @@ export default async function ContactsPage({ params }: StaticRouteProps) {
   const dictionary = getStaticDictionary(locale);
   const page = dictionary.contacts;
   const contacts = getContactItems(dictionary.labels);
+  const supportHref = env.contact.email
+    ? `mailto:${env.contact.email}`
+    : env.contact.instagram || null;
+  const supportLabel = locale === 'kk' ? 'Қолдау қызметіне жазу' : 'Написать в поддержку';
 
   return (
     <StaticPageShell locale={locale} title={page.title} subtitle={page.subtitle}>
       <StaticPageSection
         title={contacts.length > 0 ? dictionary.labels.contactChannels : undefined}
       >
+        {supportHref ? (
+          <Button asChild className="mb-5">
+            <a href={supportHref}>{supportLabel}</a>
+          </Button>
+        ) : null}
         {contacts.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2">
             {contacts.map((item) => (

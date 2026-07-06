@@ -1,5 +1,6 @@
 'use client';
 
+import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
@@ -24,6 +25,7 @@ export function LoginForm({ dictionary, locale }: AuthFormProps) {
   const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState<LoginErrors>({});
   const [apiError, setApiError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,7 +86,22 @@ export function LoginForm({ dictionary, locale }: AuthFormProps) {
           label={dictionary.password}
           onChange={(event) => setPassword(event.target.value)}
           required
-          type="password"
+          rightIcon={
+            <button
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              className="sara-focus inline-flex h-7 w-7 items-center justify-center text-sara-graphite/55 hover:text-sara-graphite"
+              disabled={isPending}
+              onClick={() => setShowPassword((current) => !current)}
+              type="button"
+            >
+              {showPassword ? (
+                <EyeOff aria-hidden className="h-4 w-4" />
+              ) : (
+                <Eye aria-hidden className="h-4 w-4" />
+              )}
+            </button>
+          }
+          type={showPassword ? 'text' : 'password'}
           value={password}
         />
       </div>

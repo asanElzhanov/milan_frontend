@@ -25,6 +25,7 @@ export async function CatalogPage({ categorySlug, locale, searchParams }: Catalo
     searchParams,
     sizes: data.sizes,
   };
+  const filterKey = `${categorySlug ?? 'all'}-${JSON.stringify(searchParams)}`;
 
   return (
     <Container className="sara-section space-y-10">
@@ -36,7 +37,7 @@ export async function CatalogPage({ categorySlug, locale, searchParams }: Catalo
 
       <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
         <div className="hidden lg:block">
-          <CatalogFilterSidebar {...filterProps} />
+          <CatalogFilterSidebar key={filterKey} {...filterProps} />
         </div>
 
         <div className="space-y-8">
@@ -48,7 +49,7 @@ export async function CatalogPage({ categorySlug, locale, searchParams }: Catalo
               searchParams={searchParams}
             />
             <div className="flex items-end gap-3">
-              <CatalogMobileFilters {...filterProps} />
+              <CatalogMobileFilters key={filterKey} {...filterProps} />
               <CatalogSort
                 categorySlug={categorySlug}
                 dictionary={dictionary}

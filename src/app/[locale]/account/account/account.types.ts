@@ -44,6 +44,7 @@ export type AccountDictionary = {
   profileInfo: string;
   contactInfo: string;
   security: string;
+  apply: string;
   name: string;
   lastName: string;
   fullName: string;

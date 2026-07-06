@@ -5,7 +5,7 @@ import type { CatalogSearchParams } from './catalog.types';
 
 export const CATALOG_QUERY_KEYS = [
   'search',
-  'brand_slug',
+  'brand',
   'color',
   'size',
   'material',
@@ -33,10 +33,34 @@ const orderingValues: ProductOrdering[] = [
 const firstValue = (value: string | string[] | undefined): string | undefined =>
   Array.isArray(value) ? value[0] : value;
 
+const cleanValues = (value: string | string[] | undefined): string[] => {
+  const values = Array.isArray(value) ? value : value ? [value] : [];
+
+  return Array.from(
+    new Set(
+      values.flatMap((item) => item.split(',')).map((item) => item.trim()).filter(Boolean),
+    ),
+  );
+};
+
+const joinValues = (value: string | string[] | undefined): string | undefined => {
+  const values = cleanValues(value);
+
+  return values.length > 0 ? values.join(',') : undefined;
+};
+
 const cleanValue = (value: string | string[] | undefined): string | undefined => {
   const current = firstValue(value)?.trim();
 
   return current || undefined;
+};
+
+const setCatalogParam = (
+  params: CatalogSearchParams,
+  key: keyof CatalogSearchParams,
+  value: string | string[],
+) => {
+  params[key] = value;
 };
 
 const parsePage = (value: string | undefined): number => {
@@ -51,14 +75,30 @@ const parseBoolean = (value: string | undefined): boolean | undefined =>
 const isOrdering = (value: string | undefined): value is ProductOrdering =>
   Boolean(value && orderingValues.includes(value as ProductOrdering));
 
+const isRepeatedParam = (key: keyof CatalogSearchParams): key is 'brand' | 'color' =>
+  key === 'brand' || key === 'color';
+
+const isMultiValueParam = (key: keyof CatalogSearchParams): key is 'brand' | 'color' | 'size' =>
+  isRepeatedParam(key) || key === 'size';
+
 export const normalizeCatalogSearchParams = (
   searchParams: CatalogSearchParams,
 ): CatalogSearchParams =>
   CATALOG_QUERY_KEYS.reduce<CatalogSearchParams>((acc, key) => {
+    if (isMultiValueParam(key)) {
+      const value = cleanValues(searchParams[key]);
+
+      if (value.length > 0) {
+        setCatalogParam(acc, key, value);
+      }
+
+      return acc;
+    }
+
     const value = cleanValue(searchParams[key]);
 
     if (value) {
-      acc[key] = value;
+      setCatalogParam(acc, key, value);
     }
 
     return acc;
@@ -73,9 +113,9 @@ export const parseCatalogSearchParams = (
 
   return {
     category_slug: categorySlug,
-    brand_slug: cleanValue(params.brand_slug),
-    color: cleanValue(params.color),
-    size: cleanValue(params.size),
+    brand: cleanValues(params.brand),
+    color: cleanValues(params.color),
+    size: joinValues(params.size),
     material: cleanValue(params.material),
     season: cleanValue(params.season),
     in_stock: parseBoolean(cleanValue(params.in_stock)),
@@ -101,14 +141,26 @@ export const buildCatalogHref = (
   const search = new URLSearchParams();
 
   CATALOG_QUERY_KEYS.forEach((key) => {
-    const value = cleanValue(params[key]);
+    const value = isMultiValueParam(key)
+      ? cleanValues(params[key])
+      : cleanValue(params[key]);
 
-    if (value && !(key === 'page' && value === '1')) {
+    if (Array.isArray(value)) {
+      if (isRepeatedParam(key)) {
+        value.forEach((item) => search.append(key, item));
+      } else {
+        const joinedValue = value.join(',');
+
+        if (joinedValue) {
+          search.set(key, joinedValue);
+        }
+      }
+    } else if (value && !(key === 'page' && value === '1')) {
       search.set(key, value);
     }
   });
 
-  const queryString = search.toString();
+  const queryString = search.toString().replace(/%2C/gi, ',');
   const path = withLocale(locale, getCatalogBasePath(categorySlug));
 
   return queryString ? `${path}?${queryString}` : path;
@@ -117,12 +169,20 @@ export const buildCatalogHref = (
 export const setFilterValue = (
   searchParams: CatalogSearchParams,
   key: keyof CatalogSearchParams,
-  value?: string | null,
+  value?: string | string[] | null,
 ): CatalogSearchParams => {
   const next = normalizeCatalogSearchParams(searchParams);
 
-  if (value?.trim()) {
-    next[key] = value.trim();
+  if (Array.isArray(value)) {
+    const values = cleanValues(value);
+
+    if (values.length > 0) {
+      setCatalogParam(next, key, values);
+    } else {
+      delete next[key];
+    }
+  } else if (value?.trim()) {
+    setCatalogParam(next, key, value.trim());
   } else {
     delete next[key];
   }
@@ -154,6 +214,24 @@ export const removeFilter = (
   return next;
 };
 
+export const removeFilterValue = (
+  searchParams: CatalogSearchParams,
+  key: keyof CatalogSearchParams,
+  value: string,
+): CatalogSearchParams => {
+  const current = cleanValues(searchParams[key]);
+
+  if (current.length <= 1) {
+    return removeFilter(searchParams, key);
+  }
+
+  return setFilterValue(
+    searchParams,
+    key,
+    current.filter((item) => item !== value),
+  );
+};
+
 export const resetFiltersHref = (locale: AppLocale, categorySlug?: string): string =>
   buildCatalogHref(locale, {}, categorySlug);
 
@@ -161,3 +239,8 @@ export const getSearchParam = (
   searchParams: CatalogSearchParams,
   key: keyof CatalogSearchParams,
 ): string | undefined => cleanValue(searchParams[key]);
+
+export const getSearchParams = (
+  searchParams: CatalogSearchParams,
+  key: keyof CatalogSearchParams,
+): string[] => cleanValues(searchParams[key]);

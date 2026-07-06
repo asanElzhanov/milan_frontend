@@ -4,6 +4,7 @@ export type ProductReviewDictionary = {
   reviews: string;
   writeReview: string;
   rating: string;
+  orderNumber: string;
   title: string;
   text: string;
   advantages: string;
@@ -21,6 +22,7 @@ export type ProductReviewDictionary = {
   loadError: string;
   retry: string;
   ratingRequired: string;
+  orderNumberRequired: string;
   textRequired: string;
   pending: string;
   approved: string;
@@ -36,6 +38,7 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
     reviews: 'Отзывы',
     writeReview: 'Оставить отзыв',
     rating: 'Оценка',
+    orderNumber: 'Номер заказа',
     title: 'Заголовок',
     text: 'Комментарий',
     advantages: 'Плюсы',
@@ -53,6 +56,7 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
     loadError: 'Не удалось загрузить отзывы',
     retry: 'Повторить',
     ratingRequired: 'Выберите оценку',
+    orderNumberRequired: 'Укажите номер заказа',
     textRequired: 'Напишите комментарий',
     pending: 'На модерации',
     approved: 'Одобрен',
@@ -66,6 +70,7 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
     reviews: 'Пікірлер',
     writeReview: 'Пікір қалдыру',
     rating: 'Баға',
+    orderNumber: 'Тапсырыс нөмірі',
     title: 'Тақырып',
     text: 'Пікір',
     advantages: 'Артықшылықтары',
@@ -83,6 +88,7 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
     loadError: 'Пікірлерді жүктеу мүмкін болмады',
     retry: 'Қайталау',
     ratingRequired: 'Баға таңдаңыз',
+    orderNumberRequired: 'Тапсырыс нөмірін көрсетіңіз',
     textRequired: 'Пікір жазыңыз',
     pending: 'Модерацияда',
     approved: 'Мақұлданды',

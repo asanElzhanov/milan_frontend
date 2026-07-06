@@ -87,8 +87,15 @@ export function adaptAddress(raw: unknown): Address | null {
   return {
     id,
     title: readString(record.title, record.name),
-    recipientName: readString(record.recipient_name, record.receiver_name, record.contact_name),
-    fullName: readString(record.full_name, record.fullName),
+    recipientName: readString(
+      record.recipient_name,
+      record.recipientName,
+      record.receiver_name,
+      record.contact_name,
+      record.full_name,
+      record.fullName,
+    ),
+    fullName: readString(record.full_name, record.fullName, record.recipient_name),
     phone: readString(record.phone, record.phone_number),
     country: readString(record.country),
     region: readString(record.region),
@@ -98,8 +105,8 @@ export function adaptAddress(raw: unknown): Address | null {
     house: readString(record.house),
     apartment: readString(record.apartment),
     postalCode: readString(record.postal_code, record.zip, record.zip_code, record.postcode),
-    addressLine1: readString(record.address_line_1, record.addressLine1),
-    addressLine2: readString(record.address_line_2, record.addressLine2),
+    addressLine1: readString(record.address_line_1, record.address_line1, record.addressLine1),
+    addressLine2: readString(record.address_line_2, record.address_line2, record.addressLine2),
     comment: readString(record.comment),
     isDefault: readBoolean(record.is_default, record.default),
     createdAt: readString(record.created_at),
@@ -139,14 +146,22 @@ export function createAddressPayload(input: {
 }): AddressPayload {
   return {
     title: cleanString(input.title),
+    recipient_name: cleanString(input.recipientName),
+    full_name: cleanString(input.fullName) ?? cleanString(input.recipientName),
+    phone: cleanString(input.phone),
     country: cleanString(input.country),
+    region: cleanString(input.region),
     city: cleanString(input.city),
+    district: cleanString(input.district),
     street:
       cleanString(input.street) ??
-      [cleanString(input.addressLine1), cleanString(input.house)].filter(Boolean).join(' ') ??
-      undefined,
+      cleanString([cleanString(input.addressLine1), cleanString(input.house)].filter(Boolean).join(' ')),
+    house: cleanString(input.house),
     apartment: cleanString(input.apartment),
     postal_code: cleanString(input.postalCode),
+    address_line_1: cleanString(input.addressLine1),
+    address_line_2: cleanString(input.addressLine2),
+    comment: cleanString(input.comment),
     is_default: input.isDefault,
   };
 }

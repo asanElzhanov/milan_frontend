@@ -99,7 +99,7 @@ export class ApiError extends Error {
     message?: string;
     code?: string;
   }) {
-    super(message ?? getPayloadMessage(payload) ?? `API request failed with status ${status}`);
+    super(getPayloadMessage(payload) ?? message ?? `API request failed with status ${status}`);
     this.name = 'ApiError';
     this.status = status;
     this.payload = payload;

@@ -3,6 +3,7 @@
 import { Heart } from 'lucide-react';
 import Link from 'next/link';
 
+import { WishlistToggleButton } from '@/features/wishlist';
 import type { AppLocale } from '@/shared/config';
 import { DEFAULT_LOCALE, withLocale } from '@/shared/config';
 import { cn } from '@/shared/lib';
@@ -60,7 +61,7 @@ export function ProductCard({
           isNew={product.isNew}
           isSale={product.isSale}
         />
-        {showWishlist ? (
+        {showWishlist && onWishlistToggle ? (
           <button
             aria-label={wishlistActive ? 'Убрать из избранного' : 'Добавить в избранное'}
             className={cn(
@@ -73,6 +74,15 @@ export function ProductCard({
           >
             <Heart aria-hidden className={cn('h-5 w-5', wishlistActive && 'fill-current')} />
           </button>
+        ) : null}
+        {showWishlist && !onWishlistToggle ? (
+          <WishlistToggleButton
+            className="absolute right-3 top-3"
+            isActive={wishlistActive || undefined}
+            locale={locale}
+            productId={product.id}
+            size="sm"
+          />
         ) : null}
       </div>
 

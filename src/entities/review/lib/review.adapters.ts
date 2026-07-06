@@ -138,10 +138,7 @@ export function adaptReviewList(raw: unknown): ReviewListResponse {
 
 export function createReviewPayload(input: {
   rating: number;
-  title?: string;
   text?: string;
-  advantages?: string;
-  disadvantages?: string;
   orderId?: string | number | null;
   orderNumber?: string | null;
   productId?: string | number | null;
@@ -150,16 +147,15 @@ export function createReviewPayload(input: {
   const payload: CreateProductReviewPayload = {
     rating: Math.min(5, Math.max(1, Math.round(input.rating))),
   };
-  const fields = ['title', 'text', 'advantages', 'disadvantages'] as const;
-  fields.forEach((field) => {
-    const value = input[field]?.trim();
-    if (value) payload[field] = value;
-  });
+  const text = input.text?.trim();
+  const orderNumber = input.orderNumber?.trim();
+  const productSlug = input.productSlug?.trim();
+  if (text) payload.text = text;
   if (input.orderId !== null && input.orderId !== undefined) payload.order_id = input.orderId;
-  if (input.orderNumber) payload.order_number = input.orderNumber;
+  if (orderNumber) payload.order_number = orderNumber;
   if (input.productId !== null && input.productId !== undefined)
     payload.product_id = input.productId;
-  if (input.productSlug) payload.product_slug = input.productSlug;
+  if (productSlug) payload.product_slug = productSlug;
   return payload;
 }
 

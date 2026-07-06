@@ -32,10 +32,7 @@ export type ReviewListResponse = {
 
 export type CreateProductReviewPayload = {
   rating: number;
-  title?: string;
   text?: string;
-  advantages?: string;
-  disadvantages?: string;
   order_id?: string | number;
   order_number?: string;
   product_id?: string | number;

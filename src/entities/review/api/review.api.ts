@@ -51,7 +51,7 @@ export const reviewApi = {
     const response = await apiClient.post<unknown>(
       CREATE_REVIEW_ENDPOINT,
       {
-        product_slug: slug,
+        product_slug: slug.trim(),
         ...payload,
       },
       {

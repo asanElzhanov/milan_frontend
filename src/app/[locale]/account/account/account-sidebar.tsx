@@ -25,7 +25,7 @@ export function AccountSidebar({
             className={cn(
               'sara-focus flex px-3 py-2 text-sm font-medium text-sara-graphite/70 transition-colors hover:bg-sara-beige hover:text-sara-graphite',
               item.key === activeKey &&
-                'bg-sara-graphite text-sara-white hover:bg-sara-graphite hover:text-sara-white',
+                'bg-sara-graphite !text-sara-white hover:bg-sara-graphite hover:!text-sara-white',
             )}
             href={item.href}
             key={item.key}

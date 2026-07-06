@@ -52,8 +52,7 @@ export function HomeHero({ banners, dictionary, locale }: HomeHeroProps) {
             )}
             <Button
               asChild
-              className="border-sara-white text-sara-white hover:bg-sara-white hover:text-sara-black"
-              variant="outline"
+              variant="outlineInverted"
             >
               <Link href={withLocale(locale, '/catalog?is_new=true')}>
                 {dictionary.hero.secondaryCta}

@@ -10,8 +10,8 @@ export type ProductOrdering =
 
 export type ProductListQuery = {
   category_slug?: string;
-  brand_slug?: string;
-  color?: string;
+  brand?: string | string[];
+  color?: string | string[];
   size?: string;
   material?: string;
   season?: string;

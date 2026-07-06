@@ -62,7 +62,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {rightIcon ? (
-            <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sara-graphite/45">
+            <span className="absolute top-1/2 right-3 -translate-y-1/2 text-sara-graphite/45">
               {rightIcon}
             </span>
           ) : null}

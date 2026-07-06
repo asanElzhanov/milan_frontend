@@ -29,10 +29,8 @@ export type ProductReviewFormProps = {
 
 const emptyValues: ProductReviewFormValues = {
   rating: 0,
-  title: '',
+  orderNumber: '',
   text: '',
-  advantages: '',
-  disadvantages: '',
 };
 
 export function ProductReviewForm({
@@ -42,7 +40,9 @@ export function ProductReviewForm({
   productSlug,
 }: ProductReviewFormProps) {
   const [values, setValues] = useState(emptyValues);
-  const [errors, setErrors] = useState<{ rating?: string; text?: string }>({});
+  const [errors, setErrors] = useState<{ rating?: string; orderNumber?: string; text?: string }>(
+    {},
+  );
   const [success, setSuccess] = useState(false);
   const mutation = useCreateProductReviewMutation(productSlug);
   const authenticated = Boolean(getAccessToken());
@@ -62,13 +62,20 @@ export function ProductReviewForm({
     const validation = validateProductReviewForm(values);
     setErrors(validation);
     if (hasProductReviewFormErrors(validation) || formDisabled) return;
-    mutation.mutate(createReviewPayload(values), {
-      onSuccess: () => {
-        setValues(emptyValues);
-        setErrors({});
-        setSuccess(true);
+    mutation.mutate(
+      createReviewPayload({
+        rating: values.rating,
+        text: values.text,
+        orderNumber: values.orderNumber,
+      }),
+      {
+        onSuccess: () => {
+          setValues(emptyValues);
+          setErrors({});
+          setSuccess(true);
+        },
       },
-    });
+    );
   };
 
   return (
@@ -111,9 +118,11 @@ export function ProductReviewForm({
       </fieldset>
       <Input
         disabled={formDisabled}
-        label={labels.title}
-        onChange={(e) => update('title', e.target.value)}
-        value={values.title}
+        error={errors.orderNumber ? labels.orderNumberRequired : undefined}
+        label={labels.orderNumber}
+        onChange={(e) => update('orderNumber', e.target.value)}
+        required
+        value={values.orderNumber}
       />
       <Textarea
         disabled={formDisabled}
@@ -123,20 +132,6 @@ export function ProductReviewForm({
         required
         value={values.text}
       />
-      <div className="grid gap-5 md:grid-cols-2">
-        <Textarea
-          disabled={formDisabled}
-          label={labels.advantages}
-          onChange={(e) => update('advantages', e.target.value)}
-          value={values.advantages}
-        />
-        <Textarea
-          disabled={formDisabled}
-          label={labels.disadvantages}
-          onChange={(e) => update('disadvantages', e.target.value)}
-          value={values.disadvantages}
-        />
-      </div>
       <Button disabled={formDisabled} loading={mutation.isPending} type="submit">
         {mutation.isPending ? labels.submitting : labels.submit}
       </Button>

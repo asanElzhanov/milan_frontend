@@ -12,10 +12,9 @@ import { Button, Checkbox, Input } from '@/shared/ui';
 
 import {
   buildCatalogHref,
-  getSearchParam,
+  getSearchParams,
   resetFiltersHref,
   setFilterValue,
-  toggleFilterValue,
 } from './catalog-url';
 import type { CatalogDictionary, CatalogPageProps } from './catalog.types';
 
@@ -42,7 +41,7 @@ function LinkOption({ active, children, href }: LinkOptionProps) {
       aria-current={active ? 'page' : undefined}
       className={`sara-focus flex min-h-9 items-center justify-between border px-3 py-2 text-sm transition-colors ${
         active
-          ? 'border-sara-graphite bg-sara-graphite text-sara-white'
+          ? 'border-sara-graphite bg-sara-graphite !text-sara-white'
           : 'border-sara-beige-dark bg-sara-white text-sara-graphite hover:bg-sara-beige'
       }`}
       href={href}
@@ -67,21 +66,28 @@ export function CatalogFilterSidebar({
   const [priceMax, setPriceMax] = useState(searchParams.price_max ?? '');
   const [material, setMaterial] = useState(searchParams.material ?? '');
   const [season, setSeason] = useState(searchParams.season ?? '');
+  const [selectedBrands, setSelectedBrands] = useState(() =>
+    getSearchParams(searchParams, 'brand'),
+  );
+  const [selectedColors, setSelectedColors] = useState(() => getSearchParams(searchParams, 'color'));
+  const [selectedSizes, setSelectedSizes] = useState(() => getSearchParams(searchParams, 'size'));
+  const [inStock, setInStock] = useState(searchParams.in_stock === 'true');
+  const [isSale, setIsSale] = useState(searchParams.is_sale === 'true');
+  const [isNew, setIsNew] = useState(searchParams.is_new === 'true');
 
-  const pushFilter = (key: keyof CatalogPageProps['searchParams'], value?: string) => {
-    router.push(buildCatalogHref(locale, setFilterValue(searchParams, key, value), categorySlug));
-  };
-
-  const pushToggle = (key: keyof CatalogPageProps['searchParams'], value: string) => {
-    router.push(
-      buildCatalogHref(locale, toggleFilterValue(searchParams, key, value), categorySlug),
-    );
-  };
+  const toggleDraftValue = (values: string[], value: string) =>
+    values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
 
   const handleAdvancedSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let next = setFilterValue(searchParams, 'price_min', priceMin);
+    let next = setFilterValue(searchParams, 'brand', selectedBrands);
+    next = setFilterValue(next, 'color', selectedColors);
+    next = setFilterValue(next, 'size', selectedSizes);
+    next = setFilterValue(next, 'in_stock', inStock ? 'true' : undefined);
+    next = setFilterValue(next, 'is_sale', isSale ? 'true' : undefined);
+    next = setFilterValue(next, 'is_new', isNew ? 'true' : undefined);
+    next = setFilterValue(next, 'price_min', priceMin);
     next = setFilterValue(next, 'price_max', priceMax);
     next = setFilterValue(next, 'material', material);
     next = setFilterValue(next, 'season', season);
@@ -96,7 +102,7 @@ export function CatalogFilterSidebar({
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-sara-black">{dictionary.filters}</h2>
         <Button asChild size="sm" variant="link">
-          <Link href={resetFiltersHref(locale, categorySlug)}>{dictionary.reset}</Link>
+          <Link href={resetFiltersHref(locale)}>{dictionary.reset}</Link>
         </Button>
       </div>
 
@@ -130,10 +136,12 @@ export function CatalogFilterSidebar({
           <div className="space-y-2">
             {brands.map((brand) => (
               <Checkbox
-                checked={getSearchParam(searchParams, 'brand_slug') === brand.slug}
+                checked={selectedBrands.includes(brand.slug)}
                 key={brand.id}
                 label={brand.name}
-                onCheckedChange={() => pushToggle('brand_slug', brand.slug)}
+                onCheckedChange={() =>
+                  setSelectedBrands((current) => toggleDraftValue(current, brand.slug))
+                }
               />
             ))}
           </div>
@@ -148,17 +156,19 @@ export function CatalogFilterSidebar({
           <div className="flex flex-wrap gap-2">
             {colors.map((color) => {
               const value = color.slug ?? color.name;
-              const active = getSearchParam(searchParams, 'color') === value;
+              const active = selectedColors.includes(value);
 
               return (
                 <button
                   className={`sara-focus flex h-9 items-center gap-2 border px-3 text-sm ${
                     active
-                      ? 'border-sara-graphite bg-sara-graphite text-sara-white'
+                      ? 'border-sara-graphite bg-sara-graphite !text-sara-white'
                       : 'border-sara-beige-dark bg-sara-white text-sara-graphite'
                   }`}
                   key={color.id}
-                  onClick={() => pushToggle('color', value)}
+                  onClick={() =>
+                    setSelectedColors((current) => toggleDraftValue(current, value))
+                  }
                   type="button"
                 >
                   {color.hex ? (
@@ -184,17 +194,19 @@ export function CatalogFilterSidebar({
           <div className="flex flex-wrap gap-2">
             {sizes.map((size) => {
               const value = size.value ?? size.slug ?? size.name;
-              const active = getSearchParam(searchParams, 'size') === value;
+              const active = selectedSizes.includes(value);
 
               return (
                 <button
                   className={`sara-focus h-9 min-w-11 border px-3 text-sm ${
                     active
-                      ? 'border-sara-graphite bg-sara-graphite text-sara-white'
+                      ? 'border-sara-graphite bg-sara-graphite !text-sara-white'
                       : 'border-sara-beige-dark bg-sara-white text-sara-graphite'
                   }`}
                   key={size.id}
-                  onClick={() => pushToggle('size', value)}
+                  onClick={() =>
+                    setSelectedSizes((current) => toggleDraftValue(current, value))
+                  }
                   type="button"
                 >
                   {size.name}
@@ -236,34 +248,17 @@ export function CatalogFilterSidebar({
           onChange={(event) => setSeason(event.target.value)}
           value={season}
         />
+
+        <section className="space-y-3">
+          <Checkbox checked={inStock} label={dictionary.inStock} onCheckedChange={setInStock} />
+          <Checkbox checked={isSale} label={dictionary.sale} onCheckedChange={setIsSale} />
+          <Checkbox checked={isNew} label={dictionary.new} onCheckedChange={setIsNew} />
+        </section>
+
         <Button fullWidth type="submit">
           {dictionary.apply}
         </Button>
       </form>
-
-      <section className="space-y-3">
-        <Checkbox
-          checked={searchParams.in_stock === 'true'}
-          label={dictionary.inStock}
-          onCheckedChange={() =>
-            pushFilter('in_stock', searchParams.in_stock === 'true' ? undefined : 'true')
-          }
-        />
-        <Checkbox
-          checked={searchParams.is_sale === 'true'}
-          label={dictionary.sale}
-          onCheckedChange={() =>
-            pushFilter('is_sale', searchParams.is_sale === 'true' ? undefined : 'true')
-          }
-        />
-        <Checkbox
-          checked={searchParams.is_new === 'true'}
-          label={dictionary.new}
-          onCheckedChange={() =>
-            pushFilter('is_new', searchParams.is_new === 'true' ? undefined : 'true')
-          }
-        />
-      </section>
     </aside>
   );
 }

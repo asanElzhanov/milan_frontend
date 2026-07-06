@@ -6,10 +6,11 @@ import type { ProductSize } from '@/entities/size';
 import type { AppLocale } from '@/shared/config';
 
 export type CatalogSearchParams = {
+  [key: string]: string | string[] | undefined;
   search?: string;
-  brand_slug?: string;
-  color?: string;
-  size?: string;
+  brand?: string | string[];
+  color?: string | string[];
+  size?: string | string[];
   material?: string;
   season?: string;
   in_stock?: string;

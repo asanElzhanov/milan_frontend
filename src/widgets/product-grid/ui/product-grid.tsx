@@ -39,7 +39,7 @@ export function ProductGrid({
   showColors = true,
   showRating = true,
   showSizes = true,
-  showWishlist = false,
+  showWishlist = true,
   wishlistIds = [],
 }: ProductGridProps) {
   if (isLoading) {

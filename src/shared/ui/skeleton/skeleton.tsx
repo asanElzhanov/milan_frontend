@@ -1,8 +1,9 @@
-import type { HTMLAttributes } from 'react';
+import type { ElementType, HTMLAttributes } from 'react';
 
 import { cn } from '@/shared/lib';
 
-export type SkeletonProps = HTMLAttributes<HTMLDivElement> & {
+export type SkeletonProps = HTMLAttributes<HTMLElement> & {
+  as?: ElementType;
   variant?: 'text' | 'card' | 'circle';
 };
 
@@ -12,12 +13,12 @@ const variants = {
   circle: 'h-12 w-12 rounded-full',
 };
 
-export function Skeleton({ className, variant = 'text', ...props }: SkeletonProps) {
+export function Skeleton({ as: Component = 'div', className, variant = 'text', ...props }: SkeletonProps) {
   return (
-    <div
+    <Component
       aria-hidden
       className={cn(
-        'animate-pulse rounded-sara-md bg-sara-beige-dark/45',
+        'block animate-pulse rounded-sara-md bg-sara-beige-dark/45',
         variants[variant],
         className,
       )}

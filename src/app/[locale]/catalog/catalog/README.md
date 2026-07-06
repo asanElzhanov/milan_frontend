@@ -27,8 +27,10 @@ and new filters.
 
 ## URL query params
 
-Only canonical frontend params are used: `search`, `brand_slug`, `color`, `size`, `material`,
+Only canonical frontend params are used: `search`, `brand`, `color`, `size`, `material`,
 `season`, `in_stock`, `is_sale`, `is_new`, `price_min`, `price_max`, `ordering`, and `page`.
+Multi-select brands and colors use repeated query params, while multi-select sizes use a
+comma-separated value, matching the backend contract.
 
 ## Fallback behavior
 

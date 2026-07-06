@@ -1,7 +1,5 @@
 export type ProductReviewFormValues = {
   rating: number;
-  title: string;
+  orderNumber: string;
   text: string;
-  advantages: string;
-  disadvantages: string;
 };

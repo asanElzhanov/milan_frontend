@@ -46,7 +46,7 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
       <ProductReviewsPreview
         dictionary={dictionary}
         locale={locale}
-        product={data.product}
+        productSlug={decodeURIComponent(slug)}
         reviews={data.reviews}
       />
       <ProductSimilar dictionary={dictionary} locale={locale} products={data.similarProducts} />

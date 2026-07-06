@@ -18,7 +18,7 @@ export function formatAddressLine(address: Address): string {
 }
 
 export function formatAddressRecipient(address: Address): string {
-  return address.recipientName || address.fullName || address.phone || '-';
+  return address.recipientName || address.fullName || address.phone || '';
 }
 
 export function isAddressComplete(address: Address): boolean {

@@ -10,13 +10,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-sara-graphite text-sara-white hover:bg-sara-black',
-        secondary: 'bg-sara-beige text-sara-graphite hover:bg-sara-beige-dark/70',
+        primary: 'bg-sara-graphite !text-sara-white hover:bg-sara-black hover:!text-sara-white',
+        secondary:
+          'bg-sara-beige !text-sara-graphite hover:bg-sara-beige-dark/70 hover:!text-sara-graphite',
         outline:
-          'border border-sara-graphite bg-transparent text-sara-graphite hover:bg-sara-graphite hover:text-sara-white',
-        ghost: 'bg-transparent text-sara-graphite hover:bg-sara-beige',
-        link: 'h-auto px-0 py-0 text-sara-graphite underline-offset-4 hover:text-sara-bronze hover:underline',
-        danger: 'bg-red-700 text-white hover:bg-red-800',
+          'border border-sara-graphite bg-transparent !text-sara-graphite hover:bg-sara-graphite hover:!text-sara-white',
+        outlineInverted:
+          'border border-sara-white bg-transparent !text-sara-white hover:bg-sara-white hover:!text-sara-graphite',
+        ghost: 'bg-transparent !text-sara-graphite hover:bg-sara-beige hover:!text-sara-graphite',
+        link: 'h-auto px-0 py-0 !text-sara-graphite underline-offset-4 hover:!text-sara-bronze hover:underline',
+        danger: 'bg-red-700 !text-white hover:bg-red-800 hover:!text-white',
       },
       size: {
         sm: 'h-9 px-4 text-[0.7rem]',

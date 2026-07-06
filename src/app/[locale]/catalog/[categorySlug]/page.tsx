@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { isSupportedLocale, type AppLocale } from '@/shared/config';
 
 import { CatalogPage } from '../catalog/catalog-page';
 import { getCatalogDictionary } from '../catalog/catalog.dictionary';
+import { buildCatalogHref } from '../catalog/catalog-url';
 import type { CatalogSearchParams } from '../catalog/catalog.types';
 
 type CategoryCatalogRouteProps = Readonly<{
@@ -39,11 +40,18 @@ export default async function CategoryCatalogRoute({
     notFound();
   }
 
+  const decodedCategorySlug = decodeURIComponent(categorySlug);
+  const resolvedSearchParams = await searchParams;
+
+  if (decodedCategorySlug === 'products') {
+    redirect(buildCatalogHref(locale as AppLocale, resolvedSearchParams));
+  }
+
   return (
     <CatalogPage
-      categorySlug={decodeURIComponent(categorySlug)}
+      categorySlug={decodedCategorySlug}
       locale={locale as AppLocale}
-      searchParams={await searchParams}
+      searchParams={resolvedSearchParams}
     />
   );
 }

@@ -71,7 +71,7 @@ export function AccountSettings({ labels, user }: AccountUserProps) {
           />
         </div>
         <Button className="mt-5" loading={updateProfileMutation.isPending} type="submit">
-          {labels.settings}
+          {labels.apply}
         </Button>
       </form>
 

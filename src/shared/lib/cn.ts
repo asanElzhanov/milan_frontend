@@ -1,3 +1,4 @@
-type ClassValue = string | number | bigint | false | null | undefined;
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
-export const cn = (...values: ClassValue[]): string => values.filter(Boolean).join(' ');
+export const cn = (...values: ClassValue[]): string => twMerge(clsx(values));

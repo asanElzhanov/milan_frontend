@@ -20,7 +20,7 @@ export function AccountMobileNav({
         <Link
           className={cn(
             'sara-focus shrink-0 border border-sara-beige-dark bg-sara-white px-4 py-2 text-xs font-medium tracking-[0.12em] text-sara-graphite/70 uppercase',
-            item.key === activeKey && 'border-sara-graphite bg-sara-graphite text-sara-white',
+            item.key === activeKey && 'border-sara-graphite bg-sara-graphite !text-sara-white',
           )}
           href={item.href}
           key={item.key}

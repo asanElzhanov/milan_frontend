@@ -23,6 +23,9 @@ export function AddressCard({
   onEdit,
   onSetDefault,
 }: AddressCardProps) {
+  const recipient = formatAddressRecipient(address);
+  const addressLine = formatAddressLine(address) || address.addressLine1 || address.addressLine2;
+
   return (
     <article className="border border-sara-beige-dark bg-sara-white p-5">
       <div className="flex items-start justify-between gap-4">
@@ -33,15 +36,17 @@ export function AddressCard({
             </h3>
             {address.isDefault ? <Badge variant="bronze">{labels.defaultAddress}</Badge> : null}
           </div>
-          <p className="text-sm text-sara-graphite/70">{formatAddressRecipient(address)}</p>
+          {recipient ? <p className="text-sm text-sara-graphite/70">{recipient}</p> : null}
         </div>
         <MapPin aria-hidden className="h-5 w-5 shrink-0 text-sara-bronze" />
       </div>
 
-      <div className="mt-4 space-y-2 text-sm leading-6 text-sara-graphite/70">
-        <p>{address.phone || '-'}</p>
-        <p>{formatAddressLine(address) || address.addressLine2 || '-'}</p>
-      </div>
+      {address.phone || addressLine ? (
+        <div className="mt-4 space-y-2 text-sm leading-6 text-sara-graphite/70">
+          {address.phone ? <p>{address.phone}</p> : null}
+          {addressLine ? <p>{addressLine}</p> : null}
+        </div>
+      ) : null}
 
       <div className="mt-5 flex flex-wrap gap-2">
         <Button
