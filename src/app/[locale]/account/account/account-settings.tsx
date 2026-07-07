@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 
 import { useUpdateProfileMutation } from '@/features/auth';
 import { getApiErrorMessage } from '@/shared/api';
+import { formatPhoneInput } from '@/shared/lib';
 import { Alert, Button, Input } from '@/shared/ui';
 
 import type { AccountUserProps } from './account.types';
@@ -12,7 +13,7 @@ export function AccountSettings({ labels, user }: AccountUserProps) {
   const updateProfileMutation = useUpdateProfileMutation();
   const [firstName, setFirstName] = useState(user.firstName ?? '');
   const [lastName, setLastName] = useState(user.lastName ?? '');
-  const [phone, setPhone] = useState(user.phone ?? '');
+  const [phone, setPhone] = useState(formatPhoneInput(user.phone ?? ''));
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -66,7 +67,8 @@ export function AccountSettings({ labels, user }: AccountUserProps) {
           <Input
             disabled={updateProfileMutation.isPending}
             label={labels.phone}
-            onChange={(event) => setPhone(event.target.value)}
+            onChange={(event) => setPhone(formatPhoneInput(event.target.value))}
+            type="tel"
             value={phone}
           />
         </div>

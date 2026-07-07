@@ -1,4 +1,5 @@
 import type { CheckoutFormValues } from '@/features/checkout';
+import { formatPhoneInput } from '@/shared/lib';
 import { Input, Textarea } from '@/shared/ui';
 
 import type { CheckoutDictionary } from './checkout.dictionary';
@@ -44,7 +45,7 @@ export function CheckoutManualAddress({
           disabled={disabled}
           error={fieldError(errors, 'manualAddress.phone', labels)}
           label={labels.phone}
-          onChange={(event) => onChange('phone', event.target.value)}
+          onChange={(event) => onChange('phone', formatPhoneInput(event.target.value))}
           required
           type="tel"
           value={values.phone}

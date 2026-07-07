@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ChevronDown } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 import { isSupportedLocale } from '@/shared/config';
@@ -35,8 +36,13 @@ export default async function FaqPage({ params }: StaticRouteProps) {
             className="group border border-sara-beige-dark/70 bg-sara-white p-5"
             key={item.question}
           >
-            <summary className="cursor-pointer list-none font-medium text-sara-graphite">
-              {item.question}
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-sara-graphite">
+              <span>{item.question}</span>
+              <ChevronDown
+                aria-hidden="true"
+                className="shrink-0 text-lg leading-none text-sara-graphite/60 transition-transform duration-200 group-open:rotate-180"
+                size={20}
+              />
             </summary>
             <p className="mt-4 text-sm leading-7 text-sara-graphite/70">{item.answer}</p>
           </details>

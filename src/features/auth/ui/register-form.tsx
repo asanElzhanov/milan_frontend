@@ -1,11 +1,13 @@
 'use client';
 
+import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
 
 import { getApiErrorMessage } from '@/shared/api';
 import { getSafeCallbackUrl, withLocale } from '@/shared/config';
+import { formatPhoneInput } from '@/shared/lib';
 import { Alert, Button, Checkbox, Input } from '@/shared/ui';
 
 import { useRegisterMutation } from '../api/auth.queries';
@@ -39,6 +41,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
   const [errors, setErrors] = useState<RegisterErrors>({});
   const [message, setMessage] = useState<string | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -160,7 +163,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
           error={errors.phone}
           disabled={isPending}
           label={dictionary.phone}
-          onChange={(event) => setPhone(event.target.value)}
+          onChange={(event) => setPhone(formatPhoneInput(event.target.value))}
           required
           type="tel"
           value={phone}
@@ -172,7 +175,22 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
           label={dictionary.password}
           onChange={(event) => setPassword(event.target.value)}
           required
-          type="password"
+          rightIcon={
+            <button
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              className="sara-focus inline-flex h-7 w-7 items-center justify-center text-sara-graphite/55 hover:text-sara-graphite"
+              disabled={isPending}
+              onClick={() => setShowPassword((current) => !current)}
+              type="button"
+            >
+              {showPassword ? (
+                <EyeOff aria-hidden className="h-4 w-4" />
+              ) : (
+                <Eye aria-hidden className="h-4 w-4" />
+              )}
+            </button>
+          }
+          type={showPassword ? 'text' : 'password'}
           value={password}
         />
         <Input
@@ -182,7 +200,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
           label={dictionary.confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}
           required
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           value={confirmPassword}
         />
       </div>

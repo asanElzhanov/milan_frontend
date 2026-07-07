@@ -48,7 +48,7 @@ export async function CatalogPage({ categorySlug, locale, searchParams }: Catalo
               locale={locale}
               searchParams={searchParams}
             />
-            <div className="flex items-end gap-3">
+            <div className="flex items-start gap-3">
               <CatalogMobileFilters key={filterKey} {...filterProps} />
               <CatalogSort
                 categorySlug={categorySlug}

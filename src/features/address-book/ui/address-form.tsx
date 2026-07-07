@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from 'react';
 
 import type { Address } from '@/entities/address';
+import { formatPhoneInput } from '@/shared/lib';
 import { Alert, Button, Checkbox, Input, Textarea } from '@/shared/ui';
 
 import type { AddressBookDictionary } from '../address-book.dictionary';
@@ -30,7 +31,14 @@ export function AddressForm({
   onSubmit,
   submitLabel,
 }: AddressFormProps) {
-  const [values, setValues] = useState(() => getInitialAddressFormValues(initialAddress));
+  const [values, setValues] = useState(() => {
+    const initialValues = getInitialAddressFormValues(initialAddress);
+
+    return {
+      ...initialValues,
+      phone: formatPhoneInput(initialValues.phone),
+    };
+  });
   const [errors, setErrors] = useState<AddressFormErrors>({});
 
   const updateField = <Key extends keyof AddressFormValues>(
@@ -75,7 +83,7 @@ export function AddressForm({
           disabled={isSubmitting}
           error={errors.phone}
           label={labels.phone}
-          onChange={(event) => updateField('phone', event.target.value)}
+          onChange={(event) => updateField('phone', formatPhoneInput(event.target.value))}
           required
           type="tel"
           value={values.phone}

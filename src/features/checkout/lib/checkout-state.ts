@@ -1,3 +1,5 @@
+import { formatPhoneInput } from '@/shared/lib';
+
 import type { CheckoutFormValues, CheckoutPaymentMethod } from '../model/checkout.types';
 
 const toFormString = (value: string | number | null | undefined): string =>
@@ -13,7 +15,7 @@ export function createInitialCheckoutFormValues(args?: {
   return {
     customerFullName: args?.userFullName ?? '',
     customerEmail: args?.userEmail ?? '',
-    customerPhone: args?.userPhone ?? '',
+    customerPhone: formatPhoneInput(args?.userPhone ?? ''),
     addressMode: args?.defaultAddressId ? 'saved' : 'manual',
     addressId: toFormString(args?.defaultAddressId),
     manualAddress: {

@@ -1,4 +1,5 @@
 import { Input } from '@/shared/ui';
+import { formatPhoneInput } from '@/shared/lib';
 
 import type { CheckoutDictionary } from './checkout.dictionary';
 
@@ -55,7 +56,7 @@ export function CheckoutCustomerForm({
           disabled={disabled}
           error={fieldError(errors, 'customerPhone', labels)}
           label={labels.phone}
-          onChange={(event) => onChange('customerPhone', event.target.value)}
+          onChange={(event) => onChange('customerPhone', formatPhoneInput(event.target.value))}
           required
           type="tel"
           value={values.customerPhone}
