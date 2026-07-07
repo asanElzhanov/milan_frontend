@@ -13,6 +13,7 @@ import { Button, Checkbox, Input } from '@/shared/ui';
 import {
   buildCatalogHref,
   getSearchParams,
+  hasCatalogFilters,
   resetFiltersHref,
   setFilterValue,
 } from './catalog-url';
@@ -74,6 +75,19 @@ export function CatalogFilterSidebar({
   const [inStock, setInStock] = useState(searchParams.in_stock === 'true');
   const [isSale, setIsSale] = useState(searchParams.is_sale === 'true');
   const [isNew, setIsNew] = useState(searchParams.is_new === 'true');
+  const hasActiveFilters = hasCatalogFilters(searchParams, categorySlug);
+  const hasDraftFilters = Boolean(
+    selectedBrands.length > 0 ||
+      selectedColors.length > 0 ||
+      selectedSizes.length > 0 ||
+      inStock ||
+      isSale ||
+      isNew ||
+      priceMin.trim() ||
+      priceMax.trim() ||
+      material.trim() ||
+      season.trim(),
+  );
 
   const toggleDraftValue = (values: string[], value: string) =>
     values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
@@ -101,9 +115,15 @@ export function CatalogFilterSidebar({
     <aside className="space-y-8">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-lg font-semibold text-sara-black">{dictionary.filters}</h2>
-        <Button asChild size="sm" variant="link">
-          <Link href={resetFiltersHref(locale)}>{dictionary.reset}</Link>
-        </Button>
+        {hasActiveFilters ? (
+          <Button asChild size="sm" variant="link">
+            <Link href={resetFiltersHref(locale)}>{dictionary.reset}</Link>
+          </Button>
+        ) : (
+          <Button disabled size="sm" variant="link">
+            {dictionary.reset}
+          </Button>
+        )}
       </div>
 
       {categories.length > 0 ? (
@@ -255,7 +275,7 @@ export function CatalogFilterSidebar({
           <Checkbox checked={isNew} label={dictionary.new} onCheckedChange={setIsNew} />
         </section>
 
-        <Button fullWidth type="submit">
+        <Button disabled={!hasDraftFilters} fullWidth type="submit">
           {dictionary.apply}
         </Button>
       </form>

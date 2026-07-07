@@ -235,6 +235,15 @@ export const removeFilterValue = (
 export const resetFiltersHref = (locale: AppLocale, categorySlug?: string): string =>
   buildCatalogHref(locale, {}, categorySlug);
 
+export const hasCatalogFilters = (
+  searchParams: CatalogSearchParams,
+  categorySlug?: string,
+): boolean => {
+  const params = normalizeCatalogSearchParams(searchParams);
+
+  return Boolean(categorySlug || CATALOG_QUERY_KEYS.some((key) => key !== 'page' && params[key]));
+};
+
 export const getSearchParam = (
   searchParams: CatalogSearchParams,
   key: keyof CatalogSearchParams,

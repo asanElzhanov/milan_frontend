@@ -29,8 +29,7 @@ export function CatalogSort({ categorySlug, dictionary, locale, searchParams }: 
 
   return (
     <Select
-      aria-label={dictionary.sort}
-      label={dictionary.sort}
+      ariaLabel={dictionary.sort}
       onValueChange={handleChange}
       options={[
         { value: DEFAULT_SORT, label: dictionary.allSort },

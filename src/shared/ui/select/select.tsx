@@ -16,6 +16,7 @@ export type SelectProps = {
   options: SelectOption[];
   value?: string;
   onValueChange?: (value: string) => void;
+  ariaLabel?: string;
   label?: ReactNode;
   placeholder?: string;
   error?: ReactNode;
@@ -27,6 +28,7 @@ export type SelectProps = {
 };
 
 export function Select({
+  ariaLabel,
   className,
   disabled,
   error,
@@ -55,6 +57,7 @@ export function Select({
         <SelectPrimitive.Trigger
           aria-describedby={[hintId, errorId].filter(Boolean).join(' ') || undefined}
           aria-invalid={Boolean(error)}
+          aria-label={label ? undefined : ariaLabel}
           aria-labelledby={label ? `${id}-label` : undefined}
           className={cn(
             'sara-focus flex h-11 w-full items-center justify-between border border-sara-beige-dark bg-sara-white px-3 text-left text-sm text-sara-graphite data-[placeholder]:text-sara-graphite/45',

@@ -1,8 +1,8 @@
 'use client';
 
-import { Heart, Menu, Search, ShoppingBag, User } from 'lucide-react';
+import { Menu, Search, ShoppingBag, User } from 'lucide-react';
 import Link from 'next/link';
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 
 import type { AppLocale } from '@/shared/config';
 import { withLocale } from '@/shared/config';
@@ -10,18 +10,15 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui';
 
 import type { headerDictionary } from '../lib/header.dictionary';
 import type { HeaderNavItem } from '../model/types';
-import { LanguageSwitcher } from './language-switcher';
 
 export function MobileMenu({
   dictionary,
   locale,
   navItems,
-  showWishlist,
 }: {
   dictionary: (typeof headerDictionary)[AppLocale];
   locale: AppLocale;
   navItems: HeaderNavItem[];
-  showWishlist: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -79,16 +76,6 @@ export function MobileMenu({
               <User aria-hidden className="h-4 w-4" />
               {dictionary.account}
             </Link>
-            {showWishlist ? (
-              <Link
-                className="flex items-center gap-3 text-sm text-sara-graphite"
-                href={withLocale(locale, '/account/wishlist')}
-                onClick={close}
-              >
-                <Heart aria-hidden className="h-4 w-4" />
-                {dictionary.wishlist}
-              </Link>
-            ) : null}
             <Link
               className="flex items-center gap-3 text-sm text-sara-graphite"
               href={withLocale(locale, '/cart')}
@@ -98,9 +85,6 @@ export function MobileMenu({
               {dictionary.cart}
             </Link>
           </div>
-          <Suspense fallback={null}>
-            <LanguageSwitcher locale={locale} />
-          </Suspense>
         </div>
       </DrawerContent>
     </Drawer>

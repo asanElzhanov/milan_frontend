@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 import { env, withLocale } from '@/shared/config';
+import { LanguageSwitcher } from '@/widgets/header/ui/language-switcher';
 
 import { footerDictionary } from '../lib/footer.dictionary';
 import { getFooterLinkGroups } from '../lib/footer-links';
@@ -19,6 +21,11 @@ export function Footer({ locale }: FooterProps) {
             <Link className="font-fashion text-3xl tracking-[0.18em]" href={withLocale(locale)}>
               SARA MILAN
             </Link>
+            <div className="pt-6">
+              <Suspense fallback={null}>
+                <LanguageSwitcher locale={locale} variant="footer" />
+              </Suspense>
+            </div>
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2">

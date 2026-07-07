@@ -2,16 +2,14 @@
 
 import { Heart, ShoppingBag, User } from 'lucide-react';
 import Link from 'next/link';
-import { Suspense } from 'react';
 
 import { NotificationHeaderBadge } from '@/features/notifications';
 import type { AppLocale } from '@/shared/config';
-import { env, withLocale } from '@/shared/config';
+import { withLocale } from '@/shared/config';
 
 import { headerDictionary } from '../lib/header.dictionary';
 import type { HeaderNavItem } from '../model/types';
 import { HeaderIconLink } from './header-icon-link';
-import { LanguageSwitcher } from './language-switcher';
 import { MobileMenu } from './mobile-menu';
 import { SearchDrawer } from './search-drawer';
 
@@ -24,7 +22,6 @@ export function HeaderClient({
   navItems: HeaderNavItem[];
   cartCount?: number;
 }) {
-  const showWishlist = env.features.wishlist;
   const dictionary = headerDictionary[locale];
 
   return (
@@ -39,7 +36,6 @@ export function HeaderClient({
               dictionary={dictionary}
               locale={locale}
               navItems={navItems}
-              showWishlist={showWishlist}
             />
             <nav className="hidden items-center gap-7 lg:flex">
               {navItems.map((item) => (
@@ -66,20 +62,10 @@ export function HeaderClient({
           </Link>
 
           <div className="flex flex-1 items-center justify-end gap-1 md:gap-3">
-            <div className="hidden md:block">
-              <Suspense fallback={null}>
-                <LanguageSwitcher locale={locale} />
-              </Suspense>
-            </div>
             <SearchDrawer dictionary={dictionary} locale={locale} />
-            {showWishlist ? (
-              <HeaderIconLink
-                href={withLocale(locale, '/account/wishlist')}
-                label={dictionary.wishlist}
-              >
-                <Heart aria-hidden className="h-5 w-5" />
-              </HeaderIconLink>
-            ) : null}
+            <HeaderIconLink href={withLocale(locale, '/account/wishlist')} label={dictionary.wishlist}>
+              <Heart aria-hidden className="h-5 w-5" />
+            </HeaderIconLink>
             <HeaderIconLink href={withLocale(locale, '/account')} label={dictionary.account}>
               <User aria-hidden className="h-5 w-5" />
               <NotificationHeaderBadge />

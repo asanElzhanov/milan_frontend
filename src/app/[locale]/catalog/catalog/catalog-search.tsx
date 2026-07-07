@@ -21,6 +21,7 @@ export function CatalogSearch({
 }: CatalogSearchProps) {
   const router = useRouter();
   const [value, setValue] = useState(searchParams.search ?? '');
+  const canApplySearch = value.trim().length > 0;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,7 +40,7 @@ export function CatalogSearch({
         placeholder={dictionary.searchPlaceholder}
         value={value}
       />
-      <Button className="shrink-0" type="submit">
+      <Button className="shrink-0" disabled={!canApplySearch} type="submit">
         {dictionary.apply}
       </Button>
     </form>
