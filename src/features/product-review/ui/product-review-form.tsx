@@ -1,7 +1,9 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import { useState, type FormEvent } from 'react';
 
+import { orderApi, orderKeys, type Order } from '@/entities/order';
 import {
   createReviewPayload,
   reviewEndpointConfig,
@@ -33,6 +35,31 @@ const emptyValues: ProductReviewFormValues = {
   text: '',
 };
 
+const inactiveOrderStatuses = new Set(['draft', 'cancelled', 'canceled', 'failed']);
+
+const normalizeOrderNumber = (value: string) => value.trim().toLowerCase();
+
+const isReviewCandidateOrder = (order: Order): boolean => {
+  const status = order.status?.toLowerCase();
+
+  return !status || !inactiveOrderStatuses.has(status);
+};
+
+const orderContainsProduct = (order: Order, productSlug: string): boolean =>
+  order.items.some((item) => item.productSlug === productSlug);
+
+const loadOrdersForReviewCheck = async (): Promise<Order[]> => {
+  const firstPage = await orderApi.getOrders({ page: 1 });
+  const orders = [...firstPage.orders];
+
+  for (let page = 2; page <= firstPage.totalPages; page += 1) {
+    const nextPage = await orderApi.getOrders({ page });
+    orders.push(...nextPage.orders);
+  }
+
+  return orders;
+};
+
 export function ProductReviewForm({
   disabled = false,
   labels,
@@ -47,10 +74,46 @@ export function ProductReviewForm({
   const mutation = useCreateProductReviewMutation(productSlug);
   const authenticated = Boolean(getAccessToken());
   const endpointAvailable = reviewEndpointConfig.productCreateConfigured && isRealApiMode;
-  const formDisabled = disabled || !endpointAvailable || mutation.isPending;
+  const ordersQuery = useQuery({
+    queryKey: [...orderKeys.lists(), 'review-eligibility'],
+    queryFn: loadOrdersForReviewCheck,
+    enabled: authenticated,
+    retry: 1,
+  });
+  const matchingOrders =
+    ordersQuery.data?.filter(
+      (order) => isReviewCandidateOrder(order) && orderContainsProduct(order, productSlug),
+    ) ?? [];
+  const canReview = matchingOrders.length > 0;
+  const formDisabled =
+    disabled || !endpointAvailable || mutation.isPending || ordersQuery.isLoading || !canReview;
 
   if (!authenticated)
     return <ReviewAuthRequired labels={labels} locale={locale} productSlug={productSlug} />;
+
+  if (ordersQuery.isLoading) {
+    return (
+      <div className="sara-card p-6">
+        <p className="text-caption text-sara-graphite">{labels.checkingPurchase}</p>
+      </div>
+    );
+  }
+
+  if (ordersQuery.isError) {
+    return (
+      <Alert title={labels.purchaseCheckErrorTitle} variant="danger">
+        {getApiErrorMessage(ordersQuery.error)}
+      </Alert>
+    );
+  }
+
+  if (!canReview) {
+    return (
+      <Alert title={labels.purchaseRequiredTitle} variant="warning">
+        {labels.purchaseRequiredDescription}
+      </Alert>
+    );
+  }
 
   const update = (field: keyof ProductReviewFormValues, value: string | number) => {
     setValues((current) => ({ ...current, [field]: value }));
@@ -60,6 +123,15 @@ export function ProductReviewForm({
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const validation = validateProductReviewForm(values);
+    const normalizedOrderNumber = normalizeOrderNumber(values.orderNumber);
+    const orderMatchesProduct = matchingOrders.some(
+      (order) => normalizeOrderNumber(order.orderNumber) === normalizedOrderNumber,
+    );
+
+    if (!validation.orderNumber && !orderMatchesProduct) {
+      validation.orderNumber = labels.orderMustContainProduct;
+    }
+
     setErrors(validation);
     if (hasProductReviewFormErrors(validation) || formDisabled) return;
     mutation.mutate(
@@ -118,7 +190,11 @@ export function ProductReviewForm({
       </fieldset>
       <Input
         disabled={formDisabled}
-        error={errors.orderNumber ? labels.orderNumberRequired : undefined}
+        error={
+          errors.orderNumber === 'orderNumber'
+            ? labels.orderNumberRequired
+            : errors.orderNumber
+        }
         label={labels.orderNumber}
         onChange={(e) => update('orderNumber', e.target.value)}
         required

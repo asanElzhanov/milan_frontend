@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { cartKeys } from '@/entities/cart';
+import { orderKeys } from '@/entities/order';
 import { getCartToken } from '@/shared/api';
 
 import { mergeGuestCartAfterAuth } from '@/features/cart';
@@ -55,6 +56,8 @@ export function useLoginMutation() {
       if (result.tokens) {
         await tryMergeGuestCart(queryClient);
       }
+
+      await queryClient.invalidateQueries({ queryKey: orderKeys.all });
     },
   });
 }
@@ -75,6 +78,8 @@ export function useRegisterMutation() {
       if (result.tokens) {
         await tryMergeGuestCart(queryClient);
       }
+
+      await queryClient.invalidateQueries({ queryKey: orderKeys.all });
     },
   });
 }
@@ -89,6 +94,7 @@ export function useLogoutMutation() {
       queryClient.setQueryData(authKeys.me(), null);
       await queryClient.invalidateQueries({ queryKey: authKeys.all });
       await queryClient.invalidateQueries({ queryKey: cartKeys.current() });
+      await queryClient.invalidateQueries({ queryKey: orderKeys.all });
     },
   });
 }

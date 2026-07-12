@@ -31,6 +31,11 @@ export type ProductReviewDictionary = {
   hidden: string;
   anonymous: string;
   endpointPending: string;
+  checkingPurchase: string;
+  purchaseRequiredTitle: string;
+  purchaseRequiredDescription: string;
+  purchaseCheckErrorTitle: string;
+  orderMustContainProduct: string;
 };
 
 const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
@@ -64,7 +69,14 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
     published: 'Опубликован',
     hidden: 'Скрыт',
     anonymous: 'Покупатель',
-    endpointPending: 'Создание отзывов будет доступно при подключении real API.',
+    endpointPending:
+      'Создание отзывов будет доступно при подключении real API.',
+    checkingPurchase: 'Проверяем ваши заказы',
+    purchaseRequiredTitle: 'Отзыв доступен после заказа',
+    purchaseRequiredDescription:
+      'Вы сможете оставить отзыв после того, как оформите заказ с этим товаром.',
+    purchaseCheckErrorTitle: 'Не удалось проверить заказы',
+    orderMustContainProduct: 'Укажите номер заказа, в котором был этот товар',
   },
   kk: {
     reviews: 'Пікірлер',
@@ -78,7 +90,8 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
     submit: 'Пікір жіберу',
     submitting: 'Пікір жіберілуде',
     authRequiredTitle: 'Пікір қалдыру үшін кіріңіз',
-    authRequiredDescription: 'Пікірді тек авторизацияланған пайдаланушылар қалдыра алады.',
+    authRequiredDescription:
+      'Пікірді тек авторизацияланған пайдаланушылар қалдыра алады.',
     login: 'Кіру',
     noReviews: 'Әзірге пікір жоқ',
     firstReview: 'Бұл тауарға бірінші болып пікір қалдырыңыз.',
@@ -96,7 +109,14 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
     published: 'Жарияланды',
     hidden: 'Жасырылды',
     anonymous: 'Сатып алушы',
-    endpointPending: 'Пікір жіберу real API қосылғанда қолжетімді болады.',
+    endpointPending:
+      'Пікір жіберу real API қосылғанда қолжетімді болады.',
+    checkingPurchase: 'Тапсырыстарыңызды тексеріп жатырмыз',
+    purchaseRequiredTitle: 'Пікір тапсырыстан кейін қолжетімді',
+    purchaseRequiredDescription:
+      'Бұл тауарға тапсырыс жасағаннан кейін пікір қалдыра аласыз.',
+    purchaseCheckErrorTitle: 'Тапсырыстарды тексеру мүмкін болмады',
+    orderMustContainProduct: 'Осы тауар болған тапсырыс нөмірін көрсетіңіз',
   },
 };
 

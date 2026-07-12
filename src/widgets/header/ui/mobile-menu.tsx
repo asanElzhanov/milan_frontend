@@ -70,7 +70,7 @@ export function MobileMenu({
             </Link>
             <Link
               className="flex items-center gap-3 text-sm text-sara-graphite"
-              href={withLocale(locale, '/login')}
+              href={withLocale(locale, '/account')}
               onClick={close}
             >
               <User aria-hidden className="h-4 w-4" />
