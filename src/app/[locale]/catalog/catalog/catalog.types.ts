@@ -71,6 +71,7 @@ export type CatalogDictionary = {
   products: string;
   viewProduct: string;
   allCategories: string;
+  all: string;
   activeFilters: string;
   openFilters: string;
   closeFilters: string;

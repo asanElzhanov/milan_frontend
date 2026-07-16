@@ -10,6 +10,7 @@ import type { ProductColor } from '@/entities/color';
 import type { ProductSize } from '@/entities/size';
 import { Button, Checkbox, Input } from '@/shared/ui';
 
+import { getCategoryFilterOptions } from './catalog.adapters';
 import {
   buildCatalogHref,
   getSearchParams,
@@ -110,6 +111,7 @@ export function CatalogFilterSidebar({
   };
 
   const categoryBaseSearch = { ...searchParams, page: '1' };
+  const categoryFilter = getCategoryFilterOptions(categories, categorySlug);
 
   return (
     <aside className="space-y-8">
@@ -126,18 +128,21 @@ export function CatalogFilterSidebar({
         )}
       </div>
 
-      {categories.length > 0 ? (
+      {categoryFilter.options.length > 0 ? (
         <section className="space-y-3">
           <h3 className="text-caption font-semibold uppercase text-sara-bronze">
             {dictionary.categories}
           </h3>
           <div className="space-y-2">
-            <LinkOption active={!categorySlug} href={buildCatalogHref(locale, categoryBaseSearch)}>
-              {dictionary.allCategories}
+            <LinkOption
+              active={!categoryFilter.activeSlug}
+              href={buildCatalogHref(locale, categoryBaseSearch, categoryFilter.allSlug)}
+            >
+              {categoryFilter.allSlug ? dictionary.all : dictionary.allCategories}
             </LinkOption>
-            {categories.slice(0, 12).map((category) => (
+            {categoryFilter.options.slice(0, 12).map((category) => (
               <LinkOption
-                active={category.slug === categorySlug}
+                active={category.slug === categoryFilter.activeSlug}
                 href={buildCatalogHref(locale, categoryBaseSearch, category.slug)}
                 key={category.id}
               >
