@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { WishlistToggleButton } from '@/features/wishlist';
 import type { AppLocale } from '@/shared/config';
 import { DEFAULT_LOCALE, withLocale } from '@/shared/config';
-import { cn } from '@/shared/lib';
+import { cn, getLocalizedField } from '@/shared/lib';
 
 import type { ProductListItem } from '../../model/product.types';
 import { ProductBadges } from '../product-badges';
@@ -43,12 +43,13 @@ export function ProductCard({
 }: ProductCardProps) {
   const href = withLocale(locale, `/product/${product.slug}`);
   const isOutOfStock = product.inStock === false;
+  const productName = getLocalizedField(product, 'name', locale);
 
   return (
     <article className={cn('group relative', isOutOfStock && 'opacity-75', className)}>
       <div className="relative">
         <ProductImage
-          alt={product.name}
+          alt={productName}
           className={cn(isOutOfStock && 'grayscale')}
           href={href}
           priority={priority}
@@ -95,7 +96,7 @@ export function ProductCard({
             className="sara-focus block font-fashion text-2xl leading-tight text-sara-black hover:text-sara-bronze"
             href={href}
           >
-            {product.name}
+            {productName}
           </Link>
           {product.brandName ? (
             <p className="text-sm text-sara-graphite/55">{product.brandName}</p>

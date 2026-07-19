@@ -6,6 +6,7 @@ import type { CartItem } from '@/entities/cart';
 import { ProductImage } from '@/entities/product';
 import type { AppLocale } from '@/shared/config';
 import { withLocale } from '@/shared/config';
+import { getLocalizedField } from '@/shared/lib';
 import { Button, Price, QuantitySelector } from '@/shared/ui';
 
 import type { CartDictionary } from './cart.dictionary';
@@ -34,11 +35,12 @@ export function CartItemCard({
   const isUnavailable = item.inStock === false || item.variant.inStock === false;
   const unitPrice = item.unitPrice ?? item.variant.price;
   const totalPrice = item.totalPrice ?? unitPrice;
+  const productName = getLocalizedField(item.product, 'name', locale);
 
   return (
     <article className="sara-card grid gap-5 p-4 sm:grid-cols-[124px_minmax(0,1fr)] md:p-5">
       <ProductImage
-        alt={item.product.name}
+        alt={productName}
         aspectRatio="portrait"
         className="rounded-sara-md"
         href={productHref ?? undefined}
@@ -49,10 +51,10 @@ export function CartItemCard({
         <div className="min-w-0">
           {productHref ? (
             <Link className="luxury-link font-fashion text-2xl text-sara-black" href={productHref}>
-              {item.product.name}
+              {productName}
             </Link>
           ) : (
-            <h2 className="font-fashion text-2xl text-sara-black">{item.product.name}</h2>
+            <h2 className="font-fashion text-2xl text-sara-black">{productName}</h2>
           )}
 
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-sara-graphite/65">

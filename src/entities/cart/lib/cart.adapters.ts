@@ -110,6 +110,9 @@ const adaptProductSnapshot = (raw: unknown): CartProductSnapshot => {
   return {
     id: readId(raw.id ?? raw.pk),
     name: toStringOrNull(raw.name ?? raw.title) ?? 'Product',
+    name_ru: toStringOrNull(raw.name_ru),
+    name_kz: toStringOrNull(raw.name_kz),
+    name_en: toStringOrNull(raw.name_en),
     slug: toStringOrNull(raw.slug),
     sku: toStringOrNull(raw.sku),
     imageUrl: getMediaUrl(
@@ -207,7 +210,14 @@ export function adaptCart(raw: unknown): Cart {
   const record = isRecord(source) ? source : {};
   const items = extractCartItems(source);
   const backendItemsCount = toNumberOrNull(
-    record.items_count ?? record.count ?? record.total_items ?? root.items_count ?? root.count,
+    record.total_quantity ??
+      record.totalQuantity ??
+      root.total_quantity ??
+      record.items_count ??
+      record.count ??
+      record.total_items ??
+      root.items_count ??
+      root.count,
   );
   const itemsCount = backendItemsCount ?? sumItemQuantities(items);
 

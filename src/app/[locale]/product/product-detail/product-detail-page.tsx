@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { withLocale } from '@/shared/config';
+import { getLocalizedField } from '@/shared/lib';
 import { Button, Container, ErrorState } from '@/shared/ui';
 
 import { getProductDetailData } from './product-detail.api';
@@ -34,18 +35,24 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
   }
 
   const galleryItems = getProductGalleryItems(data.product);
+  const localizedProduct = {
+    ...data.product,
+    name: getLocalizedField(data.product, 'name', locale),
+    description: getLocalizedField(data.product, 'description', locale),
+  };
 
   return (
     <Container className="sara-section space-y-16">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
-        <ProductDetailGallery items={galleryItems} productName={data.product.name} />
-        <ProductDetailInfo dictionary={dictionary} locale={locale} product={data.product} />
+        <ProductDetailGallery items={galleryItems} productName={localizedProduct.name} />
+        <ProductDetailInfo dictionary={dictionary} locale={locale} product={localizedProduct} />
       </div>
 
-      <ProductDescription dictionary={dictionary} product={data.product} />
+      <ProductDescription dictionary={dictionary} product={localizedProduct} />
       <ProductReviewsPreview
         dictionary={dictionary}
         locale={locale}
+        productId={data.product.id}
         productSlug={decodeURIComponent(slug)}
         reviews={data.reviews}
       />

@@ -45,4 +45,13 @@ export const footerDictionary = {
       terms: 'Пайдаланушы келісімі',
     },
   },
-} as const satisfies Record<AppLocale, object>;
+  en: {
+    navigation: 'Navigation', customer: 'Customer service', contacts: 'Contacts',
+    contactsPlaceholder: 'Contact details will be added after confirmation.',
+    newsletterTitle: 'Sara Milan news', newsletterDescription: 'Newsletter coming soon.',
+    newsletterSoon: 'Coming soon', rights: 'All rights reserved.',
+    links: { catalog: 'Catalog', about: 'About Sara Milan', delivery: 'Delivery', payment: 'Payment',
+      faq: 'FAQ', contacts: 'Contacts', account: 'Account', orders: 'Orders', privacy: 'Privacy policy',
+      terms: 'Terms of use' },
+  },
+} as const satisfies Record<AppLocale | 'en', object>;

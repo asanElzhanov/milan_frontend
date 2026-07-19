@@ -29,19 +29,19 @@ const productReviewsPath = (slug: string) =>
   `/api/v1/catalog/products/${encodeURIComponent(slug)}/reviews/`;
 
 export const reviewApi = {
-  async getProductReviews(slug: string): Promise<ReviewListResponse> {
+  async getProductReviews(slug: string, page = 1): Promise<ReviewListResponse> {
     if (isMockApiMode) return createEmptyReviewList();
 
     const response = await apiClient.get<unknown>(productReviewsPath(slug), {
       auth: false,
       cartToken: false,
+      query: page > 1 ? { page } : undefined,
     });
 
     return adaptReviewList(response);
   },
 
   async createProductReview(
-    slug: string,
     payload: CreateProductReviewPayload,
   ): Promise<ProductReview | null> {
     if (isMockApiMode) {
@@ -51,7 +51,6 @@ export const reviewApi = {
     const response = await apiClient.post<unknown>(
       CREATE_REVIEW_ENDPOINT,
       {
-        product_slug: slug.trim(),
         ...payload,
       },
       {

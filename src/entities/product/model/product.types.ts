@@ -1,6 +1,9 @@
 export type ProductListItem = {
   id: string | number;
   name: string;
+  name_ru?: string | null;
+  name_kz?: string | null;
+  name_en?: string | null;
   slug: string;
   sku?: string | null;
   brandName?: string | null;
@@ -41,6 +44,9 @@ export type ProductVariant = {
 
 export type ProductDetail = ProductListItem & {
   description?: string | null;
+  description_ru?: string | null;
+  description_kz?: string | null;
+  description_en?: string | null;
   composition?: string | null;
   material?: string | null;
   season?: string | null;

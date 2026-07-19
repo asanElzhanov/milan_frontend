@@ -33,4 +33,11 @@ export const headerDictionary = {
     delivery: 'Жеткізу',
     contacts: 'Байланыс',
   },
-} as const satisfies Record<AppLocale, Record<string, string>>;
+  en: {
+    announcement: 'Free delivery across Kazakhstan on orders over 50,000 ₸',
+    searchPlaceholder: 'Search products', searchLabel: 'Search', searchTitle: 'Search the catalog',
+    searchDescription: 'Enter a query to open the catalog with search applied.', searchSubmit: 'Search',
+    account: 'Account', cart: 'Cart', wishlist: 'Wishlist', menu: 'Menu', catalog: 'Catalog',
+    about: 'About', delivery: 'Delivery', contacts: 'Contacts',
+  },
+} as const satisfies Record<AppLocale | 'en', Record<string, string>>;

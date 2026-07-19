@@ -8,6 +8,7 @@ import type { AuthDictionary } from '../model/auth-ui.types';
 const conjunction = {
   ru: 'и',
   kk: 'және',
+  en: 'and',
 };
 
 export function AuthLegalNote({

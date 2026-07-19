@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, isSupportedLocale, type AppLocale } from './locales';
+import { DEFAULT_LOCALE, isSupportedLocale, type AppLocale, type SupportedLocale } from './locales';
 
 const normalizePath = (path: string): string => {
   if (!path || path === '/') {
@@ -8,7 +8,7 @@ const normalizePath = (path: string): string => {
   return path.startsWith('/') ? path : `/${path}`;
 };
 
-export const withLocale = (locale: AppLocale, path = '/'): string => {
+export const withLocale = (locale: SupportedLocale, path = '/'): string => {
   const normalizedPath = normalizePath(path);
 
   return normalizedPath ? `/${locale}${normalizedPath}` : `/${locale}`;
@@ -88,7 +88,7 @@ export function loginWithCallback(locale: AppLocale, callbackPath: string): stri
   return `${withLocale(locale, '/login')}?callbackUrl=${encodeURIComponent(callbackUrl)}`;
 }
 
-export const replaceLocale = (pathname: string, targetLocale: AppLocale): string => {
+export const replaceLocale = (pathname: string, targetLocale: SupportedLocale): string => {
   const [path = '/', query = ''] = pathname.split('?');
   const segments = path.split('/').filter(Boolean);
 

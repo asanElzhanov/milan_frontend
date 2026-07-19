@@ -8,15 +8,17 @@ type ProductReviewsPreviewProps = {
   dictionary: ProductDetailDictionary;
   locale: AppLocale;
   productSlug: string;
+  productId: string | number;
   reviews: ReviewListResponse;
 };
 
 export function ProductReviewsPreview({
   locale,
   productSlug,
+  productId,
   reviews,
 }: ProductReviewsPreviewProps) {
   return (
-    <ProductReviewsSection initialReviews={reviews} locale={locale} productSlug={productSlug} />
+    <ProductReviewsSection initialReviews={reviews} locale={locale} productId={productId} productSlug={productSlug} />
   );
 }

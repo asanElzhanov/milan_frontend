@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { Select } from '@/shared/ui';
 
-import { buildCatalogHref, setFilterValue } from './catalog-url';
+import { buildCatalogHref, RECOMMENDED_SORT, setFilterValue } from './catalog-url';
 import type { CatalogDictionary, CatalogPageProps } from './catalog.types';
 
 type CatalogSortProps = Pick<CatalogPageProps, 'categorySlug' | 'locale' | 'searchParams'> & {
@@ -33,6 +33,7 @@ export function CatalogSort({ categorySlug, dictionary, locale, searchParams }: 
       onValueChange={handleChange}
       options={[
         { value: DEFAULT_SORT, label: dictionary.allSort },
+        { value: RECOMMENDED_SORT, label: dictionary.recommended },
         { value: 'price', label: dictionary.priceAsc },
         { value: '-price', label: dictionary.priceDesc },
         { value: '-created_at', label: dictionary.newest },

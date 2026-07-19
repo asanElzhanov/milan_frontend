@@ -36,9 +36,11 @@ export type ProductReviewDictionary = {
   purchaseRequiredDescription: string;
   purchaseCheckErrorTitle: string;
   orderMustContainProduct: string;
+  previous: string;
+  next: string;
 };
 
-const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
+const dictionaries: Record<AppLocale | 'en', ProductReviewDictionary> = {
   ru: {
     reviews: 'Отзывы',
     writeReview: 'Оставить отзыв',
@@ -77,6 +79,8 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
       'Вы сможете оставить отзыв после того, как оформите заказ с этим товаром.',
     purchaseCheckErrorTitle: 'Не удалось проверить заказы',
     orderMustContainProduct: 'Укажите номер заказа, в котором был этот товар',
+    previous: 'Назад',
+    next: 'Далее',
   },
   kk: {
     reviews: 'Пікірлер',
@@ -117,6 +121,27 @@ const dictionaries: Record<AppLocale, ProductReviewDictionary> = {
       'Бұл тауарға тапсырыс жасағаннан кейін пікір қалдыра аласыз.',
     purchaseCheckErrorTitle: 'Тапсырыстарды тексеру мүмкін болмады',
     orderMustContainProduct: 'Осы тауар болған тапсырыс нөмірін көрсетіңіз',
+    previous: 'Артқа',
+    next: 'Келесі',
+  },
+  en: {
+    reviews: 'Reviews', writeReview: 'Write a review', rating: 'Rating', orderNumber: 'Order number',
+    title: 'Title', text: 'Review', advantages: 'Pros', disadvantages: 'Cons', submit: 'Submit review',
+    submitting: 'Submitting review', authRequiredTitle: 'Sign in to write a review',
+    authRequiredDescription: 'Only signed-in customers can write reviews.', login: 'Sign in',
+    noReviews: 'No reviews yet', firstReview: 'Be the first to review this product.',
+    reviewCreated: 'Review submitted',
+    reviewModeration: 'Your review has been submitted for moderation',
+    createError: 'Could not submit the review', loadError: 'Could not load reviews', retry: 'Retry',
+    ratingRequired: 'Choose a rating', orderNumberRequired: 'Enter an order number',
+    textRequired: 'Write your review', pending: 'Pending moderation', approved: 'Approved',
+    rejected: 'Rejected', published: 'Published', hidden: 'Hidden', anonymous: 'Customer',
+    endpointPending: 'Review submission is available when the real API is connected.',
+    checkingPurchase: 'Checking your orders', purchaseRequiredTitle: 'Purchase required',
+    purchaseRequiredDescription: 'You can review this product after an eligible purchase.',
+    purchaseCheckErrorTitle: 'Could not verify your orders',
+    orderMustContainProduct: 'Enter an eligible order that contains this product',
+    previous: 'Previous', next: 'Next',
   },
 };
 

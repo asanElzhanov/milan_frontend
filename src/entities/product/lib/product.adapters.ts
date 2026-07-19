@@ -35,6 +35,9 @@ const readStringArray = (value: unknown): string[] | undefined => {
 
       if (isRecord(item)) {
         return (
+          toStringOrNull(item.name_ru) ??
+          toStringOrNull(item.name_en) ??
+          toStringOrNull(item.name_kz) ??
           toStringOrNull(item.name) ??
           toStringOrNull(item.value) ??
           toStringOrNull(item.slug) ??
@@ -60,7 +63,12 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
     return null;
   }
 
-  const name = toStringOrNull(value.name) ?? toStringOrNull(value.title);
+  const name =
+    toStringOrNull(value.name_ru) ??
+    toStringOrNull(value.name_en) ??
+    toStringOrNull(value.name_kz) ??
+    toStringOrNull(value.name) ??
+    toStringOrNull(value.title);
 
   if (!name) {
     return null;
@@ -72,6 +80,9 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
   return {
     id,
     name,
+    name_ru: toStringOrNull(value.name_ru),
+    name_kz: toStringOrNull(value.name_kz),
+    name_en: toStringOrNull(value.name_en),
     slug,
     sku: toStringOrNull(value.sku),
     brandName: toStringOrNull(value.brand_name),
@@ -197,6 +208,9 @@ export const adaptProductDetail = (response: unknown): ProductDetail | null => {
   return {
     ...baseProduct,
     description: toStringOrNull(response.description),
+    description_ru: toStringOrNull(response.description_ru),
+    description_kz: toStringOrNull(response.description_kz),
+    description_en: toStringOrNull(response.description_en),
     composition: toStringOrNull(response.composition),
     material: toStringOrNull(response.material),
     season: toStringOrNull(response.season),

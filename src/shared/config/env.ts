@@ -26,7 +26,7 @@ export const env = {
   apiMode,
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'ru',
-  supportedLocales: splitCsv(process.env.NEXT_PUBLIC_SUPPORTED_LOCALES ?? 'ru,kk'),
+  supportedLocales: splitCsv(process.env.NEXT_PUBLIC_SUPPORTED_LOCALES ?? 'ru,kk,en'),
   features: {
     wishlist: readBoolean(process.env.NEXT_PUBLIC_ENABLE_WISHLIST),
     newsletter: readBoolean(process.env.NEXT_PUBLIC_ENABLE_NEWSLETTER),

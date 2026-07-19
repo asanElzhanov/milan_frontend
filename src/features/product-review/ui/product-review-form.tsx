@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 
 import { orderApi, orderKeys, type Order } from '@/entities/order';
 import {
@@ -9,7 +9,7 @@ import {
   reviewEndpointConfig,
   useCreateProductReviewMutation,
 } from '@/entities/review';
-import { getAccessToken, getApiErrorMessage, isRealApiMode } from '@/shared/api';
+import { getAccessToken, getApiErrorMessage, isApiError, isRealApiMode } from '@/shared/api';
 import type { AppLocale } from '@/shared/config';
 import { cn } from '@/shared/lib';
 import { Alert, Button, Input, Textarea } from '@/shared/ui';
@@ -24,6 +24,7 @@ import { ReviewAuthRequired } from './review-auth-required';
 
 export type ProductReviewFormProps = {
   productSlug: string;
+  productId: string | number;
   locale: AppLocale;
   labels: ProductReviewDictionary;
   disabled?: boolean;
@@ -35,14 +36,10 @@ const emptyValues: ProductReviewFormValues = {
   text: '',
 };
 
-const inactiveOrderStatuses = new Set(['draft', 'cancelled', 'canceled', 'failed']);
-
 const normalizeOrderNumber = (value: string) => value.trim().toLowerCase();
 
 const isReviewCandidateOrder = (order: Order): boolean => {
-  const status = order.status?.toLowerCase();
-
-  return !status || !inactiveOrderStatuses.has(status);
+  return order.status?.toLowerCase() === 'completed' || order.paymentStatus?.toLowerCase() === 'paid';
 };
 
 const orderContainsProduct = (order: Order, productSlug: string): boolean =>
@@ -65,12 +62,14 @@ export function ProductReviewForm({
   labels,
   locale,
   productSlug,
+  productId,
 }: ProductReviewFormProps) {
   const [values, setValues] = useState(emptyValues);
   const [errors, setErrors] = useState<{ rating?: string; orderNumber?: string; text?: string }>(
     {},
   );
   const [success, setSuccess] = useState(false);
+  const submitLocked = useRef(false);
   const mutation = useCreateProductReviewMutation(productSlug);
   const authenticated = Boolean(getAccessToken());
   const endpointAvailable = reviewEndpointConfig.productCreateConfigured && isRealApiMode;
@@ -133,18 +132,38 @@ export function ProductReviewForm({
     }
 
     setErrors(validation);
-    if (hasProductReviewFormErrors(validation) || formDisabled) return;
+    if (hasProductReviewFormErrors(validation) || formDisabled || submitLocked.current) return;
+    const matchingOrder = matchingOrders.find(
+      (order) => normalizeOrderNumber(order.orderNumber) === normalizedOrderNumber,
+    );
+    if (!matchingOrder) return;
+    submitLocked.current = true;
     mutation.mutate(
       createReviewPayload({
         rating: values.rating,
         text: values.text,
-        orderNumber: values.orderNumber,
+        orderId: matchingOrder.id,
+        productId,
       }),
       {
         onSuccess: () => {
           setValues(emptyValues);
           setErrors({});
           setSuccess(true);
+        },
+        onError: (error) => {
+          if (!isApiError(error)) return;
+          const fieldErrors = error.validationErrors;
+          setErrors((current) => ({
+            ...current,
+            rating: fieldErrors?.rating?.join(' '),
+            text: fieldErrors?.text?.join(' '),
+            orderNumber:
+              fieldErrors?.order_id?.join(' ') ?? fieldErrors?.order_number?.join(' '),
+          }));
+        },
+        onSettled: () => {
+          submitLocked.current = false;
         },
       },
     );
@@ -185,7 +204,9 @@ export function ProductReviewForm({
           ))}
         </div>
         {errors.rating ? (
-          <p className="mt-1 text-sm text-red-700">{labels.ratingRequired}</p>
+          <p className="mt-1 text-sm text-red-700">
+            {errors.rating === 'rating' ? labels.ratingRequired : errors.rating}
+          </p>
         ) : null}
       </fieldset>
       <Input
@@ -202,7 +223,7 @@ export function ProductReviewForm({
       />
       <Textarea
         disabled={formDisabled}
-        error={errors.text ? labels.textRequired : undefined}
+        error={errors.text === 'text' ? labels.textRequired : errors.text}
         label={labels.text}
         onChange={(e) => update('text', e.target.value)}
         required

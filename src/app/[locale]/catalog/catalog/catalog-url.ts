@@ -30,6 +30,11 @@ const orderingValues: ProductOrdering[] = [
   '-orders_count',
 ];
 
+export const RECOMMENDED_SORT = 'recommended';
+
+export const isRecommendedSort = (value: string | string[] | undefined): boolean =>
+  firstValue(value) === RECOMMENDED_SORT;
+
 const firstValue = (value: string | string[] | undefined): string | undefined =>
   Array.isArray(value) ? value[0] : value;
 
@@ -124,6 +129,8 @@ export const parseCatalogSearchParams = (
     price_min: cleanValue(params.price_min),
     price_max: cleanValue(params.price_max),
     search: cleanValue(params.search),
+    // `recommended` is URL/UI state. It is intentionally never sent to the
+    // catalog endpoint because the backend exposes recommendations separately.
     ordering: isOrdering(ordering) ? ordering : undefined,
     page: parsePage(cleanValue(params.page)),
   };

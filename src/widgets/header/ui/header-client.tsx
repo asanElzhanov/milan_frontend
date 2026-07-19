@@ -4,6 +4,7 @@ import { Heart, ShoppingBag, User } from 'lucide-react';
 import Link from 'next/link';
 
 import { NotificationHeaderBadge } from '@/features/notifications';
+import { getCartItemsCount, useCartQuery } from '@/entities/cart';
 import type { AppLocale } from '@/shared/config';
 import { withLocale } from '@/shared/config';
 
@@ -23,6 +24,8 @@ export function HeaderClient({
   cartCount?: number;
 }) {
   const dictionary = headerDictionary[locale];
+  const cartQuery = useCartQuery();
+  const currentCartCount = cartQuery.data ? getCartItemsCount(cartQuery.data) : cartCount;
 
   return (
     <>
@@ -71,7 +74,7 @@ export function HeaderClient({
               <NotificationHeaderBadge />
             </HeaderIconLink>
             <HeaderIconLink
-              badge={cartCount}
+              badge={currentCartCount}
               href={withLocale(locale, '/cart')}
               label={dictionary.cart}
             >

@@ -104,6 +104,21 @@ const cartDictionary = {
     promoRemoveError: 'Промокодты жою мүмкін болмады',
     clearConfirm: 'Себетті тазарту керек пе?',
   },
-} as const satisfies Record<AppLocale, CartDictionary>;
+  en: {
+    metadataTitle: 'Cart — Sara Milan', title: 'Cart',
+    subtitle: 'Review your items before checkout.', emptyTitle: 'Your cart is empty',
+    emptyDescription: 'Add products from the catalog to continue.', continueShopping: 'Browse catalog',
+    clearCart: 'Clear cart', remove: 'Remove', quantity: 'Quantity', subtotal: 'Subtotal',
+    discount: 'Discount', totalAfterDiscount: 'Total after discount', total: 'Total',
+    proceedToCheckout: 'Proceed to checkout', unavailable: 'Out of stock', stockLeft: 'Available',
+    updateError: 'Could not update the cart', removeError: 'Could not remove the product',
+    clearError: 'Could not clear the cart', loading: 'Loading cart', retry: 'Retry',
+    summaryTitle: 'Order summary', promoCode: 'Promo code', promoTitle: 'Promo code',
+    promoPlaceholder: 'Enter promo code', applyPromo: 'Apply', removePromo: 'Remove promo code',
+    promoApplied: 'Promo code applied', promoInvalid: 'Invalid promo code',
+    promoApplyError: 'Could not apply the promo code', promoRemoveError: 'Could not remove the promo code',
+    clearConfirm: 'Clear the cart?',
+  },
+} as const satisfies Record<AppLocale | 'en', CartDictionary>;
 
 export const getCartDictionary = (locale: AppLocale): CartDictionary => cartDictionary[locale];

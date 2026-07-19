@@ -81,5 +81,6 @@ export type CatalogDictionary = {
   newest: string;
   rating: string;
   popular: string;
+  recommended: string;
   selectedCategory: string;
 };

@@ -47,7 +47,16 @@ const productDetailDictionary = {
     backToCatalog: 'Каталогқа қайту',
     addedToCart: 'Тауар себетке қосылды.',
   },
-} as const satisfies Record<AppLocale, ProductDetailDictionary>;
+  en: {
+    size: 'Size', color: 'Color', chooseSize: 'Choose a size', chooseColor: 'Choose a color',
+    inStock: 'In stock', outOfStock: 'Out of stock', stockLeft: 'Available',
+    addToCart: 'Add to cart', selectVariant: 'Choose a size and color', description: 'Description',
+    composition: 'Composition', material: 'Material', season: 'Season', reviews: 'Reviews',
+    noReviews: 'No reviews yet', similar: 'Similar products', notFoundTitle: 'Product not found',
+    notFoundDescription: 'The product may no longer be available or the link may be outdated.',
+    backToCatalog: 'Back to catalog', addedToCart: 'Product added to cart.',
+  },
+} as const satisfies Record<AppLocale | 'en', ProductDetailDictionary>;
 
 export const getProductDetailDictionary = (locale: AppLocale): ProductDetailDictionary =>
   productDetailDictionary[locale];

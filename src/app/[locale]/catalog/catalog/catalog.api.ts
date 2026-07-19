@@ -1,16 +1,17 @@
 import { brandApi } from '@/entities/brand';
 import { categoryApi } from '@/entities/category';
 import { colorApi } from '@/entities/color';
-import { productApi } from '@/entities/product';
+import { productApi, type ProductListItem } from '@/entities/product';
 import { sizeApi } from '@/entities/size';
-import { isMockApiMode } from '@/shared/api';
+import { isMockApiMode, type PaginatedResponse } from '@/shared/api';
 
 import {
   extractPaginationMeta,
   extractProductList,
   normalizeFilterOptions,
 } from './catalog.adapters';
-import { parseCatalogSearchParams } from './catalog-url';
+import { isRecommendedSort, parseCatalogSearchParams } from './catalog-url';
+import { recommendationsApi, type RecommendationResult } from './recommendations.api';
 import type { CatalogData, CatalogSearchParams } from './catalog.types';
 
 const emptyCatalogData = (currentPage: number, hasError = false): CatalogData => ({
@@ -25,6 +26,9 @@ const emptyCatalogData = (currentPage: number, hasError = false): CatalogData =>
   hasError,
 });
 
+const isRecommendationResult = (value: unknown): value is RecommendationResult =>
+  typeof value === 'object' && value !== null && 'products' in value;
+
 export async function getCatalogData(args: {
   categorySlug?: string;
   searchParams: CatalogSearchParams;
@@ -32,9 +36,25 @@ export async function getCatalogData(args: {
   const query = parseCatalogSearchParams(args.searchParams, args.categorySlug);
   const currentPage = query.page ?? 1;
 
+  const loadProducts = async () => {
+    if (!isRecommendedSort(args.searchParams.ordering)) {
+      return productApi.getProducts(query);
+    }
+
+    const personalized = await recommendationsApi.getPersonalized(currentPage);
+    if (personalized.products.length > 0) return personalized;
+
+    const popular = await recommendationsApi.getPopular(currentPage);
+    if (popular.products.length > 0) return popular;
+
+    // The recommendations contract does not advertise catalog filters. The
+    // final fallback keeps the user's filters and omits the UI-only ordering.
+    return productApi.getProducts(query);
+  };
+
   const [productsResult, categoriesResult, brandsResult, colorsResult, sizesResult] =
     await Promise.allSettled([
-      productApi.getProducts(query),
+      loadProducts(),
       categoryApi.getCategoryTree({ active: true }),
       brandApi.getBrands({ active: true }),
       colorApi.getColors({ active: true }),
@@ -45,8 +65,24 @@ export async function getCatalogData(args: {
     return emptyCatalogData(currentPage, !isMockApiMode);
   }
 
-  const products = extractProductList(productsResult.value);
-  const pagination = extractPaginationMeta(productsResult.value, products);
+  const recommendationResult = isRecommendationResult(productsResult.value)
+    ? productsResult.value
+    : undefined;
+  let products;
+  let pagination;
+  if (recommendationResult) {
+    products = recommendationResult.products;
+    pagination = {
+      totalCount: recommendationResult.count,
+      totalPages: recommendationResult.totalPages,
+    };
+  } else {
+    const catalogResponse = productsResult.value as
+      | PaginatedResponse<ProductListItem>
+      | ProductListItem[];
+    products = extractProductList(catalogResponse);
+    pagination = extractPaginationMeta(catalogResponse, products);
+  }
 
   return {
     products,

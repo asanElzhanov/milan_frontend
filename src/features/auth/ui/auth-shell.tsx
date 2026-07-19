@@ -18,6 +18,11 @@ const authShellCopy = {
     title: 'Жеке гардероб ұсақ бөлшектерден басталады.',
     text: 'Backend авторизациясы қосылған кезде Sara Milan аккаунты тапсырыстар тарихын, мекенжайларды және таңдаулы бұйымдарды сақтауға көмектеседі.',
   },
+  en: {
+    catalog: 'Browse catalog', eyebrow: 'Sara Milan Atelier',
+    title: 'A personal wardrobe begins with the details.',
+    text: 'Your Sara Milan account keeps your orders, addresses and favorite pieces together.',
+  },
 };
 
 export function AuthShell({ aside, children, locale, subtitle, title }: AuthShellProps) {

@@ -8,6 +8,7 @@ import type { Brand } from '@/entities/brand';
 import type { Category } from '@/entities/category';
 import type { ProductColor } from '@/entities/color';
 import type { ProductSize } from '@/entities/size';
+import { getLocalizedField } from '@/shared/lib';
 import { Button, Checkbox, Input } from '@/shared/ui';
 
 import { getCategoryFilterOptions } from './catalog.adapters';
@@ -146,7 +147,7 @@ export function CatalogFilterSidebar({
                 href={buildCatalogHref(locale, categoryBaseSearch, category.slug)}
                 key={category.id}
               >
-                {category.name}
+                {getLocalizedField(category, 'name', locale)}
               </LinkOption>
             ))}
           </div>
@@ -163,7 +164,7 @@ export function CatalogFilterSidebar({
               <Checkbox
                 checked={selectedBrands.includes(brand.slug)}
                 key={brand.id}
-                label={brand.name}
+                label={getLocalizedField(brand, 'name', locale)}
                 onCheckedChange={() =>
                   setSelectedBrands((current) => toggleDraftValue(current, brand.slug))
                 }
@@ -203,7 +204,7 @@ export function CatalogFilterSidebar({
                       style={{ backgroundColor: color.hex }}
                     />
                   ) : null}
-                  {color.name}
+                  {getLocalizedField(color, 'name', locale)}
                 </button>
               );
             })}
@@ -234,7 +235,7 @@ export function CatalogFilterSidebar({
                   }
                   type="button"
                 >
-                  {size.name}
+                  {getLocalizedField(size, 'name', locale)}
                 </button>
               );
             })}

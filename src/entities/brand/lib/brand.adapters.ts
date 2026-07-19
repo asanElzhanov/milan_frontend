@@ -14,7 +14,8 @@ export const adaptBrand = (value: unknown): Brand | null => {
     return null;
   }
 
-  const name = toStringOrNull(value.name);
+  const name = toStringOrNull(value.name_ru) ?? toStringOrNull(value.name_en) ??
+    toStringOrNull(value.name_kz) ?? toStringOrNull(value.name);
 
   if (!name) {
     return null;
@@ -25,6 +26,8 @@ export const adaptBrand = (value: unknown): Brand | null => {
   return {
     id,
     name,
+    name_ru: toStringOrNull(value.name_ru), name_kz: toStringOrNull(value.name_kz),
+    name_en: toStringOrNull(value.name_en),
     slug: toStringOrNull(value.slug) ?? slugifyFallback(id),
     description: toStringOrNull(value.description),
     logoUrl: getMediaUrl(toStringOrNull(value.logo) ?? toStringOrNull(value.logo_url)),

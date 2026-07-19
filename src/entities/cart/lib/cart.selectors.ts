@@ -4,6 +4,11 @@ export function getCartItemsCount(cart?: Cart | null): number {
   return cart?.itemsCount ?? 0;
 }
 
+export function formatCartItemsCount(count: number): string {
+  const safeCount = Number.isFinite(count) ? Math.max(Math.trunc(count), 0) : 0;
+  return safeCount > 99 ? '99+' : String(safeCount);
+}
+
 export function isCartEmpty(cart?: Cart | null): boolean {
   return cart?.isEmpty ?? true;
 }

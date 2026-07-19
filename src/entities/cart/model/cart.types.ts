@@ -1,6 +1,9 @@
 export type CartProductSnapshot = {
   id?: string | number | null;
   name: string;
+  name_ru?: string | null;
+  name_kz?: string | null;
+  name_en?: string | null;
   slug?: string | null;
   sku?: string | null;
   imageUrl?: string | null;

@@ -1,5 +1,6 @@
 import type { AppLocale } from '@/shared/config';
 import { withLocale } from '@/shared/config';
+import { getLocalizedField } from '@/shared/lib';
 
 import type { HeaderCartSummary, HeaderCategory } from '../model/types';
 
@@ -53,7 +54,7 @@ export const adaptHeaderCategory = (item: unknown, locale: AppLocale): HeaderCat
     return null;
   }
 
-  const name = readString(item, ['name', 'title']);
+  const name = getLocalizedField(item, 'name', locale) || readString(item, ['title']);
   const id = readId(item, name);
 
   if (!id || !name) {

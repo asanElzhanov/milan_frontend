@@ -17,7 +17,8 @@ export const adaptCategory = (value: unknown): Category | null => {
     return null;
   }
 
-  const name = toStringOrNull(value.name) ?? toStringOrNull(value.title);
+  const name = toStringOrNull(value.name_ru) ?? toStringOrNull(value.name_en) ??
+    toStringOrNull(value.name_kz) ?? toStringOrNull(value.name) ?? toStringOrNull(value.title);
 
   if (!name) {
     return null;
@@ -32,8 +33,13 @@ export const adaptCategory = (value: unknown): Category | null => {
   return {
     id,
     name,
+    name_ru: toStringOrNull(value.name_ru), name_kz: toStringOrNull(value.name_kz),
+    name_en: toStringOrNull(value.name_en),
     slug,
     description: toStringOrNull(value.description),
+    description_ru: toStringOrNull(value.description_ru),
+    description_kz: toStringOrNull(value.description_kz),
+    description_en: toStringOrNull(value.description_en),
     imageUrl: getMediaUrl(toStringOrNull(value.image) ?? toStringOrNull(value.image_url)),
     parentId:
       typeof value.parent === 'string' || typeof value.parent === 'number' ? value.parent : null,
