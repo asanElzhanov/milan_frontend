@@ -50,8 +50,7 @@ export default function Home() {
               <h2 className="text-display text-sara-black">Editorial heading</h2>
               <h3 className="text-subheading text-sara-graphite">Luxury subheading</h3>
               <p className="text-body text-sara-graphite/75">
-                Inter is used for body and interface text. Playfair Display is reserved for fashion
-                headings and editorial moments.
+                The interface uses the system sans-serif font for body text, controls, and headings.
               </p>
               <p className="text-caption">Caption text for supporting details and metadata.</p>
             </div>

@@ -8,8 +8,8 @@ export const theme = {
     saraBlack: '#1a1a1a',
   },
   fonts: {
-    sans: 'Inter',
-    fashion: 'Playfair Display',
+    sans: 'sans-serif',
+    fashion: 'sans-serif',
   },
   radii: {
     sm: '0.125rem',
