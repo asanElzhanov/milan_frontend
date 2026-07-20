@@ -388,6 +388,164 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       ],
     },
   },
+  en: {
+    labels: {
+      catalog: 'Browse catalog',
+      cart: 'Open cart',
+      checkout: 'Go to checkout',
+      contactsPending: 'Contact details will be added after project setup.',
+      contactChannels: 'Contact us through any available channel.',
+      phone: 'Phone',
+      email: 'Email',
+      instagram: 'Instagram',
+      address: 'Address',
+    },
+    about: {
+      title: 'About Sara Milan',
+      subtitle: 'A premium store for women’s shoes and accessories.',
+      metaTitle: 'About Sara Milan — Sara Milan',
+      metaDescription:
+        'Learn about Sara Milan, our selection, and our approach to customer service.',
+      sections: [
+        {
+          title: 'Our story',
+          body: [
+            'Sara Milan is a calm fashion space for choosing distinctive women’s shoes and accessories.',
+            'We focus on silhouette, texture, and pieces that work across everyday and evening wardrobes.',
+          ],
+        },
+        {
+          title: 'Our approach',
+          body: [
+            'A curated catalog, clear product information, and attentive service make every choice easier.',
+          ],
+        },
+      ],
+    },
+    delivery: {
+      title: 'Delivery',
+      subtitle: 'Available delivery options are shown during checkout.',
+      metaTitle: 'Delivery — Sara Milan',
+      metaDescription: 'Delivery terms and options for Sara Milan orders.',
+      sections: [
+        {
+          title: 'Delivery options',
+          body: [
+            'Available methods, timing, and prices are loaded during checkout for your address.',
+            'A manager may contact you to confirm delivery details.',
+          ],
+        },
+        {
+          title: 'Receiving your order',
+          body: ['Check the package and product condition when receiving your order.'],
+        },
+      ],
+    },
+    payment: {
+      title: 'Payment',
+      subtitle: 'Choose an available payment method when placing your order.',
+      metaTitle: 'Payment — Sara Milan',
+      metaDescription: 'Payment methods and payment status information for Sara Milan orders.',
+      sections: [
+        {
+          title: 'Payment methods',
+          body: [
+            'Available options may include Kaspi and bank card payment. The exact methods are shown during checkout.',
+          ],
+        },
+        {
+          title: 'Payment status',
+          body: [
+            'Payment status updates after confirmation from the payment provider. You can follow it in your account.',
+          ],
+        },
+      ],
+    },
+    faq: {
+      title: 'Frequently asked questions',
+      subtitle: 'Answers about orders, delivery, payment, and returns.',
+      metaTitle: 'FAQ — Sara Milan',
+      metaDescription: 'Frequently asked questions about shopping at Sara Milan.',
+      faq: [
+        {
+          question: 'How do I place an order?',
+          answer:
+            'Add products to your cart, proceed to checkout, and enter your contact and delivery details.',
+        },
+        {
+          question: 'How can I pay?',
+          answer: 'The available payment methods are displayed during checkout.',
+        },
+        {
+          question: 'How can I track my order?',
+          answer: 'Sign in and open the Orders section in your account.',
+        },
+        {
+          question: 'Can I change my delivery address?',
+          answer:
+            'You can manage saved addresses in your account or enter a new address during checkout.',
+        },
+        {
+          question: 'How do returns work?',
+          answer:
+            'Contact Sara Milan to confirm the current return and exchange terms for your order.',
+        },
+      ],
+    },
+    contacts: {
+      title: 'Contacts',
+      subtitle: 'We are here to help with products, orders, and delivery.',
+      metaTitle: 'Contacts — Sara Milan',
+      metaDescription: 'Contact information for Sara Milan.',
+    },
+    privacy: {
+      title: 'Privacy policy',
+      metaTitle: 'Privacy policy — Sara Milan',
+      metaDescription: 'How Sara Milan processes and protects customer data.',
+      sections: [
+        {
+          title: 'Data we collect',
+          body: [
+            'We process contact, delivery, account, and order information required to provide the store’s services.',
+          ],
+        },
+        {
+          title: 'How data is used',
+          body: [
+            'Data is used to process orders, deliver purchases, provide support, and maintain account functionality.',
+          ],
+        },
+        {
+          title: 'Your choices',
+          body: [
+            'You may contact us to request clarification, correction, or deletion of your personal data where applicable.',
+          ],
+        },
+      ],
+    },
+    terms: {
+      title: 'Terms of use',
+      metaTitle: 'Terms of use — Sara Milan',
+      metaDescription: 'General terms for using the Sara Milan website and placing orders.',
+      sections: [
+        {
+          title: 'Using the website',
+          body: [
+            'The website allows customers to browse products, add items to the cart, and place orders through the available interfaces.',
+            'Product information and availability may change as store data is updated.',
+          ],
+        },
+        {
+          title: 'Orders, payment, and delivery',
+          body: [
+            'An order is placed after the required checkout details are submitted.',
+            'Payment and delivery depend on the selected method and available service settings.',
+            'Contact the store to confirm current return and exchange terms.',
+          ],
+        },
+      ],
+    },
+  },
 };
 
 export const getStaticDictionary = (locale: AppLocale): StaticDictionary =>

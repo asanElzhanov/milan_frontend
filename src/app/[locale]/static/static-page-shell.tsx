@@ -17,6 +17,7 @@ export type StaticPageShellProps = {
 const homeLabel: Record<AppLocale, string> = {
   ru: 'Главная',
   kk: 'Басты бет',
+  en: 'Home',
 };
 
 export function StaticPageShell({

@@ -25,6 +25,17 @@ export const otpDictionary: Record<AppLocale, OtpDictionary> = {
     invalidOtp: 'Дұрыс код енгізіңіз',
     requiredField: 'Міндетті өріс',
   },
+  en: {
+    otpTitle: 'Verify code',
+    otpSubtitle: 'Enter the code sent to your email or phone number.',
+    otpCode: 'Verification code',
+    verifyCode: 'Verify',
+    resendCode: 'Resend code',
+    changeContact: 'Change email or phone number',
+    otpComingSoon: 'OTP verification will be enabled at the next stage.',
+    invalidOtp: 'Enter a valid code',
+    requiredField: 'Required field',
+  },
 };
 
 export const getOtpDictionary = (locale: AppLocale): OtpDictionary => otpDictionary[locale];

@@ -21,7 +21,12 @@ export async function generateMetadata({ params }: AccountOrdersRouteProps): Pro
   }
 
   return {
-    title: locale === 'kk' ? 'Тапсырыстар — Sara Milan' : 'Заказы — Sara Milan',
+    title:
+      locale === 'en'
+        ? 'Orders — Sara Milan'
+        : locale === 'kk'
+          ? 'Тапсырыстар — Sara Milan'
+          : 'Заказы — Sara Milan',
   };
 }
 

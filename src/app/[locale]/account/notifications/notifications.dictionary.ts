@@ -66,6 +66,27 @@ export const notificationsDictionary: Record<AppLocale, NotificationsDictionary>
     retry: 'Қайталау',
     unreadCount: 'Оқылмаған',
   },
+  en: {
+    title: 'Notifications',
+    subtitle: 'Order, payment, and account updates appear here.',
+    emptyTitle: 'No notifications yet',
+    emptyDescription: 'Updates about your orders or account will appear here.',
+    loadError: 'Unable to load notifications',
+    readAll: 'Mark all as read',
+    readAllError: 'Unable to mark notifications as read',
+    unread: 'Unread',
+    read: 'Read',
+    open: 'Open',
+    order: 'Order',
+    payment: 'Payment',
+    delivery: 'Delivery',
+    review: 'Review',
+    promo: 'Promotion',
+    system: 'System',
+    loading: 'Loading notifications',
+    retry: 'Try again',
+    unreadCount: 'Unread',
+  },
 };
 
 export const getNotificationsDictionary = (locale: AppLocale): NotificationsDictionary =>

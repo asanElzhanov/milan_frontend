@@ -12,10 +12,7 @@ type LocaleLayoutProps = Readonly<{
 }>;
 
 export function generateStaticParams() {
-  // Legacy account/static/payment dictionaries are still RU/KK-only. English
-  // storefront routes remain available through dynamic params without forcing
-  // every unrelated route to be prerendered as part of this integration.
-  return SUPPORTED_LOCALES.filter((locale) => locale !== 'en').map((locale) => ({ locale }));
+  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {

@@ -21,7 +21,12 @@ export async function generateMetadata({ params }: PaymentOrderPageProps): Promi
   }
 
   return {
-    title: locale === 'kk' ? 'Тапсырысты төлеу — Sara Milan' : 'Оплата заказа — Sara Milan',
+    title:
+      locale === 'en'
+        ? 'Order payment — Sara Milan'
+        : locale === 'kk'
+          ? 'Тапсырысты төлеу — Sara Milan'
+          : 'Оплата заказа — Sara Milan',
   };
 }
 

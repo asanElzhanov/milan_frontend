@@ -38,6 +38,18 @@ export const wishlistPageDictionary: Record<AppLocale, WishlistPageDictionary> =
     loadError: 'Таңдаулыларды жүктеу мүмкін болмады',
     toggleError: 'Таңдаулыларды жаңарту мүмкін болмады',
   },
+  en: {
+    title: 'Wishlist',
+    subtitle: 'Save products to return to them later.',
+    emptyTitle: 'Your wishlist is empty',
+    emptyDescription: 'Add products you like from the catalog.',
+    goToCatalog: 'Browse catalog',
+    remove: 'Remove from wishlist',
+    add: 'Add to wishlist',
+    loginRequired: 'Sign in to add products to your wishlist',
+    loadError: 'Unable to load your wishlist',
+    toggleError: 'Unable to update your wishlist',
+  },
 };
 
 export const getWishlistPageDictionary = (locale: AppLocale): WishlistPageDictionary =>

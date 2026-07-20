@@ -156,6 +156,81 @@ const homeDictionary = {
       ],
     },
   },
+  en: {
+    metadata: {
+      title: 'Sara Milan',
+      description: 'Shoes and accessories for a distinctive wardrobe.',
+    },
+    hero: {
+      eyebrow: 'Sara Milan',
+      title: 'Shoes and accessories for a distinctive wardrobe',
+      description:
+        'Clean silhouettes, refined materials, and considered details for everyday and evening looks.',
+      primaryCta: 'Browse catalog',
+      secondaryCta: 'New arrivals',
+    },
+    categories: {
+      eyebrow: 'Categories',
+      title: 'Find your direction',
+      description:
+        'Explore the main catalog categories and find the right pair for every occasion.',
+      emptyTitle: 'Categories are coming soon',
+      emptyDescription: 'This section will update automatically when categories become available.',
+      cta: 'All categories',
+    },
+    newProducts: {
+      eyebrow: 'New in',
+      title: 'New arrivals',
+      description: 'Fresh styles from the latest catalog update.',
+      cta: 'View all new arrivals',
+      emptyTitle: 'New arrivals are not available yet',
+      emptyDescription: 'Products will appear here after the catalog is updated.',
+    },
+    saleProducts: {
+      eyebrow: 'Sale',
+      title: 'Seasonal offers',
+      description: 'Selected products at special prices.',
+      cta: 'Shop the sale',
+      emptyTitle: 'No sale products yet',
+      emptyDescription: 'Special offers will appear here when they become available.',
+    },
+    promo: {
+      eyebrow: 'Seasonal edit',
+      title: 'Find a pair for your pace',
+      description: 'Discover selected campaigns, collections, and current offers.',
+      cta: 'Explore the edit',
+    },
+    story: {
+      eyebrow: 'Brand story',
+      title: 'Sara Milan starts with a confident step',
+      lead: 'We select styles that feel polished in the morning, effortless by day, and expressive in the evening.',
+      body: 'Clear navigation, honest product information, and a calm visual rhythm help you quickly find the right pair, size, and mood.',
+      cta: 'About the brand',
+    },
+    benefits: {
+      eyebrow: 'Service',
+      title: 'Shopping without the noise',
+      description: 'Simple, practical advantages for a comfortable online shopping experience.',
+      items: [
+        {
+          title: 'Delivery across Kazakhstan',
+          description: 'Choose from available delivery methods during checkout.',
+        },
+        {
+          title: 'Convenient payment',
+          description: 'Use the available Kaspi or bank card payment options.',
+        },
+        {
+          title: 'Personal support',
+          description: 'Our manager can help with availability, delivery, and order details.',
+        },
+        {
+          title: 'Curated selection',
+          description: 'A focused edit of new arrivals, sale pieces, and key categories.',
+        },
+      ],
+    },
+  },
 } as const satisfies Record<AppLocale, HomeDictionary>;
 
 export const getHomeDictionary = (locale: AppLocale): HomeDictionary => homeDictionary[locale];

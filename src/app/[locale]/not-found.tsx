@@ -32,6 +32,12 @@ const dictionary: Record<
     home: 'Басты бетке',
     catalog: 'Каталогқа',
   },
+  en: {
+    title: 'Page not found',
+    description: 'The link may be outdated or the page may have moved.',
+    home: 'Back to home',
+    catalog: 'Browse catalog',
+  },
 };
 
 export default function LocaleNotFound() {

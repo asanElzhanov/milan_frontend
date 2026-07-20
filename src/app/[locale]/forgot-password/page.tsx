@@ -13,6 +13,7 @@ type ForgotPasswordRouteProps = Readonly<{
 const metadataTitle: Record<AppLocale, string> = {
   ru: 'Восстановление пароля — Sara Milan',
   kk: 'Құпиясөзді қалпына келтіру — Sara Milan',
+  en: 'Reset password — Sara Milan',
 };
 
 export async function generateMetadata({ params }: ForgotPasswordRouteProps): Promise<Metadata> {

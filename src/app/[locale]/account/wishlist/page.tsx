@@ -15,6 +15,7 @@ type AccountWishlistRouteProps = Readonly<{
 const metadataTitle: Record<AppLocale, string> = {
   ru: 'Избранное — Sara Milan',
   kk: 'Таңдаулылар — Sara Milan',
+  en: 'Wishlist — Sara Milan',
 };
 
 export async function generateMetadata({ params }: AccountWishlistRouteProps): Promise<Metadata> {

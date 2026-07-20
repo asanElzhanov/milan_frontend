@@ -24,7 +24,12 @@ export async function generateMetadata({
   }
 
   return {
-    title: locale === 'kk' ? 'Тапсырыс мәліметтері — Sara Milan' : 'Детали заказа — Sara Milan',
+    title:
+      locale === 'en'
+        ? 'Order details — Sara Milan'
+        : locale === 'kk'
+          ? 'Тапсырыс мәліметтері — Sara Milan'
+          : 'Детали заказа — Sara Milan',
   };
 }
 

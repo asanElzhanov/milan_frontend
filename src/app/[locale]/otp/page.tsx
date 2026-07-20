@@ -14,6 +14,7 @@ type OtpRouteProps = Readonly<{
 const metadataTitle: Record<AppLocale, string> = {
   ru: 'Подтверждение кода — Sara Milan',
   kk: 'Кодты растау — Sara Milan',
+  en: 'Verify code — Sara Milan',
 };
 
 export async function generateMetadata({ params }: OtpRouteProps): Promise<Metadata> {

@@ -23,7 +23,7 @@ export function CartEmptyState({ labels, locale }: CartEmptyStateProps) {
           <Button asChild variant="outline">
             <Link href={withLocale(locale)}>
               <X aria-hidden className="h-4 w-4" />
-              {locale === 'kk' ? 'Жабу' : 'Закрыть'}
+              {locale === 'en' ? 'Close' : locale === 'kk' ? 'Жабу' : 'Закрыть'}
             </Link>
           </Button>
         </div>

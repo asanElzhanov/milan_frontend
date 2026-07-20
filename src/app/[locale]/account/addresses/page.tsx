@@ -15,6 +15,7 @@ type AccountAddressesRouteProps = Readonly<{
 const metadataTitle: Record<AppLocale, string> = {
   ru: 'Адреса — Sara Milan',
   kk: 'Мекенжайлар — Sara Milan',
+  en: 'Addresses — Sara Milan',
 };
 
 export async function generateMetadata({ params }: AccountAddressesRouteProps): Promise<Metadata> {

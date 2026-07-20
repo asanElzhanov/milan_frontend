@@ -27,9 +27,9 @@
   --color-sara-graphite: var(--sara-graphite);
   --color-sara-black: var(--sara-black);
   --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
-  --font-fashion: var(--font-playfair), Georgia, serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
-  --font-mono: 'Courier New', Courier, monospace;
+  --font-fashion: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-serif: var(--font-inter), Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-inter), Arial, Helvetica, sans-serif;
   --radius-sara-sm: var(--sara-radius-sm);
   --radius-sara-md: var(--sara-radius-md);
   --radius-sara-lg: var(--sara-radius-lg);
@@ -80,25 +80,25 @@ button:disabled {
 
 @layer components {
   .font-fashion {
-    font-family: var(--font-playfair), Georgia, serif;
+    font-family: var(--font-inter), Arial, Helvetica, sans-serif;
   }
 
   .text-display {
-    font-family: var(--font-playfair), Georgia, serif;
+    font-family: var(--font-inter), Arial, Helvetica, sans-serif;
     font-size: clamp(3rem, 6vw, 5.5rem);
     font-weight: 500;
     line-height: 0.95;
   }
 
   .text-heading {
-    font-family: var(--font-playfair), Georgia, serif;
+    font-family: var(--font-inter), Arial, Helvetica, sans-serif;
     font-size: clamp(2rem, 4vw, 3.75rem);
     font-weight: 500;
     line-height: 1.05;
   }
 
   .text-subheading {
-    font-family: var(--font-playfair), Georgia, serif;
+    font-family: var(--font-inter), Arial, Helvetica, sans-serif;
     font-size: clamp(1.5rem, 2.5vw, 2.25rem);
     font-weight: 500;
     line-height: 1.15;
@@ -178,7 +178,7 @@ button:disabled {
   }
 
   .fashion-hero-title {
-    font-family: var(--font-playfair), Georgia, serif;
+    font-family: var(--font-inter), Arial, Helvetica, sans-serif;
     font-size: clamp(3.5rem, 8vw, 7.5rem);
     font-weight: 500;
     line-height: 0.9;

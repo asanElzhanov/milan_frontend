@@ -12,7 +12,14 @@ type AccountReviewsRouteProps = Readonly<{ params: Promise<{ locale: string }> }
 export async function generateMetadata({ params }: AccountReviewsRouteProps): Promise<Metadata> {
   const { locale } = await params;
   if (!isSupportedLocale(locale)) return {};
-  return { title: locale === 'kk' ? 'Менің пікірлерім — Sara Milan' : 'Мои отзывы — Sara Milan' };
+  return {
+    title:
+      locale === 'en'
+        ? 'My reviews — Sara Milan'
+        : locale === 'kk'
+          ? 'Менің пікірлерім — Sara Milan'
+          : 'Мои отзывы — Sara Milan',
+  };
 }
 
 export default async function AccountReviewsPage({ params }: AccountReviewsRouteProps) {

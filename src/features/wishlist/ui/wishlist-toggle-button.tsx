@@ -44,6 +44,12 @@ const defaultLabels: Record<AppLocale, Required<WishlistToggleButtonProps>['labe
     loginRequired: 'Тауарларды таңдаулыларға қосу үшін кіріңіз',
     error: 'Таңдаулыларды жаңарту мүмкін болмады',
   },
+  en: {
+    add: 'Add to wishlist',
+    remove: 'Remove from wishlist',
+    loginRequired: 'Sign in to add products to your wishlist',
+    error: 'Unable to update your wishlist',
+  },
 };
 
 export function WishlistToggleButton({

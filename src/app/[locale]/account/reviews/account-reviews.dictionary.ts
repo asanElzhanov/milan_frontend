@@ -59,6 +59,25 @@ const dictionaries: Record<AppLocale, AccountReviewsDictionary> = {
     advantages: 'Артықшылықтары',
     disadvantages: 'Кемшіліктері',
   },
+  en: {
+    title: 'My reviews',
+    subtitle: 'Your reviews and their moderation status appear here.',
+    emptyTitle: "You haven't submitted any reviews yet",
+    emptyDescription: 'After purchasing a product, you can share your experience.',
+    goToCatalog: 'Browse catalog',
+    loadError: 'Unable to load reviews',
+    retry: 'Try again',
+    loading: 'Loading reviews',
+    pending: 'Pending moderation',
+    approved: 'Approved',
+    rejected: 'Rejected',
+    published: 'Published',
+    hidden: 'Hidden',
+    anonymous: 'Customer',
+    viewProduct: 'View product',
+    advantages: 'Pros',
+    disadvantages: 'Cons',
+  },
 };
 
 export const getAccountReviewsDictionary = (locale: AppLocale) => dictionaries[locale];

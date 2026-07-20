@@ -13,6 +13,7 @@ type LoginRouteProps = Readonly<{
 const metadataTitle: Record<AppLocale, string> = {
   ru: 'Вход — Sara Milan',
   kk: 'Кіру — Sara Milan',
+  en: 'Sign in — Sara Milan',
 };
 
 export async function generateMetadata({ params }: LoginRouteProps): Promise<Metadata> {

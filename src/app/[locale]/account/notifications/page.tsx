@@ -23,7 +23,12 @@ export async function generateMetadata({
   }
 
   return {
-    title: locale === 'kk' ? 'Хабарламалар — Sara Milan' : 'Уведомления — Sara Milan',
+    title:
+      locale === 'en'
+        ? 'Notifications — Sara Milan'
+        : locale === 'kk'
+          ? 'Хабарламалар — Sara Milan'
+          : 'Уведомления — Sara Milan',
   };
 }
 

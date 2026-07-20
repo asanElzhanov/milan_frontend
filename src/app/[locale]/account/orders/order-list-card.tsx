@@ -26,7 +26,7 @@ export type OrderListCardProps = {
 
 const formatDate = (value: string | null | undefined, locale: AppLocale): string =>
   value
-    ? new Intl.DateTimeFormat(locale === 'kk' ? 'kk-KZ' : 'ru-RU', {
+    ? new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : locale === 'kk' ? 'kk-KZ' : 'ru-RU', {
         dateStyle: 'medium',
       }).format(new Date(value))
     : '—';

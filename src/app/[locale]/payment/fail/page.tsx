@@ -22,7 +22,12 @@ export async function generateMetadata({ params }: PaymentStatusPageProps): Prom
   }
 
   return {
-    title: locale === 'kk' ? 'Төлем орындалмады — Sara Milan' : 'Оплата не прошла — Sara Milan',
+    title:
+      locale === 'en'
+        ? 'Payment failed — Sara Milan'
+        : locale === 'kk'
+          ? 'Төлем орындалмады — Sara Milan'
+          : 'Оплата не прошла — Sara Milan',
   };
 }
 

@@ -22,17 +22,25 @@ export function PaymentPlaceholder({ description, locale, title }: PaymentPlaceh
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="outline">
                 <Link href={localizedRoutes.cart(locale)}>
-                  {locale === 'kk' ? 'Себетке қайту' : 'Вернуться в корзину'}
+                  {locale === 'en'
+                    ? 'Back to cart'
+                    : locale === 'kk'
+                      ? 'Себетке қайту'
+                      : 'Вернуться в корзину'}
                 </Link>
               </Button>
               <Button asChild>
                 <Link href={localizedRoutes.catalog(locale)}>
-                  {locale === 'kk' ? 'Каталогқа өту' : 'Перейти в каталог'}
+                  {locale === 'en'
+                    ? 'Browse catalog'
+                    : locale === 'kk'
+                      ? 'Каталогқа өту'
+                      : 'Перейти в каталог'}
                 </Link>
               </Button>
               <Button asChild variant="ghost">
                 <Link href={localizedRoutes.account(locale)}>
-                  {locale === 'kk' ? 'Аккаунт' : 'Аккаунт'}
+                  {locale === 'en' ? 'Account' : 'Аккаунт'}
                 </Link>
               </Button>
             </div>

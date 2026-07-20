@@ -93,6 +93,37 @@ const paymentDictionary = {
     goToOrders: 'Менің тапсырыстарым',
     backToCart: 'Себетке қайту',
   },
+  en: {
+    title: 'Order payment',
+    subtitle: 'Choose a payment method or continue using the payment link.',
+    order: 'Order',
+    provider: 'Payment method',
+    amount: 'Amount',
+    status: 'Status',
+    payWithKaspi: 'Pay with Kaspi',
+    payWithCard: 'Pay by card',
+    continuePayment: 'Continue payment',
+    checkStatus: 'Check status',
+    pendingTitle: 'Awaiting payment',
+    pendingDescription: 'If you have paid, the status will update after backend confirmation.',
+    successTitle: 'Payment successful',
+    successDescription: 'Thank you for your order. We will contact you to confirm it.',
+    failTitle: 'Payment failed',
+    failDescription: 'Try again or choose another payment method.',
+    paymentUnavailableTitle: 'Payment is currently unavailable',
+    paymentUnavailableDescription:
+      'The payment status endpoint has not been confirmed yet. If your order was created, you can continue through the available provider endpoint.',
+    statusUnavailableDescription:
+      'Automatic payment status checks are waiting for backend contract confirmation. An unconfirmed success status will not be shown.',
+    noRedirectDescription:
+      'The backend did not return a payment link. Check your order later or contact Sara Milan.',
+    stripeElementsRequired:
+      'Stripe returned a client secret. Stripe Elements must be connected to accept card payments.',
+    startPaymentError: 'Unable to start payment',
+    backToCatalog: 'Back to catalog',
+    goToOrders: 'My orders',
+    backToCart: 'Back to cart',
+  },
 } as const satisfies Record<AppLocale, PaymentDictionary>;
 
 export const getPaymentDictionary = (locale: AppLocale): PaymentDictionary =>

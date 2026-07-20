@@ -41,7 +41,12 @@ export default async function ContactsPage({ params }: StaticRouteProps) {
   const supportHref = env.contact.email
     ? `mailto:${env.contact.email}`
     : env.contact.instagram || null;
-  const supportLabel = locale === 'kk' ? 'Қолдау қызметіне жазу' : 'Написать в поддержку';
+  const supportLabel =
+    locale === 'en'
+      ? 'Contact support'
+      : locale === 'kk'
+        ? 'Қолдау қызметіне жазу'
+        : 'Написать в поддержку';
 
   return (
     <StaticPageShell locale={locale} title={page.title} subtitle={page.subtitle}>
