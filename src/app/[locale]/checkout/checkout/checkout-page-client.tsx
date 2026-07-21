@@ -63,7 +63,7 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
   const cartQuery = useCartQuery();
   const currentUserQuery = useCurrentUserQuery();
   const addressesQuery = useAddressesQuery({ enabled: Boolean(currentUserQuery.data) });
-  const deliveryMethodsQuery = useDeliveryMethodsQuery();
+  const deliveryMethodsQuery = useDeliveryMethodsQuery({ locale });
   const checkoutMutation = useCheckoutMutation();
   const [values, setValues] = useState(() => createInitialCheckoutFormValues());
   const [errors, setErrors] = useState<Partial<Record<string, string>>>({});

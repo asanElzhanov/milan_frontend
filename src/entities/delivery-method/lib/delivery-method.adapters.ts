@@ -1,5 +1,7 @@
 import type { DeliveryMethod } from '../model/delivery-method.types';
 
+type DeliveryMethodLocale = 'ru' | 'kk' | 'en';
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
 
@@ -39,6 +41,24 @@ const readBoolean = (...values: unknown[]): boolean | undefined => {
   }
 
   return undefined;
+};
+
+const readLocalizedString = (
+  raw: Record<string, unknown>,
+  locale: DeliveryMethodLocale,
+  baseKey: string,
+): string | null => {
+  const localizedKeys = [locale, 'ru', 'kk', 'en'];
+
+  for (const candidate of localizedKeys) {
+    const value = raw[`${baseKey}_${candidate}`];
+
+    if (typeof value === 'string' && value.trim()) {
+      return value;
+    }
+  }
+
+  return null;
 };
 
 const readNumber = (...values: unknown[]): number | null => {
@@ -101,13 +121,13 @@ const unwrapList = (raw: unknown): unknown[] => {
   return [];
 };
 
-export function adaptDeliveryMethod(raw: unknown): DeliveryMethod | null {
+export function adaptDeliveryMethod(raw: unknown, locale: DeliveryMethodLocale = 'ru'): DeliveryMethod | null {
   if (!isRecord(raw)) {
     return null;
   }
 
   const id = readStringOrNumber(raw.id, raw.pk);
-  const name = readString(raw.name, raw.title, raw.label);
+  const name = readLocalizedString(raw, locale, 'name') ?? readString(raw.name, raw.title, raw.label);
 
   if (id === null || !name) {
     return null;
@@ -140,8 +160,11 @@ export function adaptDeliveryMethod(raw: unknown): DeliveryMethod | null {
   };
 }
 
-export function adaptDeliveryMethods(raw: unknown): DeliveryMethod[] {
+export function adaptDeliveryMethods(
+  raw: unknown,
+  locale: DeliveryMethodLocale = 'ru',
+): DeliveryMethod[] {
   return unwrapList(raw)
-    .map(adaptDeliveryMethod)
+    .map((method) => adaptDeliveryMethod(method, locale))
     .filter((method): method is DeliveryMethod => Boolean(method));
 }
