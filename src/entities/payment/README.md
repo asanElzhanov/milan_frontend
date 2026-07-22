@@ -3,44 +3,35 @@
 ## Purpose
 
 `src/entities/payment` contains payment types, adapters, selectors, query keys, API methods, and
-React Query hooks. It keeps payment provider integration behind backend contracts only.
-
-## Endpoint Discovery
-
-Discovery is documented in `docs/payment-endpoint-discovery.md`.
+React Query hooks. It keeps the FreedomPay integration behind the backend contract.
 
 ## Supported Endpoints
 
-- `POST /api/v1/payments/kaspi/create/`
-- `POST /api/v1/payments/stripe/create-intent/`
-
-Payment status endpoints are not confirmed in the current schema or docs.
+- `POST /api/v1/payments/freedom/create/` — инициирует платёж, возвращает `redirect_url`.
+- `GET /api/v1/payments/freedom/status/?order_number=&email=` — текущий статус заказа/оплаты.
 
 ## API Methods
 
 - `paymentApi.startPayment(payload)`
-  - Uses the confirmed provider create endpoint for `kaspi` or `stripe`.
-  - Throws a readable error in mock mode.
-  - Throws `Payment start endpoint is not configured` for unsupported providers.
-- `paymentApi.getPaymentStatus(orderNumber)`
-  - Returns `null` until a status endpoint is confirmed.
+  - Постит `order_number`, `email?`, `locale?` на FreedomPay create endpoint.
+  - Возвращает `PaymentSession` c `redirectUrl`/`paymentUrl`.
+  - Бросает читаемую ошибку в mock-режиме.
+- `paymentApi.getPaymentStatus(orderNumber, email?)`
+  - Возвращает нормализованный `PaymentStatusResult` из status endpoint.
 
 ## Status Handling
 
 Status helpers normalize known values:
 
-- `paid`, `success`, `completed` are paid.
-- `failed`, `error`, `cancelled`, `expired` are failed.
-- `pending`, `created`, `processing`, `requires_action` are pending.
+- `paid`, `success`, `completed` → paid.
+- `failed`, `error`, `cancelled`, `expired` → failed.
+- `pending`, `created`, `processing`, `requires_action`, `waiting`, `unpaid` → pending.
 
 Adapters parse unknown payloads safely and support common wrappers such as `payment`, `session`,
 `data`, `data.payment`, and `data.session`.
 
-## What Is Intentionally Not Included
+## Flow
 
-- Fake payment success.
-- Fake status polling.
-- Stripe SDK.
-- Kaspi SDK.
-- localStorage payment source of truth.
-- Refund, cancel, admin, or order history flows.
+1. Кнопка «Оплатить онлайн» → `startPayment` → редирект на страницу FreedomPay.
+2. FreedomPay серверно вызывает backend `result_url` и меняет статус заказа.
+3. Страница оплаты поллит `getPaymentStatus` (каждые 5с) и показывает актуальный статус.

@@ -14,7 +14,9 @@ export function isPaymentFailed(status?: PaymentStatus | null): boolean {
 }
 
 export function isPaymentPending(status?: PaymentStatus | null): boolean {
-  return ['pending', 'created', 'processing', 'requires_action'].includes(normalizeStatus(status));
+  return ['pending', 'created', 'processing', 'requires_action', 'waiting', 'unpaid'].includes(
+    normalizeStatus(status),
+  );
 }
 
 export function getPaymentRedirectUrl(session?: PaymentSession | null): string | null {

@@ -1,8 +1,7 @@
 'use client';
 
-import { CreditCard, ExternalLink, Landmark, RefreshCw } from 'lucide-react';
+import { CreditCard, ExternalLink, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
 import {
@@ -10,12 +9,9 @@ import {
   isPaymentFailed,
   isPaymentPaid,
   isPaymentPending,
-  isRelativePaymentUrl,
   isSafeExternalPaymentUrl,
-  paymentEndpointConfig,
   usePaymentStatusQuery,
   useStartPaymentMutation,
-  type PaymentProvider,
 } from '@/entities/payment';
 import { getApiErrorMessage } from '@/shared/api';
 import { type AppLocale, localizedRoutes } from '@/shared/config';
@@ -30,24 +26,11 @@ type PaymentPageClientProps = {
   orderNumber: string;
 };
 
-const isPaymentStatusEndpointConfigured = Boolean(paymentEndpointConfig.status);
-const paymentProviders: Array<{
-  provider: PaymentProvider;
-  labelKey: 'payWithKaspi' | 'payWithCard';
-  icon: typeof Landmark;
-}> = [
-  { provider: 'kaspi', labelKey: 'payWithKaspi', icon: Landmark },
-  { provider: 'stripe', labelKey: 'payWithCard', icon: CreditCard },
-];
-
 export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageClientProps) {
-  const router = useRouter();
   const startPaymentMutation = useStartPaymentMutation();
   const [notice, setNotice] = useState<string | null>(null);
-  const [selectedProvider, setSelectedProvider] = useState<PaymentProvider | null>(null);
   const statusQuery = usePaymentStatusQuery(orderNumber, {
-    enabled: isPaymentStatusEndpointConfigured,
-    refetchInterval: isPaymentStatusEndpointConfigured ? 5000 : false,
+    refetchInterval: 5000,
   });
 
   const statusResult = statusQuery.data ?? null;
@@ -68,29 +51,21 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
     return 'info';
   }, [statusLabel]);
 
-  const handleStartPayment = async (provider: PaymentProvider) => {
+  const isPaid = resultCardStatus === 'success';
+
+  const handleStartPayment = async () => {
     setNotice(null);
-    setSelectedProvider(provider);
 
     try {
       const session = await startPaymentMutation.mutateAsync({
         order_number: orderNumber,
-        provider,
+        locale,
+        provider: 'freedom',
       });
       const redirectUrl = getPaymentRedirectUrl(session);
 
       if (redirectUrl && isSafeExternalPaymentUrl(redirectUrl)) {
         window.location.assign(redirectUrl);
-        return;
-      }
-
-      if (redirectUrl && isRelativePaymentUrl(redirectUrl)) {
-        router.push(redirectUrl);
-        return;
-      }
-
-      if (provider === 'stripe' && session?.clientSecret) {
-        setNotice(labels.stripeElementsRequired);
         return;
       }
 
@@ -100,6 +75,17 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
     }
   };
 
+  const cardTitle = isPaid
+    ? labels.successTitle
+    : resultCardStatus === 'fail'
+      ? labels.failTitle
+      : labels.pendingTitle;
+  const cardDescription = isPaid
+    ? labels.successDescription
+    : resultCardStatus === 'fail'
+      ? labels.failDescription
+      : labels.pendingDescription;
+
   return (
     <Container className="sara-section">
       <SectionTitle eyebrow="Sara Milan" title={labels.title} description={labels.subtitle} />
@@ -107,17 +93,9 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
       <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="space-y-5">
           <PaymentResultCard
-            status={isPaymentStatusEndpointConfigured ? resultCardStatus : 'info'}
-            title={
-              isPaymentStatusEndpointConfigured
-                ? labels.pendingTitle
-                : labels.paymentUnavailableTitle
-            }
-            description={
-              isPaymentStatusEndpointConfigured
-                ? labels.pendingDescription
-                : labels.paymentUnavailableDescription
-            }
+            status={resultCardStatus}
+            title={cardTitle}
+            description={cardDescription}
             actions={
               <>
                 <Button asChild variant="outline">
@@ -142,17 +120,11 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
               <div>
                 <p className="text-overline text-sara-bronze">{labels.status}</p>
                 <Badge className="mt-2" variant={resultCardStatus === 'fail' ? 'danger' : 'muted'}>
-                  {isPaymentStatusEndpointConfigured ? statusLabel : 'pending backend contract'}
+                  {statusLabel}
                 </Badge>
               </div>
             </div>
           </section>
-
-          {!isPaymentStatusEndpointConfigured ? (
-            <Alert title={labels.status} variant="warning">
-              {labels.statusUnavailableDescription}
-            </Alert>
-          ) : null}
 
           {notice ? (
             <Alert role="alert" title={labels.startPaymentError} variant="warning">
@@ -167,37 +139,34 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
             <h2 className="mt-2 font-fashion text-2xl text-sara-black">{labels.continuePayment}</h2>
           </div>
 
-          <div className="space-y-3">
-            {paymentProviders.map(({ icon: Icon, labelKey, provider }) => (
-              <Button
-                key={provider}
-                className="justify-between"
-                disabled={startPaymentMutation.isPending}
-                fullWidth
-                loading={startPaymentMutation.isPending && selectedProvider === provider}
-                onClick={() => void handleStartPayment(provider)}
-                variant={provider === 'kaspi' ? 'primary' : 'outline'}
-              >
-                <span className="inline-flex items-center gap-2">
-                  <Icon aria-hidden className="h-4 w-4" />
-                  {labels[labelKey]}
-                </span>
-                <ExternalLink aria-hidden className="h-4 w-4" />
-              </Button>
-            ))}
-          </div>
-
-          {isPaymentStatusEndpointConfigured ? (
+          {isPaid ? (
+            <Alert variant="success">{labels.successDescription}</Alert>
+          ) : (
             <Button
-              disabled={statusQuery.isFetching}
+              className="justify-between"
+              disabled={startPaymentMutation.isPending}
               fullWidth
-              onClick={() => void statusQuery.refetch()}
-              variant="ghost"
+              loading={startPaymentMutation.isPending}
+              onClick={() => void handleStartPayment()}
+              variant="primary"
             >
-              <RefreshCw aria-hidden className="h-4 w-4" />
-              {labels.checkStatus}
+              <span className="inline-flex items-center gap-2">
+                <CreditCard aria-hidden className="h-4 w-4" />
+                {labels.payOnline}
+              </span>
+              <ExternalLink aria-hidden className="h-4 w-4" />
             </Button>
-          ) : null}
+          )}
+
+          <Button
+            disabled={statusQuery.isFetching}
+            fullWidth
+            onClick={() => void statusQuery.refetch()}
+            variant="ghost"
+          >
+            <RefreshCw aria-hidden className="h-4 w-4" />
+            {labels.checkStatus}
+          </Button>
         </aside>
       </div>
     </Container>

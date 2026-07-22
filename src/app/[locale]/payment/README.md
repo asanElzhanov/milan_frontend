@@ -2,42 +2,29 @@
 
 ## Routes
 
-- `/:locale/payment/:orderNumber`
-- `/:locale/payment/success`
-- `/:locale/payment/fail`
-- `/:locale/payment/pending`
+- `/:locale/payment/:orderNumber` — страница оплаты заказа (FreedomPay).
+- `/:locale/payment/success` — landing после успешной оплаты (`pg_success_url`).
+- `/:locale/payment/fail` — landing после неуспешной оплаты (`pg_failure_url`).
+- `/:locale/payment/pending` — статус ожидания.
 
 Locales are validated through the shared locale config.
 
 ## Payment Start
 
-The order payment page can start payment with confirmed provider endpoints:
+Страница оплаты стартует платёж единственным способом — FreedomPay:
 
-- Kaspi: `POST /api/v1/payments/kaspi/create/`
-- Stripe/card: `POST /api/v1/payments/stripe/create-intent/`
+- `POST /api/v1/payments/freedom/create/`
 
-If backend returns `paymentUrl`, `redirectUrl`, or `qrUrl`, the page redirects only when the URL is
-safe.
+Backend возвращает `redirect_url` (страница FreedomPay). Редирект выполняется только для
+безопасного `https://` URL.
 
 ## Payment Status
 
-Payment status API is not called because no status endpoint is confirmed. Polling is disabled until
-the backend contract exists.
+Страница поллит `GET /api/v1/payments/freedom/status/` каждые 5 секунд и обновляет карточку
+статуса (pending / success / fail). Источник истины — статус заказа на backend, который
+меняется серверным callback'ом FreedomPay (`result_url`).
 
 ## Redirect Handling
 
-External payment URLs must be `https://`. Relative URLs must start with `/` and must not start with
-`//`. Empty, `javascript:`, and protocol-relative URLs are rejected.
-
-## Fallback When Backend Payment Endpoints Are Missing
-
-The page shows an honest pending/backend-contract message and keeps navigation back to catalog,
-cart, and account orders. It does not mark payment as successful without backend truth.
-
-## What Is Intentionally Not Included
-
-- Fake payment result.
-- Fake payment status polling.
-- Stripe or Kaspi SDK.
-- Order history implementation.
-- Refund, cancel, or admin payment flows.
+External payment URLs must be `https://`. Empty, `javascript:`, and protocol-relative URLs are
+rejected.

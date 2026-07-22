@@ -36,7 +36,7 @@ export function createInitialCheckoutFormValues(args?: {
       isDefault: false,
     },
     deliveryMethodId: '',
-    paymentMethod: args?.defaultPaymentMethod ?? 'kaspi',
+    paymentMethod: args?.defaultPaymentMethod ?? 'freedom',
     comment: '',
   };
 }

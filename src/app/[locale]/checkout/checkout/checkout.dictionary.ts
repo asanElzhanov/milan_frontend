@@ -30,9 +30,7 @@ export type CheckoutDictionary = {
   addressLine2: string;
   comment: string;
   orderCommentPlaceholder: string;
-  kaspi: string;
-  stripe: string;
-  cash: string;
+  freedom: string;
   paymentComingNext: string;
   submit: string;
   submitting: string;
@@ -90,10 +88,8 @@ const checkoutDictionary = {
     addressLine2: 'Адресная строка 2',
     comment: 'Комментарий',
     orderCommentPlaceholder: 'Например: удобное время доставки или комментарий для менеджера',
-    kaspi: 'Kaspi',
-    stripe: 'Банковская карта',
-    cash: 'Оплата при получении',
-    paymentComingNext: 'Оплата будет подключена на следующем этапе. Сейчас будет создан заказ.',
+    freedom: 'Онлайн-оплата картой (FreedomPay)',
+    paymentComingNext: 'После оформления заказа вы перейдёте к онлайн-оплате картой через FreedomPay.',
     submit: 'Оформить заказ',
     submitting: 'Создаём заказ',
     backToCart: 'Вернуться в корзину',
@@ -148,10 +144,8 @@ const checkoutDictionary = {
     addressLine2: 'Мекенжай жолы 2',
     comment: 'Пікір',
     orderCommentPlaceholder: 'Мысалы: жеткізуге ыңғайлы уақыт немесе менеджерге пікір',
-    kaspi: 'Kaspi',
-    stripe: 'Банк картасы',
-    cash: 'Қолма-қол төлеу',
-    paymentComingNext: 'Төлем келесі кезеңде қосылады. Қазір тапсырыс жасалады.',
+    freedom: 'Картамен онлайн төлеу (FreedomPay)',
+    paymentComingNext: 'Тапсырысты рәсімдегеннен кейін FreedomPay арқылы картамен онлайн төлеуге өтесіз.',
     submit: 'Тапсырысты рәсімдеу',
     submitting: 'Тапсырыс жасалуда',
     backToCart: 'Себетке қайту',
@@ -206,11 +200,9 @@ const checkoutDictionary = {
     addressLine2: 'Address line 2',
     comment: 'Comment',
     orderCommentPlaceholder: 'For example: a convenient delivery time or a note for the manager',
-    kaspi: 'Kaspi',
-    stripe: 'Bank card',
-    cash: 'Pay on delivery',
+    freedom: 'Online card payment (FreedomPay)',
     paymentComingNext:
-      'Payment will be connected at the next stage. Your order will be created now.',
+      'After placing the order you will proceed to online card payment via FreedomPay.',
     submit: 'Place order',
     submitting: 'Creating order',
     backToCart: 'Back to cart',

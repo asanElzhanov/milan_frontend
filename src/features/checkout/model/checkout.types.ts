@@ -1,6 +1,6 @@
 export type CheckoutAddressMode = 'saved' | 'manual';
 
-export type CheckoutPaymentMethod = 'kaspi' | 'stripe' | 'cash' | string;
+export type CheckoutPaymentMethod = 'freedom' | string;
 
 export type CheckoutPayload = {
   customer_name?: string;

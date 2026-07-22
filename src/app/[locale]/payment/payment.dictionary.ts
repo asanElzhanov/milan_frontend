@@ -7,8 +7,7 @@ export type PaymentDictionary = {
   provider: string;
   amount: string;
   status: string;
-  payWithKaspi: string;
-  payWithCard: string;
+  payOnline: string;
   continuePayment: string;
   checkStatus: string;
   pendingTitle: string;
@@ -17,11 +16,7 @@ export type PaymentDictionary = {
   successDescription: string;
   failTitle: string;
   failDescription: string;
-  paymentUnavailableTitle: string;
-  paymentUnavailableDescription: string;
-  statusUnavailableDescription: string;
   noRedirectDescription: string;
-  stripeElementsRequired: string;
   startPaymentError: string;
   backToCatalog: string;
   goToOrders: string;
@@ -31,31 +26,23 @@ export type PaymentDictionary = {
 const paymentDictionary = {
   ru: {
     title: 'Оплата заказа',
-    subtitle: 'Выберите способ оплаты или продолжите оплату по ссылке.',
+    subtitle: 'Оплатите заказ онлайн банковской картой через FreedomPay.',
     order: 'Заказ',
-    provider: 'Способ оплаты',
+    provider: 'Оплата',
     amount: 'Сумма',
     status: 'Статус',
-    payWithKaspi: 'Оплатить через Kaspi',
-    payWithCard: 'Оплатить картой',
-    continuePayment: 'Продолжить оплату',
+    payOnline: 'Оплатить онлайн',
+    continuePayment: 'Онлайн-оплата',
     checkStatus: 'Проверить статус',
     pendingTitle: 'Ожидаем оплату',
     pendingDescription:
-      'Если вы уже оплатили заказ, статус обновится после подтверждения платежа backend-системой.',
+      'Нажмите «Оплатить онлайн», чтобы перейти на защищённую страницу FreedomPay. Статус обновится автоматически после оплаты.',
     successTitle: 'Оплата прошла успешно',
     successDescription: 'Спасибо за заказ. Мы свяжемся с вами для подтверждения.',
     failTitle: 'Оплата не прошла',
-    failDescription: 'Попробуйте еще раз или выберите другой способ оплаты.',
-    paymentUnavailableTitle: 'Оплата пока недоступна',
-    paymentUnavailableDescription:
-      'Endpoint статуса оплаты пока не подтвержден. Если заказ создан, оплату можно продолжить через подтвержденный provider endpoint.',
-    statusUnavailableDescription:
-      'Автоматическая проверка статуса оплаты ожидает подтверждения backend contract. Фронтенд не показывает неподтвержденный успешный статус.',
+    failDescription: 'Попробуйте оплатить ещё раз.',
     noRedirectDescription:
-      'Backend не вернул ссылку для оплаты. Проверьте статус заказа позже или обратитесь в Sara Milan.',
-    stripeElementsRequired:
-      'Stripe вернул client_secret. Для оплаты картой требуется подключить Stripe Elements; frontend не показывает фейковый успешный статус.',
+      'Не удалось получить ссылку для оплаты. Попробуйте позже или обратитесь в Sara Milan.',
     startPaymentError: 'Не удалось начать оплату',
     backToCatalog: 'Вернуться в каталог',
     goToOrders: 'Мои заказы',
@@ -63,31 +50,23 @@ const paymentDictionary = {
   },
   kk: {
     title: 'Тапсырысты төлеу',
-    subtitle: 'Төлем әдісін таңдаңыз немесе төлем сілтемесі арқылы жалғастырыңыз.',
+    subtitle: 'Тапсырысты FreedomPay арқылы онлайн банк картасымен төлеңіз.',
     order: 'Тапсырыс',
-    provider: 'Төлем әдісі',
+    provider: 'Төлем',
     amount: 'Сома',
     status: 'Статус',
-    payWithKaspi: 'Kaspi арқылы төлеу',
-    payWithCard: 'Картамен төлеу',
-    continuePayment: 'Төлемді жалғастыру',
+    payOnline: 'Онлайн төлеу',
+    continuePayment: 'Онлайн төлем',
     checkStatus: 'Статусты тексеру',
     pendingTitle: 'Төлем күтілуде',
     pendingDescription:
-      'Егер тапсырысты төлеген болсаңыз, статус backend жүйесі растағаннан кейін жаңарады.',
+      'FreedomPay қорғалған бетіне өту үшін «Онлайн төлеу» түймесін басыңыз. Төлемнен кейін статус автоматты жаңарады.',
     successTitle: 'Төлем сәтті өтті',
     successDescription: 'Тапсырысыңыз үшін рақмет. Біз растау үшін хабарласамыз.',
     failTitle: 'Төлем орындалмады',
-    failDescription: 'Қайталап көріңіз немесе басқа төлем әдісін таңдаңыз.',
-    paymentUnavailableTitle: 'Төлем әзірге қолжетімсіз',
-    paymentUnavailableDescription:
-      'Төлем статусы endpoint әзірге расталмаған. Тапсырыс жасалса, төлемді расталған provider endpoint арқылы жалғастыруға болады.',
-    statusUnavailableDescription:
-      'Төлем статусын автоматты тексеру backend contract расталуын күтіп тұр. Фронтенд расталмаған сәтті статусты көрсетпейді.',
+    failDescription: 'Қайтадан төлеп көріңіз.',
     noRedirectDescription:
-      'Backend төлем сілтемесін қайтармады. Тапсырыс статусын кейінірек тексеріңіз немесе Sara Milan-ға хабарласыңыз.',
-    stripeElementsRequired:
-      'Stripe client_secret қайтарды. Картамен төлеу үшін Stripe Elements қосу қажет; frontend жалған сәтті статус көрсетпейді.',
+      'Төлем сілтемесін алу мүмкін болмады. Кейінірек қайталаңыз немесе Sara Milan-ға хабарласыңыз.',
     startPaymentError: 'Төлемді бастау мүмкін болмады',
     backToCatalog: 'Каталогқа қайту',
     goToOrders: 'Менің тапсырыстарым',
@@ -95,30 +74,23 @@ const paymentDictionary = {
   },
   en: {
     title: 'Order payment',
-    subtitle: 'Choose a payment method or continue using the payment link.',
+    subtitle: 'Pay for your order online by bank card via FreedomPay.',
     order: 'Order',
-    provider: 'Payment method',
+    provider: 'Payment',
     amount: 'Amount',
     status: 'Status',
-    payWithKaspi: 'Pay with Kaspi',
-    payWithCard: 'Pay by card',
-    continuePayment: 'Continue payment',
+    payOnline: 'Pay online',
+    continuePayment: 'Online payment',
     checkStatus: 'Check status',
     pendingTitle: 'Awaiting payment',
-    pendingDescription: 'If you have paid, the status will update after backend confirmation.',
+    pendingDescription:
+      'Click “Pay online” to open the secure FreedomPay page. The status updates automatically after payment.',
     successTitle: 'Payment successful',
     successDescription: 'Thank you for your order. We will contact you to confirm it.',
     failTitle: 'Payment failed',
-    failDescription: 'Try again or choose another payment method.',
-    paymentUnavailableTitle: 'Payment is currently unavailable',
-    paymentUnavailableDescription:
-      'The payment status endpoint has not been confirmed yet. If your order was created, you can continue through the available provider endpoint.',
-    statusUnavailableDescription:
-      'Automatic payment status checks are waiting for backend contract confirmation. An unconfirmed success status will not be shown.',
+    failDescription: 'Please try to pay again.',
     noRedirectDescription:
-      'The backend did not return a payment link. Check your order later or contact Sara Milan.',
-    stripeElementsRequired:
-      'Stripe returned a client secret. Stripe Elements must be connected to accept card payments.',
+      'Could not get a payment link. Try again later or contact Sara Milan.',
     startPaymentError: 'Unable to start payment',
     backToCatalog: 'Back to catalog',
     goToOrders: 'My orders',

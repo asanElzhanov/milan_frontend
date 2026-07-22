@@ -1,4 +1,4 @@
-export type PaymentProvider = 'kaspi' | 'stripe' | 'cash' | string;
+export type PaymentProvider = 'freedom' | string;
 
 export type PaymentStatus =
   | 'pending'
@@ -15,7 +15,8 @@ export type PaymentStatus =
 export type PaymentStartPayload = {
   order_number: string;
   email?: string;
-  provider: PaymentProvider;
+  locale?: string;
+  provider?: PaymentProvider;
 };
 
 export type PaymentSession = {
