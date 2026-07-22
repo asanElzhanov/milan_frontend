@@ -26,6 +26,19 @@ export function ProductDetailInfo({ dictionary, locale, product }: ProductDetail
     () => resolveSelectedVariant({ product, selectedColor, selectedSize }),
     [product, selectedColor, selectedSize],
   );
+  const badgeLabels =
+    locale === 'ru'
+      ? { new: 'Новинка', sale: 'Скидка', outOfStock: 'Нет в наличии' }
+      : locale === 'kk'
+        ? { new: 'Жаңа', sale: 'Жеңілдік', outOfStock: 'Қоймада жоқ' }
+        : { new: 'New', sale: 'Sale', outOfStock: 'Out of stock' };
+  const ratingValue = product.averageRating ?? product.rating ?? 0;
+  const ratingLabel =
+    locale === 'ru'
+      ? `Рейтинг ${ratingValue} из 5`
+      : locale === 'kk'
+        ? `Рейтинг: ${ratingValue} / 5`
+        : `Rating ${ratingValue} out of 5`;
 
   return (
     <div className="space-y-7">
@@ -43,8 +56,10 @@ export function ProductDetailInfo({ dictionary, locale, product }: ProductDetail
           inStock={product.inStock}
           isNew={product.isNew}
           isSale={product.isSale}
+          labels={badgeLabels}
         />
         <ProductRating
+          ariaLabel={ratingLabel}
           averageRating={product.averageRating ?? product.rating}
           reviewsCount={product.reviewsCount}
           showEmpty
@@ -71,6 +86,7 @@ export function ProductDetailInfo({ dictionary, locale, product }: ProductDetail
       <WishlistToggleButton locale={locale} productId={product.id} variant="button" />
       <ProductAddToCart
         dictionary={dictionary}
+        locale={locale}
         product={product}
         selectedVariant={selectedVariant}
       />

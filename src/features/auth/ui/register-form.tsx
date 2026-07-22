@@ -177,7 +177,7 @@ export function RegisterForm({ dictionary, locale }: AuthFormProps) {
           required
           rightIcon={
             <button
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-label={showPassword ? dictionary.hidePassword : dictionary.showPassword}
               className="sara-focus inline-flex h-7 w-7 items-center justify-center text-sara-graphite/55 hover:text-sara-graphite"
               disabled={isPending}
               onClick={() => setShowPassword((current) => !current)}

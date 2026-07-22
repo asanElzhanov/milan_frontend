@@ -21,7 +21,10 @@ export function CatalogMobileFilters(props: CatalogMobileFiltersProps) {
           {props.dictionary.filters}
         </Button>
       </DrawerTrigger>
-      <DrawerContent side="left">
+      <DrawerContent
+        closeLabel={props.locale === 'ru' ? 'Закрыть' : props.locale === 'kk' ? 'Жабу' : 'Close'}
+        side="left"
+      >
         <CatalogFilterSidebar {...props} />
       </DrawerContent>
     </Drawer>

@@ -6,6 +6,7 @@ import type { ProductDetail, ProductVariant } from '@/entities/product';
 import { useCreateCartItemMutation } from '@/entities/cart';
 import { getApiErrorMessage } from '@/shared/api';
 import { Button, QuantitySelector } from '@/shared/ui';
+import type { AppLocale } from '@/shared/config';
 
 import type { ProductDetailDictionary } from './product-detail.types';
 import { getVariantStockQuantity, isVariantInStock } from './variant-resolver';
@@ -14,9 +15,15 @@ type ProductAddToCartProps = {
   dictionary: ProductDetailDictionary;
   product: ProductDetail;
   selectedVariant: ProductVariant | null;
+  locale: AppLocale;
 };
 
-export function ProductAddToCart({ dictionary, product, selectedVariant }: ProductAddToCartProps) {
+export function ProductAddToCart({
+  dictionary,
+  locale,
+  product,
+  selectedVariant,
+}: ProductAddToCartProps) {
   const [quantity, setQuantity] = useState(1);
   const [notice, setNotice] = useState<string | null>(null);
   const addCartItemMutation = useCreateCartItemMutation();
@@ -48,6 +55,7 @@ export function ProductAddToCart({ dictionary, product, selectedVariant }: Produ
     <div className="space-y-3">
       <div className="flex flex-col gap-3 sm:flex-row">
         <QuantitySelector
+          locale={locale}
           disabled={disabled}
           max={stockQuantity}
           onChange={setQuantity}

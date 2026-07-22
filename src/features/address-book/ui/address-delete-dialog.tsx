@@ -28,7 +28,7 @@ export function AddressDeleteDialog({
 }) {
   return (
     <Dialog open={Boolean(address)} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent closeLabel={labels.cancel}>
         <DialogHeader>
           <DialogTitle>{labels.deleteTitle}</DialogTitle>
           <DialogDescription>{labels.deleteDescription}</DialogDescription>

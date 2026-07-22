@@ -1,4 +1,5 @@
 import type { DeliveryMethod } from '../model/delivery-method.types';
+import { localizeBackendValue } from '@/shared/lib';
 
 type DeliveryMethodLocale = 'ru' | 'kk' | 'en';
 
@@ -48,7 +49,8 @@ const readLocalizedString = (
   locale: DeliveryMethodLocale,
   baseKey: string,
 ): string | null => {
-  const localizedKeys = [locale, 'ru', 'kk', 'en'];
+  const requestedKeys = locale === 'kk' ? ['kk', 'kz'] : [locale];
+  const localizedKeys = [...requestedKeys, 'ru', 'kk', 'kz', 'en'];
 
   for (const candidate of localizedKeys) {
     const value = raw[`${baseKey}_${candidate}`];
@@ -121,13 +123,19 @@ const unwrapList = (raw: unknown): unknown[] => {
   return [];
 };
 
-export function adaptDeliveryMethod(raw: unknown, locale: DeliveryMethodLocale = 'ru'): DeliveryMethod | null {
+export function adaptDeliveryMethod(
+  raw: unknown,
+  locale: DeliveryMethodLocale = 'ru',
+): DeliveryMethod | null {
   if (!isRecord(raw)) {
     return null;
   }
 
   const id = readStringOrNumber(raw.id, raw.pk);
-  const name = readLocalizedString(raw, locale, 'name') ?? readString(raw.name, raw.title, raw.label);
+  const code = readString(raw.code, raw.slug);
+  const rawName =
+    readLocalizedString(raw, locale, 'name') ?? readString(raw.name, raw.title, raw.label);
+  const name = localizeBackendValue(rawName, locale, code);
 
   if (id === null || !name) {
     return null;
@@ -144,11 +152,16 @@ export function adaptDeliveryMethod(raw: unknown, locale: DeliveryMethodLocale =
 
   return {
     id,
-    code: readString(raw.code, raw.slug),
+    code,
     slug: readString(raw.slug),
     name,
     deliveryType: readString(raw.delivery_type, raw.deliveryType),
-    description: readString(raw.description, raw.short_description),
+    description: localizeBackendValue(
+      readLocalizedString(raw, locale, 'description') ??
+        readLocalizedString(raw, locale, 'short_description') ??
+        readString(raw.description, raw.short_description),
+      locale,
+    ),
     price: readStringOrNumber(raw.price, raw.cost, raw.delivery_price, raw.base_price),
     basePrice: readStringOrNumber(raw.base_price, raw.basePrice),
     priceType,

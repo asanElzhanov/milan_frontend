@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/shared/lib';
 
 import { Button } from '../button';
+import { DEFAULT_LOCALE, type AppLocale } from '@/shared/config';
 
 export type PaginationProps = {
   page: number;
@@ -12,7 +13,15 @@ export type PaginationProps = {
   showPrevNext?: boolean;
   siblingCount?: number;
   className?: string;
+  locale?: AppLocale;
 };
+
+const paginationLabels: Record<AppLocale, { navigation: string; previous: string; next: string }> =
+  {
+    ru: { navigation: 'Пагинация', previous: 'Предыдущая страница', next: 'Следующая страница' },
+    kk: { navigation: 'Беттер бойынша навигация', previous: 'Алдыңғы бет', next: 'Келесі бет' },
+    en: { navigation: 'Pagination', previous: 'Previous page', next: 'Next page' },
+  };
 
 const getRange = (start: number, end: number): number[] =>
   Array.from({ length: Math.max(end - start + 1, 0) }, (_, index) => start + index);
@@ -25,7 +34,9 @@ export function Pagination({
   showPrevNext = true,
   siblingCount = 1,
   totalPages,
+  locale = DEFAULT_LOCALE,
 }: PaginationProps) {
+  const labels = paginationLabels[locale];
   const start = Math.max(1, page - siblingCount);
   const end = Math.min(totalPages, page + siblingCount);
   const pages = getRange(start, end);
@@ -36,12 +47,12 @@ export function Pagination({
 
   return (
     <nav
-      aria-label="Pagination"
+      aria-label={labels.navigation}
       className={cn('flex items-center justify-center gap-2', className)}
     >
       {showPrevNext ? (
         <Button
-          aria-label="Previous page"
+          aria-label={labels.previous}
           disabled={disabled || page <= 1}
           onClick={() => onPageChange(page - 1)}
           size="icon"
@@ -64,7 +75,7 @@ export function Pagination({
       ))}
       {showPrevNext ? (
         <Button
-          aria-label="Next page"
+          aria-label={labels.next}
           disabled={disabled || page >= totalPages}
           onClick={() => onPageChange(page + 1)}
           size="icon"

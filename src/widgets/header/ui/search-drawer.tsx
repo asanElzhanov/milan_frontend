@@ -45,7 +45,7 @@ export function SearchDrawer({
           <Search aria-hidden className="h-5 w-5" />
         </button>
       </DrawerTrigger>
-      <DrawerContent side="right">
+      <DrawerContent closeLabel={dictionary.close} side="right">
         <form className="space-y-6 pr-8" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <p className="text-overline text-sara-bronze">{dictionary.searchLabel}</p>

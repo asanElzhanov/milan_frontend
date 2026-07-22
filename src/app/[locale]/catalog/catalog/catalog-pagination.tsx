@@ -28,6 +28,7 @@ export function CatalogPagination({
   return (
     <Pagination
       className="mt-12"
+      locale={locale}
       onPageChange={(page) =>
         router.push(
           buildCatalogHref(

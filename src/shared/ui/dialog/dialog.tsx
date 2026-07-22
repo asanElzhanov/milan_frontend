@@ -12,6 +12,10 @@ export const DialogClose = DialogPrimitive.Close;
 
 export const DialogPortal = DialogPrimitive.Portal;
 
+export type DialogContentProps = ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+  closeLabel?: string;
+};
+
 export const DialogOverlay = forwardRef<
   ElementRef<typeof DialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
@@ -27,8 +31,8 @@ DialogOverlay.displayName = 'DialogOverlay';
 
 export const DialogContent = forwardRef<
   ElementRef<typeof DialogPrimitive.Content>,
-  ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ children, className, ...props }, ref) => (
+  DialogContentProps
+>(({ children, className, closeLabel = 'Close', ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
@@ -42,7 +46,7 @@ export const DialogContent = forwardRef<
       {children}
       <DialogPrimitive.Close className="sara-focus absolute top-4 right-4 text-sara-graphite/60 hover:text-sara-graphite">
         <X aria-hidden className="h-5 w-5" />
-        <span className="sr-only">Close</span>
+        <span className="sr-only">{closeLabel}</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>

@@ -81,7 +81,7 @@ export function AccountShellClient({ activeKey, children, locale }: AccountShell
 
   return (
     <div className="space-y-6">
-      <AccountMobileNav activeKey={activeKey} items={navItems} />
+      <AccountMobileNav activeKey={activeKey} items={navItems} label={labels.accountTitle} />
       <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
         <AccountSidebar activeKey={activeKey} items={navItems} labels={labels} locale={locale} />
         <div className="min-w-0">

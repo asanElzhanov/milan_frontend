@@ -35,7 +35,7 @@ export function MobileMenu({
           <Menu aria-hidden className="h-6 w-6" />
         </button>
       </DrawerTrigger>
-      <DrawerContent side="left">
+      <DrawerContent closeLabel={dictionary.close} side="left">
         <div className="space-y-8 pr-8">
           <div>
             <p className="text-overline text-sara-bronze">{dictionary.menu}</p>

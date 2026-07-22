@@ -4,9 +4,11 @@ export type ProductSizePreviewProps = {
   sizes?: string[];
   maxVisible?: number;
   className?: string;
+  ariaLabel?: string;
 };
 
 export function ProductSizePreview({
+  ariaLabel = 'Available sizes',
   className,
   maxVisible = 4,
   sizes = [],
@@ -19,10 +21,7 @@ export function ProductSizePreview({
   const hiddenCount = Math.max(0, sizes.length - visibleSizes.length);
 
   return (
-    <div
-      className={cn('flex flex-wrap items-center gap-1.5', className)}
-      aria-label="Доступные размеры"
-    >
+    <div className={cn('flex flex-wrap items-center gap-1.5', className)} aria-label={ariaLabel}>
       {visibleSizes.map((size) => (
         <span
           className="border border-sara-beige-dark px-2 py-0.5 text-[0.7rem] text-sara-graphite/75"

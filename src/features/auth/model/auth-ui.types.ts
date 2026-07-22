@@ -36,6 +36,8 @@ export type AuthDictionary = {
   invalidEmailOrPhone: string;
   passwordTooShort: string;
   passwordsDoNotMatch: string;
+  showPassword: string;
+  hidePassword: string;
 };
 
 export type AuthShellProps = {

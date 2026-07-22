@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { withLocale } from '@/shared/config';
-import { getLocalizedField } from '@/shared/lib';
+import { getLocalizedField, localizeBackendValue } from '@/shared/lib';
 import { Button, Container, ErrorState } from '@/shared/ui';
 
 import { getProductDetailData } from './product-detail.api';
@@ -39,6 +39,19 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
     ...data.product,
     name: getLocalizedField(data.product, 'name', locale),
     description: getLocalizedField(data.product, 'description', locale),
+    composition: getLocalizedField(data.product, 'composition', locale),
+    material: getLocalizedField(data.product, 'material', locale),
+    categoryName: localizeBackendValue(data.product.categoryName, locale),
+    availableColors: data.product.availableColors?.map((color) =>
+      localizeBackendValue(color, locale),
+    ),
+    availableSizes: data.product.availableSizes?.map((size) => localizeBackendValue(size, locale)),
+    season: localizeBackendValue(data.product.season, locale),
+    variants: data.product.variants?.map((variant) => ({
+      ...variant,
+      color: localizeBackendValue(variant.color, locale),
+      size: localizeBackendValue(variant.size, locale),
+    })),
   };
 
   return (

@@ -20,6 +20,12 @@ const homeLabel: Record<AppLocale, string> = {
   en: 'Home',
 };
 
+const breadcrumbsLabel: Record<AppLocale, string> = {
+  ru: 'Навигационная цепочка',
+  kk: 'Навигациялық жол',
+  en: 'Breadcrumbs',
+};
+
 export function StaticPageShell({
   breadcrumbs,
   children,
@@ -35,7 +41,11 @@ export function StaticPageShell({
   return (
     <main className="bg-sara-beige/30">
       <Container className="py-10 md:py-14">
-        <Breadcrumbs className="mb-8" items={breadcrumbItems} />
+        <Breadcrumbs
+          ariaLabel={breadcrumbsLabel[locale]}
+          className="mb-8"
+          items={breadcrumbItems}
+        />
         <div className="mb-10 max-w-3xl space-y-4">
           <h1 className="font-serif text-4xl text-sara-graphite md:text-6xl">{title}</h1>
           {subtitle ? <p className="text-body text-sara-graphite/70">{subtitle}</p> : null}

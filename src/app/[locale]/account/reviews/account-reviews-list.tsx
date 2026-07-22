@@ -29,7 +29,7 @@ export function AccountReviewsList({
     <div className="space-y-4">
       {reviews.map((review) => (
         <div className="space-y-2" key={review.id}>
-          <ReviewCard labels={cardLabels} review={review} showProduct />
+          <ReviewCard labels={cardLabels} locale={locale} review={review} showProduct />
           {review.productSlug ? (
             <Link
               className="sara-focus inline-block text-sm font-medium text-sara-bronze underline-offset-4 hover:underline"

@@ -39,6 +39,7 @@ export function NotificationsPagination({
   return (
     <Pagination
       className="mt-6"
+      locale={locale}
       onPageChange={handlePageChange}
       page={currentPage}
       totalPages={totalPages}

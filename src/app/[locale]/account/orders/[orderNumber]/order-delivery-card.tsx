@@ -1,13 +1,16 @@
 import { formatOrderAddress, type Order } from '@/entities/order';
+import type { AppLocale } from '@/shared/config';
+import { localizeBackendValue } from '@/shared/lib';
 
 import type { OrdersDictionary } from '../orders.dictionary';
 
 type OrderDeliveryCardProps = {
   labels: OrdersDictionary;
   order: Order;
+  locale: AppLocale;
 };
 
-export function OrderDeliveryCard({ labels, order }: OrderDeliveryCardProps) {
+export function OrderDeliveryCard({ labels, locale, order }: OrderDeliveryCardProps) {
   const address = formatOrderAddress(order);
 
   return (
@@ -17,7 +20,11 @@ export function OrderDeliveryCard({ labels, order }: OrderDeliveryCardProps) {
         <div>
           <dt className="text-caption">{labels.method}</dt>
           <dd className="mt-1 font-medium text-sara-black">
-            {order.delivery?.methodName ?? labels.noData}
+            {localizeBackendValue(
+              order.delivery?.methodName ?? order.deliveryMethodName,
+              locale,
+              order.deliveryMethodCode,
+            ) || labels.noData}
           </dd>
         </div>
         <div>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { cn } from '@/shared/lib';
 import { Button } from '@/shared/ui';
+import { LOCALE_TAGS, type AppLocale } from '@/shared/config';
 
 import { getNotificationHref, isNotificationUnread } from '../lib/notification.selectors';
 import type { Notification } from '../model/notification.types';
@@ -9,10 +10,17 @@ import { NotificationTypeBadge } from './notification-type-badge';
 
 export type NotificationCardProps = {
   notification: Notification;
+  locale: AppLocale;
   labels?: {
     unread?: string;
     read?: string;
     open?: string;
+    order?: string;
+    payment?: string;
+    delivery?: string;
+    review?: string;
+    promo?: string;
+    system?: string;
   };
 };
 
@@ -29,7 +37,7 @@ const isSafeExternalHref = (href: string): boolean => {
   }
 };
 
-const formatDate = (value?: string | null): string | null => {
+const formatDate = (value: string | null | undefined, locale: AppLocale): string | null => {
   if (!value) {
     return null;
   }
@@ -40,7 +48,7 @@ const formatDate = (value?: string | null): string | null => {
     return value;
   }
 
-  return new Intl.DateTimeFormat(undefined, {
+  return new Intl.DateTimeFormat(LOCALE_TAGS[locale], {
     dateStyle: 'medium',
     timeStyle: 'short',
   }).format(date);
@@ -72,10 +80,13 @@ function NotificationAction({ href, label }: { href: string | null; label: strin
   return null;
 }
 
-export function NotificationCard({ labels, notification }: NotificationCardProps) {
+export function NotificationCard({ labels, locale, notification }: NotificationCardProps) {
   const unread = isNotificationUnread(notification);
   const href = getNotificationHref(notification);
-  const createdAt = formatDate(notification.createdAt);
+  const createdAt = formatDate(notification.createdAt, locale);
+  const typeKey = String(notification.type ?? 'system').toLowerCase() as keyof NonNullable<
+    NotificationCardProps['labels']
+  >;
 
   return (
     <article
@@ -87,7 +98,7 @@ export function NotificationCard({ labels, notification }: NotificationCardProps
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 space-y-3">
           <div className="flex flex-wrap items-center gap-2">
-            <NotificationTypeBadge type={notification.type} />
+            <NotificationTypeBadge label={labels?.[typeKey]} type={notification.type} />
             <span
               className={cn(
                 'text-[0.68rem] font-medium uppercase tracking-[0.14em]',

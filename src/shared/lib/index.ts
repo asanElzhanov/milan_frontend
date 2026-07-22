@@ -1,4 +1,5 @@
 export * from './cn';
+export * from './backend-localization';
 export * from './format-price';
 export * from './media';
 export * from './media-url';

@@ -42,6 +42,8 @@ export const authDictionary: Record<AppLocale, AuthDictionary> = {
     invalidEmailOrPhone: 'Введите корректный email или телефон',
     passwordTooShort: 'Пароль должен содержать минимум 8 символов',
     passwordsDoNotMatch: 'Пароли не совпадают',
+    showPassword: 'Показать пароль',
+    hidePassword: 'Скрыть пароль',
   },
   kk: {
     loginTitle: 'Аккаунтқа кіру',
@@ -82,6 +84,8 @@ export const authDictionary: Record<AppLocale, AuthDictionary> = {
     invalidEmailOrPhone: 'Дұрыс email немесе телефон енгізіңіз',
     passwordTooShort: 'Құпиясөз кемінде 8 таңбадан тұруы керек',
     passwordsDoNotMatch: 'Құпиясөздер сәйкес келмейді',
+    showPassword: 'Құпиясөзді көрсету',
+    hidePassword: 'Құпиясөзді жасыру',
   },
   en: {
     loginTitle: 'Sign in to your account',
@@ -121,6 +125,8 @@ export const authDictionary: Record<AppLocale, AuthDictionary> = {
     invalidEmailOrPhone: 'Enter a valid email or phone number',
     passwordTooShort: 'Password must contain at least 8 characters',
     passwordsDoNotMatch: 'Passwords do not match',
+    showPassword: 'Show password',
+    hidePassword: 'Hide password',
   },
 };
 

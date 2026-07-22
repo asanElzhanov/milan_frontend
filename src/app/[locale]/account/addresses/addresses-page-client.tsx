@@ -202,7 +202,7 @@ export function AddressesPageClient({ locale }: { locale: AppLocale }) {
       )}
 
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl" closeLabel={labels.cancel}>
           <DialogHeader>
             <DialogTitle>
               {formMode === 'edit' ? labels.editAddress : labels.addAddress}

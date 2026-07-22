@@ -3,6 +3,7 @@ import type { Category } from '@/entities/category';
 import type { ProductListItem } from '@/entities/product';
 import type { PaginatedResponse } from '@/shared/api';
 import { withLocale, type AppLocale } from '@/shared/config';
+import { getLocalizedField } from '@/shared/lib';
 
 import type { HomeBanner, HomeCategory } from './home.types';
 
@@ -36,11 +37,11 @@ export const adaptHomeBanners = (
 
       return {
         id: banner.id,
-        title: banner.title?.trim() || 'Sara Milan',
-        subtitle: banner.subtitle?.trim() || undefined,
-        description: banner.description?.trim() || undefined,
+        title: getLocalizedField(banner, 'title', locale) || 'Sara Milan',
+        subtitle: getLocalizedField(banner, 'subtitle', locale) || undefined,
+        description: getLocalizedField(banner, 'description', locale) || undefined,
         imageUrl: banner.imageUrl?.trim() || undefined,
-        ctaLabel: banner.ctaLabel?.trim() || fallbackLabel,
+        ctaLabel: getLocalizedField(banner, 'ctaLabel', locale) || fallbackLabel,
         ctaUrl: target.href,
         isExternal: target.isExternal,
       };
@@ -51,9 +52,9 @@ export const adaptHomeCategories = (categories: Category[], locale: AppLocale): 
     .filter((category) => category.isActive !== false)
     .map((category) => ({
       id: category.id,
-      name: category.name,
+      name: getLocalizedField(category, 'name', locale),
       slug: category.slug,
-      description: category.description?.trim() || undefined,
+      description: getLocalizedField(category, 'description', locale) || undefined,
       imageUrl: category.imageUrl?.trim() || undefined,
       href: withLocale(locale, `/catalog/${category.slug}`),
     }));

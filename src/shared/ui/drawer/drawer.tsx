@@ -12,6 +12,7 @@ export const DrawerClose = DialogPrimitive.Close;
 
 export type DrawerContentProps = ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
   side?: 'left' | 'right' | 'bottom';
+  closeLabel?: string;
 };
 
 const sideClasses = {
@@ -23,7 +24,7 @@ const sideClasses = {
 export const DrawerContent = forwardRef<
   ElementRef<typeof DialogPrimitive.Content>,
   DrawerContentProps
->(({ children, className, side = 'right', ...props }, ref) => (
+>(({ children, className, closeLabel = 'Close', side = 'right', ...props }, ref) => (
   <DialogPrimitive.Portal>
     <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-sara-black/45 backdrop-blur-sm" />
     <DialogPrimitive.Content
@@ -38,7 +39,7 @@ export const DrawerContent = forwardRef<
       {children}
       <DialogPrimitive.Close className="sara-focus absolute top-4 right-4 text-sara-graphite/60 hover:text-sara-graphite">
         <X aria-hidden className="h-5 w-5" />
-        <span className="sr-only">Close</span>
+        <span className="sr-only">{closeLabel}</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPrimitive.Portal>

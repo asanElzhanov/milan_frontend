@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import type { Order } from '@/entities/order';
 import { type AppLocale, localizedRoutes } from '@/shared/config';
-import { formatPriceKzt } from '@/shared/lib';
+import { formatPriceKzt, localizeBackendValue } from '@/shared/lib';
 
 import type { OrdersDictionary } from '../orders.dictionary';
 
@@ -21,16 +21,17 @@ export function OrderItemsList({ labels, locale, order }: OrderItemsListProps) {
       <h2 className="font-fashion text-2xl text-sara-black">{labels.items}</h2>
       <div className="mt-5 divide-y divide-sara-beige-dark">
         {order.items.map((item) => {
+          const productName = localizeBackendValue(item.productName, locale, item.productSlug);
           const content = (
             <span className="font-medium text-sara-black transition-colors hover:text-sara-bronze">
-              {item.productName}
+              {productName}
             </span>
           );
 
           return (
             <article className="flex gap-4 py-4 first:pt-0 last:pb-0" key={item.id}>
               <div
-                aria-label={item.productName}
+                aria-label={productName}
                 className="h-24 w-20 shrink-0 bg-sara-beige bg-cover bg-center"
                 role={item.imageUrl ? 'img' : undefined}
                 style={item.imageUrl ? { backgroundImage: `url("${item.imageUrl}")` } : undefined}
@@ -43,8 +44,8 @@ export function OrderItemsList({ labels, locale, order }: OrderItemsListProps) {
                 )}
                 <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-sara-graphite/65">
                   {item.sku ? <span>SKU: {item.sku}</span> : null}
-                  {item.color ? <span>{item.color}</span> : null}
-                  {item.size ? <span>{item.size}</span> : null}
+                  {item.color ? <span>{localizeBackendValue(item.color, locale)}</span> : null}
+                  {item.size ? <span>{localizeBackendValue(item.size, locale)}</span> : null}
                 </div>
                 <div className="mt-3 grid gap-2 text-sm text-sara-graphite sm:grid-cols-3">
                   <span>

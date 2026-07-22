@@ -1,4 +1,5 @@
 import type { AppLocale } from '@/shared/config';
+import { localizeBackendValue } from './backend-localization';
 
 const suffixByLocale: Record<AppLocale | 'en', 'ru' | 'kz' | 'en'> = {
   ru: 'ru',
@@ -17,17 +18,17 @@ export function getLocalizedField<T extends object>(
   if (!entity) return '';
   const record = entity as Record<string, unknown>;
   const currentSuffix = suffixByLocale[locale as AppLocale | 'en'];
-  const keys = [
-    `${field}_${currentSuffix}`,
-    `${field}_ru`,
-    `${field}_en`,
-    `${field}_kz`,
-    field,
-  ];
+  const keys = [`${field}_${currentSuffix}`, `${field}_ru`, `${field}_en`, `${field}_kz`, field];
 
   for (const key of keys) {
     const value = asDisplayString(record[key]);
-    if (value) return value;
+    if (value) {
+      const stableKey =
+        asDisplayString(record.slug) ||
+        asDisplayString(record.code) ||
+        asDisplayString(record.value);
+      return localizeBackendValue(value, locale, stableKey);
+    }
   }
   return '';
 }

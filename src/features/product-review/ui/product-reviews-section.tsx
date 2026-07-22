@@ -26,7 +26,7 @@ export function ProductReviewsSection({
   const [page, setPage] = useState(1);
   const labels = getProductReviewDictionary(locale);
   const query = useProductReviewsQuery(productSlug, {
-    initialData: page === 1 ? initialReviews ?? undefined : undefined,
+    initialData: page === 1 ? (initialReviews ?? undefined) : undefined,
     page,
   });
   const reviewList = query.data;
@@ -51,6 +51,7 @@ export function ProductReviewsSection({
             <ProductReviewsSummary
               count={reviewList.count}
               emptyText={labels.noReviews}
+              locale={locale}
               reviews={reviewList.reviews}
             />
           ) : null
@@ -75,22 +76,37 @@ export function ProductReviewsSection({
       {reviewList && reviewList.reviews.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2">
           {reviewList.reviews.map((review) => (
-            <ReviewCard key={review.id} labels={cardLabels} review={review} />
+            <ReviewCard key={review.id} labels={cardLabels} locale={locale} review={review} />
           ))}
         </div>
       ) : null}
       {reviewList && reviewList.totalPages > 1 ? (
         <div className="flex items-center justify-center gap-3">
-          <Button disabled={page <= 1 || query.isFetching} onClick={() => setPage((v) => v - 1)} variant="outline">
+          <Button
+            disabled={page <= 1 || query.isFetching}
+            onClick={() => setPage((v) => v - 1)}
+            variant="outline"
+          >
             {labels.previous}
           </Button>
-          <span className="text-sm text-sara-graphite">{page} / {reviewList.totalPages}</span>
-          <Button disabled={page >= reviewList.totalPages || query.isFetching} onClick={() => setPage((v) => v + 1)} variant="outline">
+          <span className="text-sm text-sara-graphite">
+            {page} / {reviewList.totalPages}
+          </span>
+          <Button
+            disabled={page >= reviewList.totalPages || query.isFetching}
+            onClick={() => setPage((v) => v + 1)}
+            variant="outline"
+          >
             {labels.next}
           </Button>
         </div>
       ) : null}
-      <ProductReviewForm labels={labels} locale={locale} productId={productId} productSlug={productSlug} />
+      <ProductReviewForm
+        labels={labels}
+        locale={locale}
+        productId={productId}
+        productSlug={productSlug}
+      />
     </section>
   );
 }

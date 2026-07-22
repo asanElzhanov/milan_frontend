@@ -4,11 +4,13 @@ export type ProductColorDotsProps = {
   colors?: string[];
   maxVisible?: number;
   className?: string;
+  ariaLabel?: string;
 };
 
 const isHex = (value: string): boolean => /^#(?:[0-9a-f]{3}){1,2}$/i.test(value.trim());
 
 export function ProductColorDots({
+  ariaLabel = 'Available colors',
   className,
   colors = [],
   maxVisible = 4,
@@ -21,7 +23,7 @@ export function ProductColorDots({
   const hiddenCount = Math.max(0, colors.length - visibleColors.length);
 
   return (
-    <div className={cn('flex items-center gap-1.5', className)} aria-label="Доступные цвета">
+    <div className={cn('flex items-center gap-1.5', className)} aria-label={ariaLabel}>
       {visibleColors.map((color) => {
         const normalizedColor = color.trim();
         const hexColor = isHex(normalizedColor) ? normalizedColor : undefined;

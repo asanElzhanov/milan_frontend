@@ -102,7 +102,7 @@ export function OrderDetailPageClient({ labels, locale, orderNumber }: OrderDeta
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="space-y-6">
           <OrderItemsList labels={labels} locale={locale} order={order} />
-          <OrderDeliveryCard labels={labels} order={order} />
+          <OrderDeliveryCard labels={labels} locale={locale} order={order} />
         </div>
         <div className="space-y-6">
           <OrderSummaryCard labels={labels} order={order} />

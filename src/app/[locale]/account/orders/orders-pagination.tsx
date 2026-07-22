@@ -35,6 +35,7 @@ export function OrdersPagination({ currentPage, locale, totalPages }: OrdersPagi
   return (
     <Pagination
       className="mt-6"
+      locale={locale}
       onPageChange={handlePageChange}
       page={currentPage}
       totalPages={totalPages}

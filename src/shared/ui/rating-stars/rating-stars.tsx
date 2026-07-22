@@ -9,6 +9,7 @@ export type RatingStarsProps = {
   showValue?: boolean;
   reviewsCount?: number;
   className?: string;
+  ariaLabel?: string;
 };
 
 const sizeClasses = {
@@ -21,6 +22,7 @@ const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
 
 export function RatingStars({
+  ariaLabel,
   className,
   max = 5,
   reviewsCount,
@@ -36,7 +38,7 @@ export function RatingStars({
     <div className={cn('inline-flex items-center gap-2 text-sara-graphite', className)}>
       <span
         className="inline-flex items-center gap-0.5"
-        aria-label={`Рейтинг ${safeValue} из ${safeMax}`}
+        aria-label={ariaLabel ?? `Rating ${safeValue} out of ${safeMax}`}
       >
         {Array.from({ length: safeMax }, (_, index) => {
           const filled = index < roundedValue;

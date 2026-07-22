@@ -12,11 +12,17 @@ export type BreadcrumbsProps = {
   items: BreadcrumbItem[];
   separator?: ReactNode;
   className?: string;
+  ariaLabel?: string;
 };
 
-export function Breadcrumbs({ className, items, separator = '/' }: BreadcrumbsProps) {
+export function Breadcrumbs({
+  ariaLabel = 'Breadcrumbs',
+  className,
+  items,
+  separator = '/',
+}: BreadcrumbsProps) {
   return (
-    <nav aria-label="Breadcrumbs" className={cn('text-caption', className)}>
+    <nav aria-label={ariaLabel} className={cn('text-caption', className)}>
       <ol className="flex flex-wrap items-center gap-2">
         {items.map((item, index) => {
           const isCurrent = index === items.length - 1 || !item.href;

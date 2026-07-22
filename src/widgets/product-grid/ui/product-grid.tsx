@@ -26,11 +26,32 @@ const lgColumns = {
 const getGridColumns = (columns: ProductGridProps['columns']) =>
   cn(smColumns[columns?.sm ?? 2], mdColumns[columns?.md ?? 3], lgColumns[columns?.lg ?? 4]);
 
+const gridCopy = {
+  ru: {
+    emptyTitle: 'Товары не найдены',
+    emptyDescription: 'По вашему запросу товаров нет.',
+    errorTitle: 'Не удалось загрузить товары',
+    errorDescription: 'Попробуйте обновить страницу или изменить параметры каталога.',
+  },
+  kk: {
+    emptyTitle: 'Тауарлар табылмады',
+    emptyDescription: 'Сұрауыңыз бойынша тауар табылмады.',
+    errorTitle: 'Тауарларды жүктеу мүмкін болмады',
+    errorDescription: 'Бетті жаңартып немесе каталог параметрлерін өзгертіп көріңіз.',
+  },
+  en: {
+    emptyTitle: 'No products found',
+    emptyDescription: 'No products match your request.',
+    errorTitle: 'Unable to load products',
+    errorDescription: 'Try refreshing the page or changing the catalog filters.',
+  },
+} as const;
+
 export function ProductGrid({
   className,
   columns,
-  emptyDescription = 'Товары появятся здесь после подключения каталога.',
-  emptyTitle = 'Товары не найдены',
+  emptyDescription,
+  emptyTitle,
   error,
   isLoading = false,
   locale = DEFAULT_LOCALE,
@@ -42,6 +63,7 @@ export function ProductGrid({
   showWishlist = true,
   wishlistIds = [],
 }: ProductGridProps) {
+  const copy = gridCopy[locale];
   if (isLoading) {
     return <ProductGridSkeleton className={className} />;
   }
@@ -50,14 +72,20 @@ export function ProductGrid({
     return (
       <ErrorState
         className={className}
-        title="Не удалось загрузить товары"
-        description="Попробуйте обновить страницу или изменить параметры каталога."
+        title={copy.errorTitle}
+        description={copy.errorDescription}
       />
     );
   }
 
   if (products.length === 0) {
-    return <EmptyState className={className} title={emptyTitle} description={emptyDescription} />;
+    return (
+      <EmptyState
+        className={className}
+        title={emptyTitle ?? copy.emptyTitle}
+        description={emptyDescription ?? copy.emptyDescription}
+      />
+    );
   }
 
   return (

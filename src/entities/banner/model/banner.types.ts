@@ -1,11 +1,23 @@
 export type Banner = {
   id: string | number;
   title?: string | null;
+  title_ru?: string | null;
+  title_kz?: string | null;
+  title_en?: string | null;
   subtitle?: string | null;
+  subtitle_ru?: string | null;
+  subtitle_kz?: string | null;
+  subtitle_en?: string | null;
   description?: string | null;
+  description_ru?: string | null;
+  description_kz?: string | null;
+  description_en?: string | null;
   position?: string | null;
   imageUrl?: string | null;
   ctaLabel?: string | null;
+  ctaLabel_ru?: string | null;
+  ctaLabel_kz?: string | null;
+  ctaLabel_en?: string | null;
   ctaUrl?: string | null;
   isActive?: boolean;
   sortOrder?: number | null;

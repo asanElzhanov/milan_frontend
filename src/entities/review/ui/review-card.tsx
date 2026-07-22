@@ -2,6 +2,7 @@ import { getReviewAuthor } from '../lib/review.selectors';
 import type { ProductReview } from '../model/review.types';
 import { ReviewRating } from './review-rating';
 import { ReviewStatusBadge } from './review-status-badge';
+import { DEFAULT_LOCALE, LOCALE_TAGS, type AppLocale } from '@/shared/config';
 
 export type ReviewCardProps = {
   review: ProductReview;
@@ -16,21 +17,29 @@ export type ReviewCardProps = {
     disadvantages?: string;
   };
   showProduct?: boolean;
+  locale?: AppLocale;
 };
 
-const formatDate = (value?: string | null) => {
+const formatDate = (value: string | null | undefined, locale: AppLocale) => {
   if (!value) return null;
   const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('ru-RU').format(date);
+  return Number.isNaN(date.getTime())
+    ? value
+    : new Intl.DateTimeFormat(LOCALE_TAGS[locale]).format(date);
 };
 
-export function ReviewCard({ labels, review, showProduct = false }: ReviewCardProps) {
+export function ReviewCard({
+  labels,
+  locale = DEFAULT_LOCALE,
+  review,
+  showProduct = false,
+}: ReviewCardProps) {
   const author = getReviewAuthor(review) || labels?.anonymous || 'Покупатель';
-  const date = formatDate(review.createdAt);
+  const date = formatDate(review.createdAt, locale);
   return (
     <article className="sara-card space-y-4 p-5 md:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <ReviewRating rating={review.rating} />
+        <ReviewRating locale={locale} rating={review.rating} />
         {showProduct ? <ReviewStatusBadge labels={labels} status={review.status} /> : null}
       </div>
       {showProduct && review.productName ? (

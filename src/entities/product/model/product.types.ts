@@ -48,7 +48,13 @@ export type ProductDetail = ProductListItem & {
   description_kz?: string | null;
   description_en?: string | null;
   composition?: string | null;
+  composition_ru?: string | null;
+  composition_kz?: string | null;
+  composition_en?: string | null;
   material?: string | null;
+  material_ru?: string | null;
+  material_kz?: string | null;
+  material_en?: string | null;
   season?: string | null;
   images?: ProductMedia[];
   media?: ProductMedia[];

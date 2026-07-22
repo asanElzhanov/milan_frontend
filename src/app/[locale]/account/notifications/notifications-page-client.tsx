@@ -97,7 +97,11 @@ export function NotificationsPageClient({ labels, locale }: NotificationsPageCli
           {getApiErrorMessage(markAllMutation.error) || labels.readAllError}
         </p>
       ) : null}
-      <NotificationsList labels={labels} notifications={notificationList.notifications} />
+      <NotificationsList
+        labels={labels}
+        locale={locale}
+        notifications={notificationList.notifications}
+      />
       <NotificationsPagination
         currentPage={notificationList.currentPage}
         locale={locale}

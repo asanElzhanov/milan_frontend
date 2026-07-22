@@ -6,7 +6,7 @@ import type { CartItem } from '@/entities/cart';
 import { ProductImage } from '@/entities/product';
 import type { AppLocale } from '@/shared/config';
 import { withLocale } from '@/shared/config';
-import { getLocalizedField } from '@/shared/lib';
+import { getLocalizedField, localizeBackendValue } from '@/shared/lib';
 import { Button, Price, QuantitySelector } from '@/shared/ui';
 
 import type { CartDictionary } from './cart.dictionary';
@@ -58,8 +58,12 @@ export function CartItemCard({
           )}
 
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-sara-graphite/65">
-            {item.variant.color ? <span>{item.variant.color}</span> : null}
-            {item.variant.size ? <span>{item.variant.size}</span> : null}
+            {item.variant.color ? (
+              <span>{localizeBackendValue(item.variant.color, locale)}</span>
+            ) : null}
+            {item.variant.size ? (
+              <span>{localizeBackendValue(item.variant.size, locale)}</span>
+            ) : null}
             {(item.variant.sku ?? item.product.sku) ? (
               <span>SKU {item.variant.sku ?? item.product.sku}</span>
             ) : null}
@@ -83,6 +87,7 @@ export function CartItemCard({
               {labels.quantity}
             </p>
             <QuantitySelector
+              locale={locale}
               disabled={isUpdating || isUnavailable}
               max={availableStock ?? undefined}
               min={1}

@@ -7,15 +7,14 @@ import type { AccountNavItem } from './account.types';
 export function AccountMobileNav({
   activeKey,
   items,
+  label,
 }: {
   activeKey: AccountNavItem['key'];
   items: AccountNavItem[];
+  label: string;
 }) {
   return (
-    <nav
-      aria-label="Account navigation"
-      className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 lg:hidden"
-    >
+    <nav aria-label={label} className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 lg:hidden">
       {items.map((item) => (
         <Link
           className={cn(

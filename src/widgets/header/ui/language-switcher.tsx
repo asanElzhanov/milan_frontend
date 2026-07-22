@@ -17,9 +17,11 @@ export function LanguageSwitcher({
   const searchParams = useSearchParams();
   const query = searchParams.toString();
   const fullPathname = query ? `${pathname}?${query}` : pathname;
+  const languageLabel =
+    locale === 'ru' ? 'Выбор языка' : locale === 'kk' ? 'Тілді таңдау' : 'Choose language';
 
   return (
-    <div className="flex items-center gap-1" aria-label="Выбор языка">
+    <div className="flex items-center gap-1" aria-label={languageLabel}>
       {SUPPORTED_LOCALES.map((item) => (
         <Link
           className={cn(

@@ -6,9 +6,11 @@ export type ProductRatingProps = {
   reviewsCount?: number;
   showEmpty?: boolean;
   className?: string;
+  ariaLabel?: string;
 };
 
 export function ProductRating({
+  ariaLabel,
   averageRating,
   className,
   reviewsCount,
@@ -20,6 +22,7 @@ export function ProductRating({
 
   return (
     <RatingStars
+      ariaLabel={ariaLabel}
       className={cn('text-sara-graphite/70', className)}
       reviewsCount={reviewsCount}
       showValue={averageRating !== null && averageRating !== undefined}
