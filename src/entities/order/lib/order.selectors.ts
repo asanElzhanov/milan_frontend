@@ -5,7 +5,14 @@ const normalize = (value?: string | null): string =>
     .trim()
     .toLowerCase();
 
-const paymentPendingStatuses = ['pending', 'payment_pending', 'created', 'requires_action'];
+const paymentPendingStatuses = [
+  'pending',
+  'payment_pending',
+  'created',
+  'requires_action',
+  'waiting',
+  'unpaid',
+];
 const paidStatuses = ['paid', 'success', 'completed'];
 const cancelledStatuses = ['cancelled', 'canceled'];
 
@@ -75,6 +82,8 @@ export function isKnownPaymentStatus(status?: PaymentStatus | null): boolean {
   return [
     'pending',
     'payment_pending',
+    'unpaid',
+    'waiting',
     'paid',
     'failed',
     'cancelled',

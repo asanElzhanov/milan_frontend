@@ -32,8 +32,8 @@ export function OrderPaymentCard({ labels, locale, order }: OrderPaymentCardProp
         </div>
       </dl>
       <div className="mt-5">
-        <OrderPaymentLink locale={locale} order={order}>
-          {labels.continuePayment}
+        <OrderPaymentLink locale={locale} order={order} variant="primary">
+          {labels.payNow}
         </OrderPaymentLink>
       </div>
     </section>

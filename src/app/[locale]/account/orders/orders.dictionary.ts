@@ -14,6 +14,7 @@ export type OrdersDictionary = {
   total: string;
   details: string;
   continuePayment: string;
+  payNow: string;
   repeatPayment: string;
   backToOrders: string;
   delivery: string;
@@ -59,6 +60,7 @@ const ordersDictionary = {
     total: 'Итого',
     details: 'Подробнее',
     continuePayment: 'Продолжить оплату',
+    payNow: 'Оплатить',
     repeatPayment: 'Повторить оплату',
     backToOrders: 'Назад к заказам',
     delivery: 'Доставка',
@@ -102,6 +104,7 @@ const ordersDictionary = {
     total: 'Жалпы',
     details: 'Толығырақ',
     continuePayment: 'Төлемді жалғастыру',
+    payNow: 'Төлеу',
     repeatPayment: 'Төлемді қайталау',
     backToOrders: 'Тапсырыстарға оралу',
     delivery: 'Жеткізу',
@@ -145,6 +148,7 @@ const ordersDictionary = {
     total: 'Total',
     details: 'View details',
     continuePayment: 'Continue payment',
+    payNow: 'Pay',
     repeatPayment: 'Retry payment',
     backToOrders: 'Back to orders',
     delivery: 'Delivery',

@@ -15,6 +15,8 @@ export type OrderStatus =
 export type PaymentStatus =
   | 'pending'
   | 'payment_pending'
+  | 'unpaid'
+  | 'waiting'
   | 'paid'
   | 'failed'
   | 'cancelled'
