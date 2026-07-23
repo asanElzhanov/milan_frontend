@@ -32,7 +32,7 @@ const normalizePath = (baseUrl: string, path: string): string => {
 
   const basePath = (() => {
     try {
-      return new URL(baseUrl).pathname.replace(/\/+$/, '');
+      return new URL(baseUrl, 'http://same-origin.local').pathname.replace(/\/+$/, '');
     } catch {
       return '';
     }
@@ -45,12 +45,18 @@ const normalizePath = (baseUrl: string, path: string): string => {
   return path.replace(/^\/+/, '');
 };
 
-const createUrl = (baseUrl: string, path: string, query?: ApiRequestOptions['query']): string => {
+export const createApiUrl = (
+  baseUrl: string,
+  path: string,
+  query?: ApiRequestOptions['query'],
+): string => {
   const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
   const normalizedPath = normalizePath(normalizedBaseUrl, path);
   const url = isAbsoluteUrl(normalizedPath)
     ? normalizedPath
-    : new URL(normalizedPath, normalizedBaseUrl).toString();
+    : isAbsoluteUrl(normalizedBaseUrl)
+      ? new URL(normalizedPath, normalizedBaseUrl).toString()
+      : `${normalizedBaseUrl}${normalizedPath}`;
 
   return appendQueryParams(url, query);
 };
@@ -148,7 +154,7 @@ export const createApiClient = (config: Partial<ApiClientConfig> = {}): ApiClien
     }
 
     try {
-      const response = await fetch(createUrl(clientConfig.baseUrl, '/auth/token/refresh/'), {
+      const response = await fetch(createApiUrl(clientConfig.baseUrl, '/auth/token/refresh/'), {
         body: JSON.stringify({ refresh }),
         credentials: clientConfig.credentials,
         headers: {
@@ -203,7 +209,7 @@ export const createApiClient = (config: Partial<ApiClientConfig> = {}): ApiClien
     options: ApiRequestOptions = {},
   ): Promise<T> => {
     const execute = () =>
-      fetch(createUrl(clientConfig.baseUrl, path, options.query), {
+      fetch(createApiUrl(clientConfig.baseUrl, path, options.query), {
         body: createBody(body),
         credentials: options.credentials ?? clientConfig.credentials,
         headers: createHeaders(body, options, clientConfig),
