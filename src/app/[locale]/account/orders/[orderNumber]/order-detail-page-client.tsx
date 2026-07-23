@@ -107,9 +107,6 @@ export function OrderDetailPageClient({ labels, locale, orderNumber }: OrderDeta
         <div className="space-y-6">
           <OrderSummaryCard labels={labels} order={order} />
           <OrderPaymentCard labels={labels} locale={locale} order={order} />
-          <OrderPaymentLink locale={locale} order={order} variant="primary">
-            {labels.continuePayment}
-          </OrderPaymentLink>
         </div>
       </div>
     </div>
