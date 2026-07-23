@@ -22,7 +22,7 @@ export const env = {
   apiUrl:
     typeof window === 'undefined'
       ? (process.env.INTERNAL_API_BASE_URL ?? publicApiUrl)
-      : publicApiUrl,
+      : '/api/v1',
   apiMode,
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'ru',

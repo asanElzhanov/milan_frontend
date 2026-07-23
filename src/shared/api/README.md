@@ -14,7 +14,9 @@ Business API modules are intentionally not implemented here.
 
 ## 2. Environment
 
-- `NEXT_PUBLIC_API_BASE_URL` points to the Django REST API base URL including `/api/v1`.
+- Browser requests use the same-origin `/api/v1` proxy to avoid CORS between apex and `www`
+  domains. `NEXT_PUBLIC_API_BASE_URL` points to the Django REST API base URL (including `/api/v1`)
+  used by the server as a fallback; `INTERNAL_API_BASE_URL` takes precedence when set.
 - `NEXT_PUBLIC_API_MODE` supports `mock` and `real`.
 
 Unknown API mode values fall back to `mock`.
