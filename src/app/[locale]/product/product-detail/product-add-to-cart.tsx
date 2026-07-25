@@ -31,7 +31,7 @@ export function ProductAddToCart({
   const variantRequired = hasVariants && !selectedVariant;
   const inStock = hasVariants ? isVariantInStock(selectedVariant) : product.inStock !== false;
   const stockQuantity = getVariantStockQuantity(selectedVariant) ?? undefined;
-  const disabled = variantRequired || !inStock || addCartItemMutation.isPending;
+  const disabled = !selectedVariant || !inStock || addCartItemMutation.isPending;
 
   const handleAddToCart = () => {
     if (!selectedVariant) {

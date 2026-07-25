@@ -12,7 +12,11 @@ type ProductStockProps = {
 
 export function ProductStock({ dictionary, product, selectedVariant }: ProductStockProps) {
   const hasVariants = (product.variants?.length ?? 0) > 0;
-  const inStock = hasVariants ? isVariantInStock(selectedVariant) : product.inStock !== false;
+  const inStock = hasVariants
+    ? selectedVariant
+      ? isVariantInStock(selectedVariant)
+      : (product.variants ?? []).some(isVariantInStock)
+    : product.inStock !== false;
   const stockQuantity = getVariantStockQuantity(selectedVariant);
 
   return (

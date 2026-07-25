@@ -58,6 +58,22 @@ const readImageUrl = (value: unknown): string | null => {
   return image ? getMediaUrl(image) : null;
 };
 
+const readVariantOption = (value: unknown): string | null => {
+  if (!isRecord(value)) {
+    return toStringOrNull(value);
+  }
+
+  return (
+    toStringOrNull(value.name_ru) ??
+    toStringOrNull(value.name_kz) ??
+    toStringOrNull(value.name_en) ??
+    toStringOrNull(value.name) ??
+    toStringOrNull(value.value) ??
+    toStringOrNull(value.title) ??
+    toStringOrNull(value.slug)
+  );
+};
+
 export const adaptProductListItem = (value: unknown): ProductListItem | null => {
   if (!isRecord(value)) {
     return null;
@@ -172,12 +188,8 @@ const adaptProductVariant = (value: unknown): ProductVariant | null => {
   return {
     id,
     sku: toStringOrNull(value.sku ?? value.sku_variant),
-    color: isRecord(value.color)
-      ? (toStringOrNull(value.color.name) ?? toStringOrNull(value.color.value))
-      : toStringOrNull(value.color),
-    size: isRecord(value.size)
-      ? (toStringOrNull(value.size.name) ?? toStringOrNull(value.size.value))
-      : toStringOrNull(value.size),
+    color: readVariantOption(value.color),
+    size: readVariantOption(value.size),
     price: readPrice(value.variant_price ?? value.final_price ?? value.price),
     oldPrice: readPrice(value.old_price),
     stockQuantity: toNumberOrNull(value.stock_quantity ?? value.stock),

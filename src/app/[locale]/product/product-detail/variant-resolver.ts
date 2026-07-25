@@ -3,24 +3,60 @@ import type { ProductDetail, ProductVariant } from '@/entities/product';
 const unique = (values: Array<string | null | undefined>): string[] =>
   Array.from(new Set(values.filter((value): value is string => Boolean(value))));
 
+export type VariantOption = {
+  value: string;
+  inStock: boolean;
+};
+
+const hasColorDimension = (product: ProductDetail): boolean =>
+  getAvailableColors(product).length > 0;
+
+const hasSizeDimension = (product: ProductDetail): boolean => getAvailableSizes(product).length > 0;
+
 export function getAvailableColors(product: ProductDetail): string[] {
   const variantColors = unique(product.variants?.map((variant) => variant.color) ?? []);
 
-  return variantColors.length > 0 ? variantColors : (product.availableColors ?? []);
+  return unique([...variantColors, ...(product.availableColors ?? [])]);
 }
 
-export function getAvailableSizes(product: ProductDetail, selectedColor?: string | null): string[] {
+export function getAvailableSizes(product: ProductDetail): string[] {
+  const variantSizes = unique(product.variants?.map((variant) => variant.size) ?? []);
+
+  return unique([...variantSizes, ...(product.availableSizes ?? [])]);
+}
+
+export function getColorOptions(
+  product: ProductDetail,
+  selectedSize?: string | null,
+): VariantOption[] {
   const variants = product.variants ?? [];
 
-  if (variants.length > 0) {
-    const filtered = selectedColor
-      ? variants.filter((variant) => variant.color === selectedColor)
-      : variants;
+  return getAvailableColors(product).map((value) => ({
+    value,
+    inStock: variants.some(
+      (variant) =>
+        variant.color === value &&
+        (!selectedSize || variant.size === selectedSize) &&
+        isVariantInStock(variant),
+    ),
+  }));
+}
 
-    return unique(filtered.map((variant) => variant.size));
-  }
+export function getSizeOptions(
+  product: ProductDetail,
+  selectedColor?: string | null,
+): VariantOption[] {
+  const variants = product.variants ?? [];
 
-  return product.availableSizes ?? [];
+  return getAvailableSizes(product).map((value) => ({
+    value,
+    inStock: variants.some(
+      (variant) =>
+        variant.size === value &&
+        (!selectedColor || variant.color === selectedColor) &&
+        isVariantInStock(variant),
+    ),
+  }));
 }
 
 export function resolveSelectedVariant(args: {
@@ -34,11 +70,18 @@ export function resolveSelectedVariant(args: {
     return null;
   }
 
+  if (
+    (hasColorDimension(args.product) && !args.selectedColor) ||
+    (hasSizeDimension(args.product) && !args.selectedSize)
+  ) {
+    return null;
+  }
+
   return (
     variants.find(
       (variant) =>
-        (!args.selectedColor || variant.color === args.selectedColor) &&
-        (!args.selectedSize || variant.size === args.selectedSize),
+        (!hasColorDimension(args.product) || variant.color === args.selectedColor) &&
+        (!hasSizeDimension(args.product) || variant.size === args.selectedSize),
     ) ?? null
   );
 }
@@ -48,11 +91,16 @@ export function isVariantInStock(variant?: ProductVariant | null): boolean {
     return false;
   }
 
-  if (typeof variant.inStock === 'boolean') {
-    return variant.inStock;
+  if (
+    variant.inStock === false ||
+    (variant.stockQuantity !== null &&
+      variant.stockQuantity !== undefined &&
+      variant.stockQuantity <= 0)
+  ) {
+    return false;
   }
 
-  return (variant.stockQuantity ?? 0) > 0;
+  return variant.inStock === true || (variant.stockQuantity ?? 0) > 0;
 }
 
 export function getVariantStockQuantity(variant?: ProductVariant | null): number | null {

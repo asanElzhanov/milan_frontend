@@ -1,15 +1,31 @@
 import { env } from '@/shared/config/env';
 
-const API_PREFIX_PATTERN = /\/api\/v1\/?$/;
 const ABSOLUTE_URL_PATTERN = /^https?:\/\//i;
+const MEDIA_PROXY_PREFIX = '/media-proxy';
 
-export function getBackendOrigin(): string {
-  try {
-    return new URL(env.apiUrl).origin;
-  } catch {
-    return 'http://localhost:8000';
-  }
-}
+const getConfiguredBackendOrigins = (): Set<string> => {
+  const candidates = [
+    process.env.NEXT_PUBLIC_API_BASE_URL,
+    process.env.INTERNAL_API_BASE_URL,
+    env.apiUrl,
+  ];
+
+  return new Set(
+    candidates.flatMap((candidate) => {
+      if (!candidate || !ABSOLUTE_URL_PATTERN.test(candidate)) {
+        return [];
+      }
+
+      try {
+        return [new URL(candidate).origin];
+      } catch {
+        return [];
+      }
+    }),
+  );
+};
+
+const toMediaProxyUrl = (url: URL): string => `${MEDIA_PROXY_PREFIX}${url.pathname}${url.search}`;
 
 export function normalizeMediaUrl(value?: string | null): string | null {
   const trimmed = value?.trim();
@@ -18,15 +34,22 @@ export function normalizeMediaUrl(value?: string | null): string | null {
     return null;
   }
 
-  if (ABSOLUTE_URL_PATTERN.test(trimmed)) {
+  if (trimmed.startsWith(MEDIA_PROXY_PREFIX) || trimmed.startsWith('data:')) {
     return trimmed;
   }
 
-  const mediaPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
-  const origin = getBackendOrigin().replace(API_PREFIX_PATTERN, '');
-
   try {
-    return new URL(mediaPath, origin).toString();
+    if (ABSOLUTE_URL_PATTERN.test(trimmed)) {
+      const absoluteUrl = new URL(trimmed);
+
+      return getConfiguredBackendOrigins().has(absoluteUrl.origin)
+        ? toMediaProxyUrl(absoluteUrl)
+        : absoluteUrl.toString();
+    }
+
+    const relativeUrl = new URL(trimmed.startsWith('/') ? trimmed : `/${trimmed}`, 'http://media');
+
+    return toMediaProxyUrl(relativeUrl);
   } catch {
     return null;
   }
