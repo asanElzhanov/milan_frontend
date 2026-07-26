@@ -6,6 +6,9 @@ import { isSupportedLocale, type AppLocale } from '@/shared/config';
 import { getHomeDictionary } from './home/home.dictionary';
 import { HomePage } from './home/home-page';
 
+// Homepage content is managed in Django and must not be frozen into the production build.
+export const dynamic = 'force-dynamic';
+
 type LocaleHomePageProps = Readonly<{
   params: Promise<{
     locale: string;
