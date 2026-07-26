@@ -4,6 +4,7 @@ import { withLocale, type AppLocale } from '@/shared/config';
 import { Button, Container } from '@/shared/ui';
 
 import type { HomeBanner, HomeDictionary } from './home.types';
+import { HomeBannerMedia } from './home-banner-media';
 
 type HomePromoBannerProps = {
   banners: HomeBanner[];
@@ -22,13 +23,7 @@ export function HomePromoBanner({ banners, dictionary, locale }: HomePromoBanner
     <section className="bg-sara-beige py-10">
       <Container>
         <div className="relative overflow-hidden rounded-sara-lg bg-sara-black px-6 py-14 text-sara-white md:px-12 md:py-18">
-          {banner?.imageUrl ? (
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-cover bg-center opacity-55"
-              style={{ backgroundImage: `url(${banner.imageUrl})` }}
-            />
-          ) : null}
+          {banner?.imageUrl ? <HomeBannerMedia banner={banner} className="opacity-55" /> : null}
           <div aria-hidden className="absolute inset-0 bg-sara-black/48" />
           <div className="relative max-w-2xl space-y-5">
             <p className="text-overline text-sara-beige-dark">{dictionary.promo.eyebrow}</p>

@@ -18,6 +18,8 @@ export const adaptBanner = (value: unknown): Banner | null => {
     typeof value.id === 'string' || typeof value.id === 'number'
       ? value.id
       : (toStringOrNull(value.title_ru) ?? toStringOrNull(value.title) ?? 'banner');
+  const imageMobileUrl = toStringOrNull(value.image_mobile);
+  const imageMobileType = toStringOrNull(value.image_mobile_type);
 
   return {
     id,
@@ -35,6 +37,10 @@ export const adaptBanner = (value: unknown): Banner | null => {
     description_en: toStringOrNull(value.description_en),
     position: toStringOrNull(value.position),
     imageUrl: getMediaUrl(toStringOrNull(value.image) ?? toStringOrNull(value.image_url)),
+    imageType: toStringOrNull(value.image_type) === 'video' ? 'video' : 'image',
+    imageMobileUrl: imageMobileUrl ? getMediaUrl(imageMobileUrl) : null,
+    imageMobileType:
+      imageMobileType === 'video' || imageMobileType === 'image' ? imageMobileType : null,
     ctaLabel: toStringOrNull(value.cta_label) ?? toStringOrNull(value.button_text),
     ctaLabel_ru: toStringOrNull(value.cta_label_ru) ?? toStringOrNull(value.button_text_ru),
     ctaLabel_kz: toStringOrNull(value.cta_label_kz) ?? toStringOrNull(value.button_text_kz),

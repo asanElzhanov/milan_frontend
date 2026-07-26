@@ -110,6 +110,7 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
     isNew: toBooleanOrUndefined(value.is_new ?? value.isNew),
     isSale: toBooleanOrUndefined(value.is_sale ?? value.isSale),
     mainImage: readImageUrl(value.main_image ?? value.mainImage ?? value.image),
+    mainMediaType: toStringOrNull(value.main_media_type) === 'video' ? 'video' : 'image',
     minPrice: readPrice(value.min_price),
     inStock: toBooleanOrUndefined(value.in_stock ?? value.inStock),
     availableColors: readStringArray(value.available_colors),

@@ -4,6 +4,7 @@ import { withLocale, type AppLocale } from '@/shared/config';
 import { Button, Container } from '@/shared/ui';
 
 import type { HomeBanner, HomeDictionary } from './home.types';
+import { HomeBannerMedia } from './home-banner-media';
 
 type HomeHeroProps = {
   banners: HomeBanner[];
@@ -21,11 +22,7 @@ export function HomeHero({ banners, dictionary, locale }: HomeHeroProps) {
   return (
     <section className="relative min-h-[calc(100svh-7rem)] overflow-hidden bg-sara-black text-sara-white">
       {banner?.imageUrl ? (
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-cover bg-center opacity-70"
-          style={{ backgroundImage: `url(${banner.imageUrl})` }}
-        />
+        <HomeBannerMedia banner={banner} className="opacity-70" />
       ) : (
         <div
           aria-hidden
@@ -50,10 +47,7 @@ export function HomeHero({ banners, dictionary, locale }: HomeHeroProps) {
                 <Link href={primaryHref}>{primaryLabel}</Link>
               </Button>
             )}
-            <Button
-              asChild
-              variant="outlineInverted"
-            >
+            <Button asChild variant="outlineInverted">
               <Link href={withLocale(locale, '/catalog?is_new=true')}>
                 {dictionary.hero.secondaryCta}
               </Link>

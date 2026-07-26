@@ -14,6 +14,9 @@ export type Banner = {
   description_en?: string | null;
   position?: string | null;
   imageUrl?: string | null;
+  imageType?: 'image' | 'video';
+  imageMobileUrl?: string | null;
+  imageMobileType?: 'image' | 'video' | null;
   ctaLabel?: string | null;
   ctaLabel_ru?: string | null;
   ctaLabel_kz?: string | null;

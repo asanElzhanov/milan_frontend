@@ -9,6 +9,9 @@ export type HomeBanner = {
   subtitle?: string;
   description?: string;
   imageUrl?: string;
+  imageType: 'image' | 'video';
+  imageMobileUrl?: string;
+  imageMobileType?: 'image' | 'video';
   ctaLabel?: string;
   ctaUrl: string;
   isExternal: boolean;

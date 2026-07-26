@@ -8,6 +8,7 @@ import { cn, getMediaUrl, IMAGE_FALLBACK } from '@/shared/lib';
 
 export type ProductImageProps = {
   src?: string | null;
+  mediaType?: 'image' | 'video';
   alt: string;
   hoverSrc?: string | null;
   href?: string;
@@ -30,6 +31,7 @@ export function ProductImage({
   hoverSrc,
   href,
   imageClassName,
+  mediaType = 'image',
   priority = false,
   src,
 }: ProductImageProps) {
@@ -46,19 +48,36 @@ export function ProductImage({
         className,
       )}
     >
-      <Image
-        alt={alt}
-        className={cn(
-          'object-cover transition-transform duration-300 group-hover:scale-[1.03]',
-          imageClassName,
-        )}
-        fill
-        onError={() => setPrimaryFailed(true)}
-        priority={priority}
-        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-        src={imageSrc}
-        unoptimized={imageSrc.startsWith('http')}
-      />
+      {mediaType === 'video' && !primaryFailed ? (
+        <video
+          aria-label={alt}
+          autoPlay
+          className={cn(
+            'absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]',
+            imageClassName,
+          )}
+          loop
+          muted
+          onError={() => setPrimaryFailed(true)}
+          playsInline
+          preload={priority ? 'auto' : 'metadata'}
+          src={getMediaUrl(src)}
+        />
+      ) : (
+        <Image
+          alt={alt}
+          className={cn(
+            'object-cover transition-transform duration-300 group-hover:scale-[1.03]',
+            imageClassName,
+          )}
+          fill
+          onError={() => setPrimaryFailed(true)}
+          priority={priority}
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          src={imageSrc}
+          unoptimized={imageSrc.startsWith('http')}
+        />
+      )}
       {hoverImageSrc ? (
         <Image
           alt=""

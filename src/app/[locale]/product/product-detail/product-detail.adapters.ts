@@ -41,7 +41,7 @@ export const getProductGalleryItems = (product: ProductDetail): ProductGalleryIt
   return [
     {
       id: 'fallback',
-      type: 'image',
+      type: product.mainMediaType ?? 'image',
       url: product.mainImage ? getMediaUrl(product.mainImage) : IMAGE_FALLBACK,
       alt: product.name,
     },

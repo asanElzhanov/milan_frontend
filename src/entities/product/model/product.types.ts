@@ -15,6 +15,7 @@ export type ProductListItem = {
   isNew?: boolean;
   isSale?: boolean;
   mainImage?: string | null;
+  mainMediaType?: 'image' | 'video';
   minPrice?: number | string | null;
   inStock?: boolean;
   availableColors?: string[];
