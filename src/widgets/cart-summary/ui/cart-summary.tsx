@@ -23,11 +23,13 @@ const hasValue = (value: number | string | null | undefined): value is number | 
 
 function SummaryLine({
   label,
+  pendingLabel,
   strong = false,
   value,
 }: {
   label: string;
-  value: number | string;
+  value?: number | string | null;
+  pendingLabel?: string;
   strong?: boolean;
 }) {
   return (
@@ -39,7 +41,11 @@ function SummaryLine({
       }
     >
       <span>{label}</span>
-      <Price size={strong ? 'lg' : 'md'} value={value} />
+      {value !== null && value !== undefined ? (
+        <Price size={strong ? 'lg' : 'md'} value={value} />
+      ) : pendingLabel ? (
+        <span className="max-w-40 text-right text-xs leading-5">{pendingLabel}</span>
+      ) : null}
     </div>
   );
 }
@@ -47,13 +53,16 @@ function SummaryLine({
 export function CartSummary({
   cart,
   checkoutHref,
+  delivery,
   disabled = false,
   footerSlot,
   labels,
   showCheckoutButton = true,
+  totalLabel,
+  totalOverride,
 }: CartSummaryProps) {
   const discountAmount = toPositiveNumber(cart.discountAmount);
-  const displayTotal = cart.total ?? cart.totalAfterDiscount ?? cart.subtotal ?? 0;
+  const displayTotal = totalOverride ?? cart.total ?? cart.totalAfterDiscount ?? cart.subtotal ?? 0;
 
   return (
     <aside className="sara-card h-fit space-y-5 p-6">
@@ -71,7 +80,14 @@ export function CartSummary({
         {hasValue(cart.totalAfterDiscount) ? (
           <SummaryLine label={labels.totalAfterDiscount} value={cart.totalAfterDiscount} />
         ) : null}
-        <SummaryLine label={labels.total} strong value={displayTotal} />
+        {delivery ? (
+          <SummaryLine
+            label={delivery.label}
+            pendingLabel={delivery.pendingLabel}
+            value={delivery.price}
+          />
+        ) : null}
+        <SummaryLine label={totalLabel ?? labels.total} strong value={displayTotal} />
       </div>
 
       {cart.promoCode ? (

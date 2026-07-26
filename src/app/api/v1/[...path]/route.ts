@@ -27,8 +27,9 @@ const getBackendApiUrl = (): string =>
 const createBackendUrl = (request: NextRequest, path: string[]): URL => {
   const baseUrl = getBackendApiUrl().replace(/\/+$/, '') + '/';
   const safePath = path.map(encodeURIComponent).join('/');
-  const trailingSlash = request.nextUrl.pathname.endsWith('/') ? '/' : '';
-  const url = new URL(`${safePath}${trailingSlash}`, baseUrl);
+  // Django REST Framework endpoints use trailing slashes. Next.js can normalize the
+  // public proxy URL by removing it, so the upstream URL must restore it explicitly.
+  const url = new URL(`${safePath}/`, baseUrl);
 
   url.search = request.nextUrl.search;
 

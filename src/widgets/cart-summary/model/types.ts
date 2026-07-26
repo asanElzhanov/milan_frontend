@@ -20,4 +20,11 @@ export type CartSummaryProps = {
   disabled?: boolean;
   footerSlot?: ReactNode;
   showCheckoutButton?: boolean;
+  delivery?: {
+    label: string;
+    price: number | string | null;
+    pendingLabel?: string;
+  };
+  totalOverride?: number | string;
+  totalLabel?: string;
 };

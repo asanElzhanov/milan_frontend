@@ -6,6 +6,7 @@ export {
   getActiveDeliveryMethods,
   getDefaultDeliveryMethod,
   getDeliveryMethodPrice,
+  isDeliveryFreeForAmount,
   isManagerCalculationDelivery,
 } from './lib/delivery-method.selectors';
 export type { DeliveryMethod, DeliveryMethodPriceType } from './model/delivery-method.types';

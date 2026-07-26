@@ -1,5 +1,19 @@
 import type { DeliveryMethod } from '../model/delivery-method.types';
 
+const toAmount = (value: number | string | null | undefined): number | null => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value.replace(/\s/g, '').replace(',', '.'));
+
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+};
+
 export function getActiveDeliveryMethods(methods: DeliveryMethod[]): DeliveryMethod[] {
   return methods.filter((method) => method.isActive !== false);
 }
@@ -24,4 +38,18 @@ export function getDeliveryMethodPrice(method: DeliveryMethod): number | string 
   }
 
   return method.price ?? null;
+}
+
+export function isDeliveryFreeForAmount(
+  method: DeliveryMethod,
+  orderAmount: number | string | null | undefined,
+): boolean {
+  if (method.isFree || method.priceType === 'free') {
+    return true;
+  }
+
+  const threshold = toAmount(method.freeFromAmount);
+  const amount = toAmount(orderAmount);
+
+  return threshold !== null && amount !== null && amount >= threshold;
 }

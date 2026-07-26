@@ -1,5 +1,6 @@
 import {
   getDeliveryMethodPrice,
+  isDeliveryFreeForAmount,
   isManagerCalculationDelivery,
   type DeliveryMethod,
 } from '@/entities/delivery-method';
@@ -13,8 +14,20 @@ type CheckoutDeliveryMethodsProps = {
   isLoading?: boolean;
   labels: CheckoutDictionary;
   methods: DeliveryMethod[];
+  orderAmount: number | string;
   selectedMethodId: string;
   onSelect: (methodId: string) => void;
+};
+
+const hasPaidPrice = (value: number | string | null): value is number | string => {
+  if (value === null) {
+    return false;
+  }
+
+  const parsed =
+    typeof value === 'number' ? value : Number(value.replace(/\s/g, '').replace(',', '.'));
+
+  return Number.isFinite(parsed) && parsed > 0;
 };
 
 export function CheckoutDeliveryMethods({
@@ -24,6 +37,7 @@ export function CheckoutDeliveryMethods({
   labels,
   methods,
   onSelect,
+  orderAmount,
   selectedMethodId,
 }: CheckoutDeliveryMethodsProps) {
   return (
@@ -49,6 +63,8 @@ export function CheckoutDeliveryMethods({
             const methodId = String(method.id);
             const price = getDeliveryMethodPrice(method);
             const managerCalculation = isManagerCalculationDelivery(method);
+            const freeByOrderAmount = isDeliveryFreeForAmount(method, orderAmount);
+            const freeDelivery = method.isFree || method.priceType === 'free' || freeByOrderAmount;
             const isSelected = selectedMethodId === methodId;
 
             return (
@@ -72,10 +88,15 @@ export function CheckoutDeliveryMethods({
                       <Badge size="sm" variant="muted">
                         {labels.managerCalculation}
                       </Badge>
-                    ) : price === 0 || method.isFree ? (
-                      <Badge size="sm" variant="success">
-                        {labels.freeDelivery}
-                      </Badge>
+                    ) : freeDelivery ? (
+                      <span className="flex flex-wrap items-center justify-end gap-2">
+                        <Badge size="sm" variant="success">
+                          {labels.freeDelivery}
+                        </Badge>
+                        {freeByOrderAmount && hasPaidPrice(price) ? (
+                          <Price className="line-through opacity-55" size="sm" value={price} />
+                        ) : null}
+                      </span>
                     ) : price !== null ? (
                       <Price size="sm" value={price} />
                     ) : null}

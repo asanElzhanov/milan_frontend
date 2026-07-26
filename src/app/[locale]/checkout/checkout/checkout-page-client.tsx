@@ -7,6 +7,7 @@ import { getDefaultAddress, useAddressesQuery } from '@/entities/address';
 import { useCartQuery } from '@/entities/cart';
 import { getActiveDeliveryMethods, useDeliveryMethodsQuery } from '@/entities/delivery-method';
 import {
+  calculateCheckoutTotals,
   checkoutFormValuesToPayloadWithContext,
   createInitialCheckoutFormValues,
   hasCheckoutFormErrors,
@@ -41,6 +42,12 @@ type CurrentUser = NonNullable<ReturnType<typeof useCurrentUserQuery>['data']>;
 
 const getUserFullName = (user: CurrentUser) =>
   user.fullName ?? [user.firstName, user.lastName].filter(Boolean).join(' ');
+
+const totalWithoutDeliveryLabels: Record<AppLocale, string> = {
+  ru: 'Итого без доставки',
+  kk: 'Жеткізусіз жалпы',
+  en: 'Total excluding delivery',
+};
 
 function CheckoutPageSkeleton({ labels }: { labels: CheckoutDictionary }) {
   return (
@@ -192,6 +199,10 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
   }
 
   const isSubmitting = checkoutMutation.isPending;
+  const selectedDeliveryMethod = activeDeliveryMethods.find(
+    (method) => String(method.id) === effectiveValues.deliveryMethodId,
+  );
+  const checkoutTotals = calculateCheckoutTotals(cart, selectedDeliveryMethod);
   const isSubmitDisabled =
     isSubmitting ||
     cart.isEmpty ||
@@ -231,6 +242,7 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
             labels={labels}
             methods={activeDeliveryMethods}
             onSelect={(methodId) => updateField('deliveryMethodId', methodId)}
+            orderAmount={checkoutTotals.itemsTotal}
             selectedMethodId={effectiveValues.deliveryMethodId}
           />
           <CheckoutPaymentMethod
@@ -252,6 +264,15 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
           <CartSummary
             cart={cart}
             checkoutHref={localizedRoutes.checkout(locale)}
+            delivery={
+              selectedDeliveryMethod
+                ? {
+                    label: labels.deliveryTitle,
+                    pendingLabel: checkoutTotals.isFinal ? undefined : labels.managerCalculation,
+                    price: checkoutTotals.deliveryPrice,
+                  }
+                : undefined
+            }
             footerSlot={
               <Button disabled={isSubmitDisabled} fullWidth loading={isSubmitting} type="submit">
                 {isSubmitting ? labels.submitting : labels.submit}
@@ -268,6 +289,12 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
             }}
             locale={locale}
             showCheckoutButton={false}
+            totalLabel={
+              selectedDeliveryMethod && !checkoutTotals.isFinal
+                ? totalWithoutDeliveryLabels[locale]
+                : labels.total
+            }
+            totalOverride={checkoutTotals.total}
           />
           <Button asChild fullWidth variant="ghost">
             <a href={localizedRoutes.cart(locale)}>{labels.backToCart}</a>

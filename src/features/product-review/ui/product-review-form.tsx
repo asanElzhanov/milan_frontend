@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, useSyncExternalStore, type FormEvent } from 'react';
 
 import { orderApi, orderKeys, type Order } from '@/entities/order';
 import {
@@ -38,8 +38,27 @@ const emptyValues: ProductReviewFormValues = {
 
 const normalizeOrderNumber = (value: string) => value.trim().toLowerCase();
 
+type AuthSnapshot = 'checking' | 'authenticated' | 'anonymous';
+
+const subscribeToAuthStorage = (onStoreChange: () => void): (() => void) => {
+  if (typeof window === 'undefined') {
+    return () => undefined;
+  }
+
+  window.addEventListener('storage', onStoreChange);
+
+  return () => window.removeEventListener('storage', onStoreChange);
+};
+
+const getClientAuthSnapshot = (): AuthSnapshot =>
+  getAccessToken() ? 'authenticated' : 'anonymous';
+
+const getServerAuthSnapshot = (): AuthSnapshot => 'checking';
+
 const isReviewCandidateOrder = (order: Order): boolean => {
-  return order.status?.toLowerCase() === 'completed' || order.paymentStatus?.toLowerCase() === 'paid';
+  return (
+    order.status?.toLowerCase() === 'completed' || order.paymentStatus?.toLowerCase() === 'paid'
+  );
 };
 
 const orderContainsProduct = (order: Order, productSlug: string): boolean =>
@@ -71,7 +90,12 @@ export function ProductReviewForm({
   const [success, setSuccess] = useState(false);
   const submitLocked = useRef(false);
   const mutation = useCreateProductReviewMutation(productSlug);
-  const authenticated = Boolean(getAccessToken());
+  const authSnapshot = useSyncExternalStore(
+    subscribeToAuthStorage,
+    getClientAuthSnapshot,
+    getServerAuthSnapshot,
+  );
+  const authenticated = authSnapshot === 'authenticated';
   const endpointAvailable = reviewEndpointConfig.productCreateConfigured && isRealApiMode;
   const ordersQuery = useQuery({
     queryKey: [...orderKeys.lists(), 'review-eligibility'],
@@ -87,15 +111,16 @@ export function ProductReviewForm({
   const formDisabled =
     disabled || !endpointAvailable || mutation.isPending || ordersQuery.isLoading || !canReview;
 
-  if (!authenticated)
-    return <ReviewAuthRequired labels={labels} locale={locale} productSlug={productSlug} />;
-
-  if (ordersQuery.isLoading) {
+  if (authSnapshot === 'checking' || (authenticated && ordersQuery.isLoading)) {
     return (
       <div className="sara-card p-6">
         <p className="text-caption text-sara-graphite">{labels.checkingPurchase}</p>
       </div>
     );
+  }
+
+  if (!authenticated) {
+    return <ReviewAuthRequired labels={labels} locale={locale} productSlug={productSlug} />;
   }
 
   if (ordersQuery.isError) {
@@ -158,8 +183,7 @@ export function ProductReviewForm({
             ...current,
             rating: fieldErrors?.rating?.join(' '),
             text: fieldErrors?.text?.join(' '),
-            orderNumber:
-              fieldErrors?.order_id?.join(' ') ?? fieldErrors?.order_number?.join(' '),
+            orderNumber: fieldErrors?.order_id?.join(' ') ?? fieldErrors?.order_number?.join(' '),
           }));
         },
         onSettled: () => {
@@ -212,9 +236,7 @@ export function ProductReviewForm({
       <Input
         disabled={formDisabled}
         error={
-          errors.orderNumber === 'orderNumber'
-            ? labels.orderNumberRequired
-            : errors.orderNumber
+          errors.orderNumber === 'orderNumber' ? labels.orderNumberRequired : errors.orderNumber
         }
         label={labels.orderNumber}
         onChange={(e) => update('orderNumber', e.target.value)}

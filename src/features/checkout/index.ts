@@ -7,6 +7,7 @@ export {
 } from './lib/checkout.mappers';
 export { isExternalUrl, resolveCheckoutRedirect } from './lib/checkout-redirect';
 export { createInitialCheckoutFormValues } from './lib/checkout-state';
+export { calculateCheckoutTotals, type CheckoutTotals } from './lib/checkout-totals';
 export {
   hasCheckoutFormErrors,
   validateCheckoutForm,

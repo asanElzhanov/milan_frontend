@@ -13,8 +13,6 @@ type HomeCategoriesProps = {
 };
 
 export function HomeCategories({ categories, dictionary, locale }: HomeCategoriesProps) {
-  const visibleCategories = categories.slice(0, 6);
-
   return (
     <section className="sara-section bg-sara-white">
       <Container>
@@ -29,14 +27,16 @@ export function HomeCategories({ categories, dictionary, locale }: HomeCategorie
           title={dictionary.categories.title}
         />
 
-        {visibleCategories.length > 0 ? (
+        {categories.length > 0 ? (
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleCategories.map((category, index) => (
+            {categories.map((category, index) => (
               <Link
                 key={category.id}
                 className={cn(
-                  'group relative min-h-64 overflow-hidden rounded-sara-lg bg-sara-beige p-6 text-sara-white',
-                  index === 0 && 'lg:col-span-2',
+                  'group relative flex flex-col justify-end overflow-hidden rounded-sara-lg bg-sara-beige p-6 text-sara-white',
+                  index === 0
+                    ? 'min-h-72 sm:col-span-2 lg:col-span-3 lg:min-h-96'
+                    : 'min-h-56 lg:min-h-64',
                 )}
                 href={category.href}
               >
@@ -53,7 +53,7 @@ export function HomeCategories({ categories, dictionary, locale }: HomeCategorie
                   />
                 )}
                 <div aria-hidden className="absolute inset-0 bg-sara-black/42" />
-                <div className="relative flex h-full min-h-52 flex-col justify-end">
+                <div className="relative">
                   <h3 className="font-fashion text-3xl font-medium">{category.name}</h3>
                   {category.description ? (
                     <p className="mt-3 max-w-md text-sm leading-6 text-sara-white/80">
