@@ -17,10 +17,6 @@ export function OrderSummaryCard({ labels, order }: OrderSummaryCardProps) {
       <h2 className="font-fashion text-2xl text-sara-black">{labels.total}</h2>
       <dl className="mt-5 space-y-3 text-sm">
         <div className="flex justify-between gap-4">
-          <dt className="text-sara-graphite/65">{labels.subtotal}</dt>
-          <dd className="font-medium text-sara-black">{formatPrice(order.subtotal)}</dd>
-        </div>
-        <div className="flex justify-between gap-4">
           <dt className="text-sara-graphite/65">{labels.discount}</dt>
           <dd className="font-medium text-sara-black">{formatPrice(order.discountAmount)}</dd>
         </div>

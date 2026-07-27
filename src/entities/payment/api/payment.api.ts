@@ -22,10 +22,15 @@ export const paymentApi = {
       throw new Error(PAYMENT_MOCK_DISABLED);
     }
 
+    const returnOrigin =
+      payload.return_origin ??
+      (typeof window !== 'undefined' ? window.location.origin : undefined);
+
     const response = await apiClient.post<unknown>(FREEDOM_CREATE_ENDPOINT, {
       order_number: payload.order_number,
       email: payload.email,
       locale: payload.locale,
+      ...(returnOrigin ? { return_origin: returnOrigin } : {}),
     });
 
     return adaptPaymentSession(response);
