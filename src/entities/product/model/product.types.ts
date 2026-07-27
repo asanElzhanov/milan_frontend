@@ -1,3 +1,8 @@
+export type ProductColorSwatch = {
+  name: string;
+  hex: string | null;
+};
+
 export type ProductListItem = {
   id: string | number;
   name: string;
@@ -19,6 +24,7 @@ export type ProductListItem = {
   minPrice?: number | string | null;
   inStock?: boolean;
   availableColors?: string[];
+  availableColorSwatches?: ProductColorSwatch[];
   availableSizes?: string[];
   averageRating?: number | null;
   reviewsCount?: number;

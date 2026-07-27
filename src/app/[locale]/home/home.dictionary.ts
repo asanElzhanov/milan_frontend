@@ -26,7 +26,7 @@ const homeDictionary = {
       cta: 'Все категории',
     },
     newProducts: {
-      eyebrow: 'New in',
+      eyebrow: 'Новинки',
       title: 'Новые поступления',
       description: 'Свежие модели из каталога с пометкой новинки.',
       cta: 'Все новинки',
@@ -34,7 +34,7 @@ const homeDictionary = {
       emptyDescription: 'Раздел заполнится товарами после ответа каталога.',
     },
     saleProducts: {
-      eyebrow: 'Sale',
+      eyebrow: 'Скидки',
       title: 'Сезонные предложения',
       description: 'Товары со скидкой из актуального каталога.',
       cta: 'Смотреть sale',
@@ -102,7 +102,7 @@ const homeDictionary = {
       cta: 'Барлық санаттар',
     },
     newProducts: {
-      eyebrow: 'New in',
+      eyebrow: 'Жаңа',
       title: 'Жаңа түсімдер',
       description: 'Каталогтағы жаңа белгісі бар өзекті модельдер.',
       cta: 'Барлық жаңалықтар',
@@ -110,7 +110,7 @@ const homeDictionary = {
       emptyDescription: 'Каталог жауап бергеннен кейін бөлім тауарлармен толады.',
     },
     saleProducts: {
-      eyebrow: 'Sale',
+      eyebrow: 'Жеңілдіктер',
       title: 'Маусымдық ұсыныстар',
       description: 'Актуалды каталогтағы жеңілдігі бар тауарлар.',
       cta: 'Sale қарау',
