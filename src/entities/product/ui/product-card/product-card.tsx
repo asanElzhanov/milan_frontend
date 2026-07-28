@@ -173,6 +173,10 @@ export function ProductCard({
             <ProductColorDots
               ariaLabel={copy.availableColors}
               colors={product.availableColors?.map((color) => localizeBackendValue(color, locale))}
+              swatches={product.availableColorSwatches?.map((swatch) => ({
+                name: localizeBackendValue(swatch.name, locale),
+                hex: swatch.hex,
+              }))}
             />
           ) : null}
           {showSizes ? (

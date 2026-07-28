@@ -32,7 +32,6 @@ export function HomeBenefits({ dictionary }: HomeBenefitsProps) {
                   <Icon aria-hidden className="h-5 w-5" />
                 </div>
                 <h3 className="mt-6 text-lg font-semibold text-sara-black">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-sara-graphite/70">{item.description}</p>
               </article>
             );
           })}

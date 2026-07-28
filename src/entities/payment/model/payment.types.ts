@@ -17,6 +17,12 @@ export type PaymentStartPayload = {
   email?: string;
   locale?: string;
   provider?: PaymentProvider;
+  /**
+   * Origin the payment provider should return the user to. Defaults to the
+   * current browser origin so the user comes back to the same origin where
+   * their session (localStorage tokens) lives instead of a hardcoded host.
+   */
+  return_origin?: string;
 };
 
 export type PaymentSession = {

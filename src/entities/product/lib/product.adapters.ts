@@ -10,11 +10,14 @@ import {
 } from '@/shared/lib';
 
 import type {
+  ProductColorSwatch,
   ProductDetail,
   ProductListItem,
   ProductMedia,
   ProductVariant,
 } from '../model/product.types';
+
+const HEX_COLOR_PATTERN = /^#(?:[0-9a-f]{3}){1,2}$/i;
 
 const readId = (record: Record<string, unknown>, fallback: string): string | number =>
   typeof record.id === 'string' || typeof record.id === 'number' ? record.id : fallback;
@@ -50,6 +53,49 @@ const readStringArray = (value: unknown): string[] | undefined => {
     .filter((item): item is string => Boolean(item));
 
   return items.length > 0 ? items : undefined;
+};
+
+const readColorSwatches = (value: unknown): ProductColorSwatch[] | undefined => {
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+
+  const swatches = value
+    .map((item): ProductColorSwatch | null => {
+      if (isRecord(item)) {
+        const name =
+          toStringOrNull(item.name_ru) ??
+          toStringOrNull(item.name_en) ??
+          toStringOrNull(item.name_kz) ??
+          toStringOrNull(item.name) ??
+          toStringOrNull(item.value) ??
+          toStringOrNull(item.slug);
+        const hex = toStringOrNull(item.hex_code ?? item.hex ?? item.color);
+
+        if (!name && !hex) {
+          return null;
+        }
+
+        return {
+          name: name ?? hex ?? '',
+          hex: hex && HEX_COLOR_PATTERN.test(hex.trim()) ? hex.trim() : null,
+        };
+      }
+
+      const raw = typeof item === 'string' || typeof item === 'number' ? String(item) : null;
+
+      if (!raw) {
+        return null;
+      }
+
+      return {
+        name: raw,
+        hex: HEX_COLOR_PATTERN.test(raw.trim()) ? raw.trim() : null,
+      };
+    })
+    .filter((item): item is ProductColorSwatch => Boolean(item));
+
+  return swatches.length > 0 ? swatches : undefined;
 };
 
 const readImageUrl = (value: unknown): string | null => {
@@ -114,6 +160,7 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
     minPrice: readPrice(value.min_price),
     inStock: toBooleanOrUndefined(value.in_stock ?? value.inStock),
     availableColors: readStringArray(value.available_colors),
+    availableColorSwatches: readColorSwatches(value.available_colors),
     availableSizes: readStringArray(value.available_sizes),
     averageRating: toNumberOrNull(value.average_rating),
     reviewsCount: toNumberOrNull(value.reviews_count) ?? undefined,

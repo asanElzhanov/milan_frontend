@@ -22,7 +22,6 @@ export function HomeBrandStory({ dictionary, locale }: HomeBrandStoryProps) {
           <p className="font-fashion text-3xl leading-tight text-sara-graphite">
             {dictionary.story.lead}
           </p>
-          <p className="text-body text-sara-graphite/72">{dictionary.story.body}</p>
           <Button asChild variant="link">
             <Link href={withLocale(locale, '/about')}>{dictionary.story.cta}</Link>
           </Button>

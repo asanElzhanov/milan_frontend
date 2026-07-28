@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { Providers } from './providers';
+import { ScrollReset } from './scroll-reset';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="h-full">
       <body className="min-h-full antialiased">
+        <ScrollReset />
         <Providers>{children}</Providers>
       </body>
     </html>

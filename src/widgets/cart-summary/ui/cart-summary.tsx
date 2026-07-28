@@ -71,9 +71,6 @@ export function CartSummary({
       </h2>
 
       <div className="space-y-4 border-y border-sara-beige-dark/70 py-5">
-        {hasValue(cart.subtotal) ? (
-          <SummaryLine label={labels.subtotal} value={cart.subtotal} />
-        ) : null}
         {discountAmount > 0 && hasValue(cart.discountAmount) ? (
           <SummaryLine label={labels.discount} value={cart.discountAmount} />
         ) : null}
