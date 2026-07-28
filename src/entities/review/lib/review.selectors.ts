@@ -1,3 +1,5 @@
+import type { AppLocale } from '@/shared/config';
+
 import type { ProductReview } from '../model/review.types';
 
 const normalizedStatus = (review?: ProductReview | null) => review?.status?.toLowerCase();
@@ -16,6 +18,22 @@ export function isReviewPending(review?: ProductReview | null): boolean {
 
 export function getReviewAuthor(review?: ProductReview | null): string {
   return review?.authorName?.trim() || review?.userName?.trim() || '';
+}
+
+export function getReviewProductName(
+  review: ProductReview | null | undefined,
+  locale: AppLocale,
+): string {
+  const names = review?.productNames;
+
+  return (
+    names?.[locale]?.trim() ||
+    names?.ru?.trim() ||
+    names?.en?.trim() ||
+    names?.kk?.trim() ||
+    review?.productName?.trim() ||
+    ''
+  );
 }
 
 export function getAverageRating(reviews: ProductReview[]): number | null {

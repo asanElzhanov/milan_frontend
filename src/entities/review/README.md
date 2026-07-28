@@ -11,23 +11,25 @@ See `docs/review-endpoint-discovery.md`.
 
 ## Endpoints
 
-Product list/create use the confirmed `/api/v1/catalog/products/{slug}/reviews/` endpoint. The
-account endpoint is deliberately unconfigured until its contract is confirmed.
+- Public product reviews: `GET /api/v1/catalog/products/{slug}/reviews/`
+- Create a review: `POST /api/v1/catalog/reviews/` (JSON or multipart with repeated `media` fields)
+- Current user's reviews: `GET /api/v1/catalog/reviews/mine/`
 
 ## Normalized model
 
-`ProductReview` supports product/order context, author, rating, text sections, moderation status,
-and timestamps. Adapters accept arrays, DRF pagination, and common `data`/`review(s)` wrappers.
+`ProductReview` supports product/order context, localized product names, author, rating, text,
+moderation status/comment, image/video media, verified purchase state, and timestamps. Adapters
+accept arrays, DRF pagination, and common `data`/`review(s)` wrappers.
 
 ## API methods and React Query hooks
 
 - `reviewApi.getProductReviews` / `useProductReviewsQuery`
 - `reviewApi.createProductReview` / `useCreateProductReviewMutation`
-- `reviewApi.getMyReviews` / `useMyReviewsQuery` (graceful pending contract in real mode)
+- `reviewApi.getMyReviews` / `useMyReviewsQuery`
 
 ## UI components
 
-`ReviewCard`, `ReviewRating`, and `ReviewStatusBadge` make no API calls.
+`ReviewCard`, `ReviewMediaList`, `ReviewRating`, and `ReviewStatusBadge` make no API calls.
 
 ## What is intentionally not included
 

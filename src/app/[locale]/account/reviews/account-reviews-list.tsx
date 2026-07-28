@@ -24,13 +24,16 @@ export function AccountReviewsList({
     anonymous: labels.anonymous,
     advantages: labels.advantages,
     disadvantages: labels.disadvantages,
+    mediaAttachment: labels.mediaAttachment,
+    moderationComment: labels.moderationComment,
+    verifiedPurchase: labels.verifiedPurchase,
   };
   return (
     <div className="space-y-4">
       {reviews.map((review) => (
         <div className="space-y-2" key={review.id}>
           <ReviewCard labels={cardLabels} locale={locale} review={review} showProduct />
-          {review.productSlug ? (
+          {review.status?.toLowerCase() === 'published' && review.productSlug ? (
             <Link
               className="sara-focus inline-block text-sm font-medium text-sara-bronze underline-offset-4 hover:underline"
               href={localizedRoutes.product(locale, review.productSlug)}

@@ -59,10 +59,14 @@ export function CartItemCard({
 
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-sara-graphite/65">
             {item.variant.color ? (
-              <span>{localizeBackendValue(item.variant.color, locale)}</span>
+              <span>
+                {labels.color}: {localizeBackendValue(item.variant.color, locale)}
+              </span>
             ) : null}
             {item.variant.size ? (
-              <span>{localizeBackendValue(item.variant.size, locale)}</span>
+              <span>
+                {labels.size}: {localizeBackendValue(item.variant.size, locale)}
+              </span>
             ) : null}
             {(item.variant.sku ?? item.product.sku) ? (
               <span>SKU {item.variant.sku ?? item.product.sku}</span>

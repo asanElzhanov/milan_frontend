@@ -84,11 +84,16 @@ export function ProductReviewForm({
   productId,
 }: ProductReviewFormProps) {
   const [values, setValues] = useState(emptyValues);
-  const [errors, setErrors] = useState<{ rating?: string; orderNumber?: string; text?: string }>(
-    {},
-  );
+  const [errors, setErrors] = useState<{
+    rating?: string;
+    orderNumber?: string;
+    text?: string;
+    media?: string;
+  }>({});
   const [success, setSuccess] = useState(false);
+  const [media, setMedia] = useState<File[]>([]);
   const submitLocked = useRef(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const mutation = useCreateProductReviewMutation(productSlug);
   const authSnapshot = useSyncExternalStore(
     subscribeToAuthStorage,
@@ -144,9 +149,26 @@ export function ProductReviewForm({
     setSuccess(false);
   };
 
+  const getMediaErrorLabel = (value?: string) => {
+    if (value === 'mediaCount') return labels.mediaCountError;
+    if (value === 'mediaType') return labels.mediaTypeError;
+    if (value === 'imageSize') return labels.imageSizeError;
+    if (value === 'videoSize') return labels.videoSizeError;
+    return value;
+  };
+
+  const handleMediaChange = (files: FileList | null) => {
+    const nextMedia = Array.from(files ?? []);
+    const validation = validateProductReviewForm({ ...values, media: nextMedia });
+
+    setMedia(nextMedia);
+    setErrors((current) => ({ ...current, media: validation.media }));
+    setSuccess(false);
+  };
+
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const validation = validateProductReviewForm(values);
+    const validation = validateProductReviewForm({ ...values, media });
     const normalizedOrderNumber = normalizeOrderNumber(values.orderNumber);
     const orderMatchesProduct = matchingOrders.some(
       (order) => normalizeOrderNumber(order.orderNumber) === normalizedOrderNumber,
@@ -169,11 +191,14 @@ export function ProductReviewForm({
         text: values.text,
         orderId: matchingOrder.id,
         productId,
+        media,
       }),
       {
         onSuccess: () => {
           setValues(emptyValues);
           setErrors({});
+          setMedia([]);
+          if (fileInputRef.current) fileInputRef.current.value = '';
           setSuccess(true);
         },
         onError: (error) => {
@@ -184,6 +209,7 @@ export function ProductReviewForm({
             rating: fieldErrors?.rating?.join(' '),
             text: fieldErrors?.text?.join(' '),
             orderNumber: fieldErrors?.order_id?.join(' ') ?? fieldErrors?.order_number?.join(' '),
+            media: fieldErrors?.media?.join(' '),
           }));
         },
         onSettled: () => {
@@ -251,6 +277,24 @@ export function ProductReviewForm({
         required
         value={values.text}
       />
+      <Input
+        accept=".jpg,.jpeg,.png,.webp,.gif,.avif,.mp4,.webm,.mov,.m4v,.ogv,image/*,video/*"
+        disabled={formDisabled}
+        error={getMediaErrorLabel(errors.media)}
+        hint={labels.mediaHint}
+        label={labels.media}
+        multiple
+        onChange={(event) => handleMediaChange(event.target.files)}
+        ref={fileInputRef}
+        type="file"
+      />
+      {media.length > 0 ? (
+        <ul className="space-y-1 text-sm text-sara-graphite/70">
+          {media.map((file) => (
+            <li key={`${file.name}-${file.lastModified}`}>{file.name}</li>
+          ))}
+        </ul>
+      ) : null}
       <Button disabled={formDisabled} loading={mutation.isPending} type="submit">
         {mutation.isPending ? labels.submitting : labels.submit}
       </Button>

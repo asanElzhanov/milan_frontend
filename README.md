@@ -459,7 +459,6 @@ The project also includes localized metadata, not-found pages, robots and sitema
 ## Known Pending Backend Contracts
 
 - Forgot-password endpoint
-- Account current-user reviews endpoint
 - Payment status endpoint
 - Newsletter or contact form endpoint
 

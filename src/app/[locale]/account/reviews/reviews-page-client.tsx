@@ -9,6 +9,7 @@ import { localizedRoutes } from '@/shared/config';
 import { Button, EmptyState, ErrorState, SectionTitle, Skeleton } from '@/shared/ui';
 
 import { AccountReviewsList } from './account-reviews-list';
+import { AccountReviewsPagination } from './account-reviews-pagination';
 import type { AccountReviewsDictionary } from './account-reviews.dictionary';
 
 const parsePage = (value: string | null) => {
@@ -57,6 +58,12 @@ export function ReviewsPageClient({
     <div className="space-y-6">
       <SectionTitle description={labels.subtitle} title={labels.title} />
       <AccountReviewsList labels={labels} locale={locale} reviews={query.data.reviews} />
+      <AccountReviewsPagination
+        currentPage={query.data.currentPage}
+        isFetching={query.isFetching}
+        locale={locale}
+        totalPages={query.data.totalPages}
+      />
     </div>
   );
 }

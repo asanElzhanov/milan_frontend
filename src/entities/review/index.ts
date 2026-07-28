@@ -5,5 +5,6 @@ export * from './lib/review.adapters';
 export * from './lib/review.selectors';
 export * from './model/review.types';
 export * from './ui/review-card';
+export * from './ui/review-media-list';
 export * from './ui/review-rating';
 export * from './ui/review-status-badge';

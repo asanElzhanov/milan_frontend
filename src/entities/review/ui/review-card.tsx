@@ -1,6 +1,7 @@
-import { getReviewAuthor } from '../lib/review.selectors';
+import { getReviewAuthor, getReviewProductName } from '../lib/review.selectors';
 import type { ProductReview } from '../model/review.types';
 import { ReviewRating } from './review-rating';
+import { ReviewMediaList } from './review-media-list';
 import { ReviewStatusBadge } from './review-status-badge';
 import { DEFAULT_LOCALE, LOCALE_TAGS, type AppLocale } from '@/shared/config';
 
@@ -15,6 +16,9 @@ export type ReviewCardProps = {
     anonymous?: string;
     advantages?: string;
     disadvantages?: string;
+    mediaAttachment?: string;
+    moderationComment?: string;
+    verifiedPurchase?: string;
   };
   showProduct?: boolean;
   locale?: AppLocale;
@@ -36,14 +40,15 @@ export function ReviewCard({
 }: ReviewCardProps) {
   const author = getReviewAuthor(review) || labels?.anonymous || 'Покупатель';
   const date = formatDate(review.createdAt, locale);
+  const productName = getReviewProductName(review, locale);
   return (
     <article className="sara-card space-y-4 p-5 md:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <ReviewRating locale={locale} rating={review.rating} />
         {showProduct ? <ReviewStatusBadge labels={labels} status={review.status} /> : null}
       </div>
-      {showProduct && review.productName ? (
-        <p className="text-sm font-medium text-sara-graphite">{review.productName}</p>
+      {showProduct && productName ? (
+        <p className="text-sm font-medium text-sara-graphite">{productName}</p>
       ) : null}
       <div className="flex flex-wrap gap-x-3 text-caption text-sara-graphite/60">
         <span>{author}</span>
@@ -55,6 +60,13 @@ export function ReviewCard({
       {review.text ? (
         <p className="text-sm leading-6 text-sara-graphite/75">{review.text}</p>
       ) : null}
+      {review.isVerifiedPurchase && labels?.verifiedPurchase ? (
+        <p className="text-caption text-emerald-800">{labels.verifiedPurchase}</p>
+      ) : null}
+      <ReviewMediaList
+        attachmentLabel={labels?.mediaAttachment ?? 'Review attachment'}
+        media={review.media}
+      />
       {review.advantages ? (
         <div>
           <p className="text-caption font-medium text-emerald-800">
@@ -69,6 +81,14 @@ export function ReviewCard({
             {labels?.disadvantages ?? 'Минусы'}
           </p>
           <p className="mt-1 text-sm leading-6 text-sara-graphite/75">{review.disadvantages}</p>
+        </div>
+      ) : null}
+      {showProduct && review.status?.toLowerCase() === 'rejected' && review.moderationComment ? (
+        <div className="border border-red-700/25 bg-red-50 p-3">
+          <p className="text-caption font-medium text-red-800">
+            {labels?.moderationComment ?? 'Moderation comment'}
+          </p>
+          <p className="mt-1 text-sm leading-6 text-red-900">{review.moderationComment}</p>
         </div>
       ) : null}
     </article>

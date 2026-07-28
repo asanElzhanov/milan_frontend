@@ -108,15 +108,22 @@ const adaptProductSnapshot = (raw: unknown): CartProductSnapshot => {
   }
 
   return {
-    id: readId(raw.id ?? raw.pk),
-    name: toStringOrNull(raw.name ?? raw.title) ?? 'Product',
-    name_ru: toStringOrNull(raw.name_ru),
-    name_kz: toStringOrNull(raw.name_kz),
-    name_en: toStringOrNull(raw.name_en),
-    slug: toStringOrNull(raw.slug),
+    id: readId(raw.product_id ?? raw.productId ?? raw.id ?? raw.pk),
+    name: toStringOrNull(raw.product_name ?? raw.productName ?? raw.name ?? raw.title) ?? 'Product',
+    name_ru: toStringOrNull(raw.product_name_ru ?? raw.name_ru),
+    name_kz: toStringOrNull(raw.product_name_kz ?? raw.name_kz),
+    name_en: toStringOrNull(raw.product_name_en ?? raw.name_en),
+    slug: toStringOrNull(raw.product_slug ?? raw.productSlug ?? raw.slug),
     sku: toStringOrNull(raw.sku),
     imageUrl: getMediaUrl(
-      toStringOrNull(raw.image_url ?? raw.imageUrl ?? raw.image ?? raw.main_image),
+      toStringOrNull(
+        raw.product_image ??
+          raw.productImage ??
+          raw.image_url ??
+          raw.imageUrl ??
+          raw.image ??
+          raw.main_image,
+      ),
     ),
     brandName: toStringOrNull(raw.brand_name ?? raw.brandName) ?? readNestedLabel(raw.brand),
     categoryName:
@@ -134,11 +141,11 @@ const adaptVariantSnapshot = (raw: unknown, fallbackId: string | number): CartVa
   const availableStock = toNumberOrNull(raw.available_stock ?? raw.stock_quantity ?? raw.stock);
 
   return {
-    id: readId(raw.id ?? raw.pk ?? raw.variant_id) ?? fallbackId,
+    id: readId(raw.variant_id ?? raw.variantId ?? raw.id ?? raw.pk) ?? fallbackId,
     sku: toStringOrNull(raw.sku),
-    color: readNestedLabel(raw.color),
-    size: readNestedLabel(raw.size),
-    price: readPrice(raw.price),
+    color: readNestedLabel(raw.color ?? raw.color_name ?? raw.colorName),
+    size: readNestedLabel(raw.size ?? raw.size_name ?? raw.sizeName),
+    price: readPrice(raw.unit_price ?? raw.unitPrice ?? raw.price),
     oldPrice: readPrice(raw.old_price ?? raw.oldPrice),
     availableStock,
     inStock: toBooleanOrUndefined(raw.in_stock ?? raw.inStock),
@@ -167,7 +174,7 @@ export function adaptCartItem(raw: unknown): CartItem | null {
 
   const id = readId(raw.id ?? raw.pk);
   const variantId = readId(raw.variant_id ?? raw.variantId);
-  const variantSource = isRecord(raw.variant) ? raw.variant : raw.variant_id;
+  const variantSource = isRecord(raw.variant) ? raw.variant : raw;
   const fallbackVariantId = variantId ?? id;
 
   if (!id && !fallbackVariantId) {
@@ -175,7 +182,7 @@ export function adaptCartItem(raw: unknown): CartItem | null {
   }
 
   const variant = adaptVariantSnapshot(variantSource, fallbackVariantId ?? 'variant');
-  const productSource = isRecord(raw.product) ? raw.product : raw.product_name;
+  const productSource = isRecord(raw.product) ? raw.product : raw;
   const availableStock = toNumberOrNull(raw.available_stock ?? raw.stock_quantity);
   const inStock = toBooleanOrUndefined(raw.in_stock ?? raw.inStock);
 

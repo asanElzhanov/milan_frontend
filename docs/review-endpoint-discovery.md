@@ -1,36 +1,27 @@
-# Review Endpoint Discovery
+# Review Endpoint Contract
 
-## Sources checked
+## Source
 
-- `src/shared/api/generated/schema.ts`: no review paths or review schemas were found.
-- `backend-README.md`: confirms `GET/POST /api/v1/catalog/products/<slug>/reviews/`.
-- `docs/api-page-mapping.md`: independently maps the same product list/create endpoint.
-- `docs/frontend-api-map-update.md`: lists both the product endpoint and
-  `/api/v1/catalog/reviews/`, but does not define an HTTP method or current-user semantics for the
-  latter. The same document calls it a creation endpoint, which conflicts with using it as “my
-  reviews”.
+The current contract is documented in backend `docs/REVIEWS_FRONTEND_GUIDE.md`.
 
 ## Confirmed and used
 
-- Product list: `GET /api/v1/catalog/products/{slug}/reviews/` (public read).
-- Product create: `POST /api/v1/catalog/products/{slug}/reviews/` (authenticated).
+- Public product reviews: `GET /api/v1/catalog/products/{slug}/reviews/?page=`
+- Create review: `POST /api/v1/catalog/reviews/` with JSON or multipart form data
+- Current user's reviews: `GET /api/v1/catalog/reviews/mine/?page=`
 
-## Not confirmed
+Review media uses repeated multipart fields named `media`. The frontend accepts at most five files,
+validates the documented image/video formats and size limits, and still displays backend validation
+errors because backend is the source of truth.
 
-- No current-user/account reviews endpoint was confirmed.
-- No review detail, edit, or delete endpoint was confirmed.
-- No eligibility endpoint was found.
+New reviews remain out of the public list until backend status becomes `published`. Personal
+reviews expose all moderation statuses, media, verified purchase state, and an optional moderation
+comment.
 
-`/api/v1/catalog/reviews/` is not used until its method, permissions, response shape, and
-current-user filtering semantics are documented. In real API mode the account hook returns a
-readable contract-pending error; in mock mode it returns an empty list. No fake reviews are used.
+## Not provided by the backend
 
-Eligibility is backend-controlled; frontend does not fake purchase verification. If a signed-in
-user is not eligible, the create endpoint response is shown by the form.
+- Customer review editing
+- Customer review deletion
+- Frontend moderation actions
 
-## Assumptions intentionally not made
-
-- The frontend does not assume that `/catalog/reviews/` means “my reviews”.
-- It does not infer approval from missing status fields.
-- It does not optimistically publish created reviews.
-- It does not implement customer edit/delete or moderation actions.
+The frontend does not optimistically publish reviews or infer moderation results.

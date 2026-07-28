@@ -7,8 +7,9 @@ Available at `/:locale/account/reviews` inside `AccountShell`; the shell owns au
 ## API hooks and states
 
 `ReviewsPageClient` uses `useMyReviewsQuery` and renders loading skeletons, retryable errors, an
-empty state, or status-aware review cards. Because a current-user endpoint is not confirmed, real
-mode currently shows a readable contract-pending error rather than calling an invented endpoint.
+empty state, pagination, or status-aware review cards from `GET /api/v1/catalog/reviews/mine/`.
+Rejected reviews show the backend moderation comment when present. Product links are shown only
+for published reviews.
 
 ## What is intentionally not included
 

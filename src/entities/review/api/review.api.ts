@@ -9,11 +9,12 @@ import type {
 
 const PRODUCT_REVIEWS_ENDPOINT = '/api/v1/catalog/products/{slug}/reviews/';
 const CREATE_REVIEW_ENDPOINT = '/api/v1/catalog/reviews/';
+const MY_REVIEWS_ENDPOINT = '/api/v1/catalog/reviews/mine/';
 
 export const reviewEndpointConfig = {
   productList: PRODUCT_REVIEWS_ENDPOINT,
   productCreate: CREATE_REVIEW_ENDPOINT,
-  accountList: CREATE_REVIEW_ENDPOINT,
+  accountList: MY_REVIEWS_ENDPOINT,
   productCreateConfigured: true,
   accountListConfigured: true,
 } as const;
@@ -46,15 +47,23 @@ export const reviewApi = {
       throw new Error('Создание отзывов недоступно в текущем режиме API.');
     }
 
-    const response = await apiClient.post<unknown>(
-      CREATE_REVIEW_ENDPOINT,
-      {
-        ...payload,
-      },
-      {
-        cartToken: false,
-      },
-    );
+    const { media = [], ...fields } = payload;
+    const body =
+      media.length > 0
+        ? (() => {
+            const formData = new FormData();
+
+            Object.entries(fields).forEach(([key, value]) => {
+              if (value !== undefined) formData.append(key, String(value));
+            });
+            media.forEach((file) => formData.append('media', file));
+
+            return formData;
+          })()
+        : fields;
+    const response = await apiClient.post<unknown>(CREATE_REVIEW_ENDPOINT, body, {
+      cartToken: false,
+    });
 
     return adaptReview(response);
   },
@@ -64,7 +73,7 @@ export const reviewApi = {
 
     if (isMockApiMode) return createEmptyReviewList(page);
 
-    const response = await apiClient.get<unknown>(CREATE_REVIEW_ENDPOINT, {
+    const response = await apiClient.get<unknown>(MY_REVIEWS_ENDPOINT, {
       cartToken: false,
       query: page > 1 ? { page } : undefined,
     });

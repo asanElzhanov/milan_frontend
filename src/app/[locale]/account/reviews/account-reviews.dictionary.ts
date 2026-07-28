@@ -18,6 +18,9 @@ export type AccountReviewsDictionary = {
   viewProduct: string;
   advantages: string;
   disadvantages: string;
+  mediaAttachment: string;
+  moderationComment: string;
+  verifiedPurchase: string;
 };
 
 const dictionaries: Record<AppLocale, AccountReviewsDictionary> = {
@@ -39,6 +42,9 @@ const dictionaries: Record<AppLocale, AccountReviewsDictionary> = {
     viewProduct: 'Открыть товар',
     advantages: 'Плюсы',
     disadvantages: 'Минусы',
+    mediaAttachment: 'Вложение к отзыву',
+    moderationComment: 'Комментарий модератора',
+    verifiedPurchase: 'Подтверждённая покупка',
   },
   kk: {
     title: 'Менің пікірлерім',
@@ -58,6 +64,9 @@ const dictionaries: Record<AppLocale, AccountReviewsDictionary> = {
     viewProduct: 'Тауарды ашу',
     advantages: 'Артықшылықтары',
     disadvantages: 'Кемшіліктері',
+    mediaAttachment: 'Пікірге тіркеме',
+    moderationComment: 'Модератор пікірі',
+    verifiedPurchase: 'Расталған сатып алу',
   },
   en: {
     title: 'My reviews',
@@ -77,6 +86,9 @@ const dictionaries: Record<AppLocale, AccountReviewsDictionary> = {
     viewProduct: 'View product',
     advantages: 'Pros',
     disadvantages: 'Cons',
+    mediaAttachment: 'Review attachment',
+    moderationComment: 'Moderation comment',
+    verifiedPurchase: 'Verified purchase',
   },
 };
 

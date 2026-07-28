@@ -1,4 +1,16 @@
-export type ReviewStatus = 'pending' | 'approved' | 'rejected' | 'published' | 'hidden' | string;
+export type ReviewStatus = 'pending' | 'published' | 'rejected' | 'hidden' | string;
+
+export type ReviewMedia = {
+  id: string | number;
+  url: string;
+  mediaType: 'image' | 'video';
+};
+
+export type ReviewProductNames = {
+  ru?: string | null;
+  kk?: string | null;
+  en?: string | null;
+};
 
 export type ProductReview = {
   id: string | number;
@@ -8,7 +20,8 @@ export type ProductReview = {
   productImageUrl?: string | null;
   orderId?: string | number | null;
   orderNumber?: string | null;
-  images?: unknown[];
+  media: ReviewMedia[];
+  productNames?: ReviewProductNames;
   isVerifiedPurchase?: boolean;
   authorName?: string | null;
   userName?: string | null;
@@ -19,6 +32,8 @@ export type ProductReview = {
   disadvantages?: string | null;
   status?: ReviewStatus | null;
   isApproved?: boolean;
+  moderationComment?: string | null;
+  moderatedAt?: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
 };
@@ -37,4 +52,5 @@ export type CreateProductReviewPayload = {
   order_number?: string;
   product_id?: string | number;
   product_slug?: string;
+  media?: File[];
 };

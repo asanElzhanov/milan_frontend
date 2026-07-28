@@ -9,6 +9,14 @@ export type ProductReviewDictionary = {
   text: string;
   advantages: string;
   disadvantages: string;
+  media: string;
+  mediaHint: string;
+  mediaCountError: string;
+  mediaTypeError: string;
+  imageSizeError: string;
+  videoSizeError: string;
+  mediaAttachment: string;
+  verifiedPurchase: string;
   submit: string;
   submitting: string;
   authRequiredTitle: string;
@@ -50,6 +58,14 @@ const dictionaries: Record<AppLocale | 'en', ProductReviewDictionary> = {
     text: 'Комментарий',
     advantages: 'Плюсы',
     disadvantages: 'Минусы',
+    media: 'Фото и видео',
+    mediaHint: 'До 5 файлов: изображения до 10 МБ, видео до 50 МБ',
+    mediaCountError: 'Можно прикрепить не более 5 файлов',
+    mediaTypeError: 'Выбран неподдерживаемый формат файла',
+    imageSizeError: 'Изображение не должно превышать 10 МБ',
+    videoSizeError: 'Видео не должно превышать 50 МБ',
+    mediaAttachment: 'Вложение к отзыву',
+    verifiedPurchase: 'Подтверждённая покупка',
     submit: 'Отправить отзыв',
     submitting: 'Отправляем отзыв',
     authRequiredTitle: 'Войдите, чтобы оставить отзыв',
@@ -71,8 +87,7 @@ const dictionaries: Record<AppLocale | 'en', ProductReviewDictionary> = {
     published: 'Опубликован',
     hidden: 'Скрыт',
     anonymous: 'Покупатель',
-    endpointPending:
-      'Создание отзывов будет доступно при подключении real API.',
+    endpointPending: 'Создание отзывов будет доступно при подключении real API.',
     checkingPurchase: 'Проверяем ваши заказы',
     purchaseRequiredTitle: 'Отзыв доступен после заказа',
     purchaseRequiredDescription:
@@ -91,11 +106,18 @@ const dictionaries: Record<AppLocale | 'en', ProductReviewDictionary> = {
     text: 'Пікір',
     advantages: 'Артықшылықтары',
     disadvantages: 'Кемшіліктері',
+    media: 'Фото және видео',
+    mediaHint: '5 файлға дейін: суреттер 10 МБ-қа, видео 50 МБ-қа дейін',
+    mediaCountError: '5 файлдан артық тіркеуге болмайды',
+    mediaTypeError: 'Файл пішіміне қолдау көрсетілмейді',
+    imageSizeError: 'Сурет көлемі 10 МБ-тан аспауы керек',
+    videoSizeError: 'Видео көлемі 50 МБ-тан аспауы керек',
+    mediaAttachment: 'Пікірге тіркеме',
+    verifiedPurchase: 'Расталған сатып алу',
     submit: 'Пікір жіберу',
     submitting: 'Пікір жіберілуде',
     authRequiredTitle: 'Пікір қалдыру үшін кіріңіз',
-    authRequiredDescription:
-      'Пікірді тек авторизацияланған пайдаланушылар қалдыра алады.',
+    authRequiredDescription: 'Пікірді тек авторизацияланған пайдаланушылар қалдыра алады.',
     login: 'Кіру',
     noReviews: 'Әзірге пікір жоқ',
     firstReview: 'Бұл тауарға бірінші болып пікір қалдырыңыз.',
@@ -113,35 +135,61 @@ const dictionaries: Record<AppLocale | 'en', ProductReviewDictionary> = {
     published: 'Жарияланды',
     hidden: 'Жасырылды',
     anonymous: 'Сатып алушы',
-    endpointPending:
-      'Пікір жіберу real API қосылғанда қолжетімді болады.',
+    endpointPending: 'Пікір жіберу real API қосылғанда қолжетімді болады.',
     checkingPurchase: 'Тапсырыстарыңызды тексеріп жатырмыз',
     purchaseRequiredTitle: 'Пікір тапсырыстан кейін қолжетімді',
-    purchaseRequiredDescription:
-      'Бұл тауарға тапсырыс жасағаннан кейін пікір қалдыра аласыз.',
+    purchaseRequiredDescription: 'Бұл тауарға тапсырыс жасағаннан кейін пікір қалдыра аласыз.',
     purchaseCheckErrorTitle: 'Тапсырыстарды тексеру мүмкін болмады',
     orderMustContainProduct: 'Осы тауар болған тапсырыс нөмірін көрсетіңіз',
     previous: 'Артқа',
     next: 'Келесі',
   },
   en: {
-    reviews: 'Reviews', writeReview: 'Write a review', rating: 'Rating', orderNumber: 'Order number',
-    title: 'Title', text: 'Review', advantages: 'Pros', disadvantages: 'Cons', submit: 'Submit review',
-    submitting: 'Submitting review', authRequiredTitle: 'Sign in to write a review',
-    authRequiredDescription: 'Only signed-in customers can write reviews.', login: 'Sign in',
-    noReviews: 'No reviews yet', firstReview: 'Be the first to review this product.',
+    reviews: 'Reviews',
+    writeReview: 'Write a review',
+    rating: 'Rating',
+    orderNumber: 'Order number',
+    title: 'Title',
+    text: 'Review',
+    advantages: 'Pros',
+    disadvantages: 'Cons',
+    media: 'Photos and videos',
+    mediaHint: 'Up to 5 files: images up to 10 MB, videos up to 50 MB',
+    mediaCountError: 'You can attach up to 5 files',
+    mediaTypeError: 'Unsupported file format',
+    imageSizeError: 'Images must not exceed 10 MB',
+    videoSizeError: 'Videos must not exceed 50 MB',
+    mediaAttachment: 'Review attachment',
+    verifiedPurchase: 'Verified purchase',
+    submit: 'Submit review',
+    submitting: 'Submitting review',
+    authRequiredTitle: 'Sign in to write a review',
+    authRequiredDescription: 'Only signed-in customers can write reviews.',
+    login: 'Sign in',
+    noReviews: 'No reviews yet',
+    firstReview: 'Be the first to review this product.',
     reviewCreated: 'Review submitted',
     reviewModeration: 'Your review has been submitted for moderation',
-    createError: 'Could not submit the review', loadError: 'Could not load reviews', retry: 'Retry',
-    ratingRequired: 'Choose a rating', orderNumberRequired: 'Enter an order number',
-    textRequired: 'Write your review', pending: 'Pending moderation', approved: 'Approved',
-    rejected: 'Rejected', published: 'Published', hidden: 'Hidden', anonymous: 'Customer',
+    createError: 'Could not submit the review',
+    loadError: 'Could not load reviews',
+    retry: 'Retry',
+    ratingRequired: 'Choose a rating',
+    orderNumberRequired: 'Enter an order number',
+    textRequired: 'Write your review',
+    pending: 'Pending moderation',
+    approved: 'Approved',
+    rejected: 'Rejected',
+    published: 'Published',
+    hidden: 'Hidden',
+    anonymous: 'Customer',
     endpointPending: 'Review submission is available when the real API is connected.',
-    checkingPurchase: 'Checking your orders', purchaseRequiredTitle: 'Purchase required',
+    checkingPurchase: 'Checking your orders',
+    purchaseRequiredTitle: 'Purchase required',
     purchaseRequiredDescription: 'You can review this product after an eligible purchase.',
     purchaseCheckErrorTitle: 'Could not verify your orders',
     orderMustContainProduct: 'Enter an eligible order that contains this product',
-    previous: 'Previous', next: 'Next',
+    previous: 'Previous',
+    next: 'Next',
   },
 };
 

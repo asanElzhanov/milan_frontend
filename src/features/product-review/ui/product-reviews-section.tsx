@@ -39,6 +39,8 @@ export function ProductReviewsSection({
     anonymous: labels.anonymous,
     advantages: labels.advantages,
     disadvantages: labels.disadvantages,
+    mediaAttachment: labels.mediaAttachment,
+    verifiedPurchase: labels.verifiedPurchase,
   };
 
   return (
