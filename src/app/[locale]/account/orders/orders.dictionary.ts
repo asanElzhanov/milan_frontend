@@ -40,6 +40,8 @@ export type OrdersDictionary = {
   paymentPending: string;
   paid: string;
   paymentFailed: string;
+  refunded: string;
+  paymentNotRequired: string;
   provider: string;
   method: string;
   noData: string;
@@ -86,6 +88,8 @@ const ordersDictionary = {
     paymentPending: 'Ожидает оплаты',
     paid: 'Оплачен',
     paymentFailed: 'Ошибка оплаты',
+    refunded: 'Возвращён',
+    paymentNotRequired: 'Оплата не требуется',
     provider: 'Провайдер',
     method: 'Способ',
     noData: 'Не указано',
@@ -130,6 +134,8 @@ const ordersDictionary = {
     paymentPending: 'Төлем күтілуде',
     paid: 'Төленді',
     paymentFailed: 'Төлем қатесі',
+    refunded: 'Қайтарылды',
+    paymentNotRequired: 'Төлем қажет емес',
     provider: 'Провайдер',
     method: 'Әдіс',
     noData: 'Көрсетілмеген',
@@ -174,6 +180,8 @@ const ordersDictionary = {
     paymentPending: 'Awaiting payment',
     paid: 'Paid',
     paymentFailed: 'Payment failed',
+    refunded: 'Refunded',
+    paymentNotRequired: 'Payment not required',
     provider: 'Provider',
     method: 'Method',
     noData: 'Not specified',
@@ -184,6 +192,7 @@ export const getOrdersDictionary = (locale: AppLocale): OrdersDictionary =>
   ordersDictionary[locale];
 
 export const getOrderStatusLabels = (labels: OrdersDictionary) => ({
+  draft: labels.created,
   created: labels.created,
   pending: labels.created,
   processing: labels.processing,
@@ -193,15 +202,26 @@ export const getOrderStatusLabels = (labels: OrdersDictionary) => ({
   delivered: labels.delivered,
   completed: labels.completed,
   cancelled: labels.cancelled,
+  canceled: labels.cancelled,
   failed: labels.failed,
 });
 
 export const getPaymentStatusLabels = (labels: OrdersDictionary) => ({
   pending: labels.paymentPending,
   payment_pending: labels.paymentPending,
+  unpaid: labels.paymentPending,
+  waiting: labels.paymentPending,
+  processing: labels.paymentPending,
+  created: labels.paymentPending,
+  requires_action: labels.paymentPending,
   paid: labels.paid,
+  success: labels.paid,
+  completed: labels.paid,
   failed: labels.paymentFailed,
+  error: labels.paymentFailed,
   cancelled: labels.cancelled,
-  refunded: labels.paymentFailed,
-  not_required: labels.paid,
+  canceled: labels.cancelled,
+  expired: labels.paymentFailed,
+  refunded: labels.refunded,
+  not_required: labels.paymentNotRequired,
 });

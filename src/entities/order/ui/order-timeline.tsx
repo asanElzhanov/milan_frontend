@@ -41,7 +41,7 @@ const statusStepIndex = (status?: OrderStatus | null): number => {
 
 export function OrderTimeline({ labels, status }: OrderTimelineProps) {
   const normalized = String(status ?? '').toLowerCase();
-  const isCancelled = ['cancelled', 'failed'].includes(normalized);
+  const isCancelled = ['cancelled', 'canceled', 'failed'].includes(normalized);
   const activeIndex = statusStepIndex(status);
 
   if (isCancelled) {

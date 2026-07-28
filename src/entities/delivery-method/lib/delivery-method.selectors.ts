@@ -24,6 +24,14 @@ export function getDefaultDeliveryMethod(methods: DeliveryMethod[]): DeliveryMet
   return activeMethods.toSorted((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0)).at(0) ?? null;
 }
 
+export function getFreeDeliveryThreshold(methods: DeliveryMethod[]): number | null {
+  const thresholds = getActiveDeliveryMethods(methods)
+    .map((method) => toAmount(method.freeFromAmount))
+    .filter((amount): amount is number => amount !== null && amount > 0);
+
+  return thresholds.length > 0 ? Math.min(...thresholds) : null;
+}
+
 export function isManagerCalculationDelivery(method: DeliveryMethod): boolean {
   return method.requiresManagerCalculation === true || method.priceType === 'manager_calculation';
 }

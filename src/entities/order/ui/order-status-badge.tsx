@@ -11,6 +11,7 @@ const statusVariants = {
   delivered: 'success',
   completed: 'success',
   cancelled: 'danger',
+  canceled: 'danger',
   failed: 'danger',
   shipped: 'bronze',
   packed: 'bronze',

@@ -2,7 +2,7 @@ import type { AppLocale } from '@/shared/config';
 
 export const headerDictionary = {
   ru: {
-    announcement: 'Бесплатная доставка по Казахстану от 50 000 ₸',
+    announcement: (amount: string) => `Бесплатная доставка по Казахстану от ${amount}`,
     searchPlaceholder: 'Поиск товаров',
     searchLabel: 'Поиск',
     searchTitle: 'Найти в каталоге',
@@ -19,7 +19,7 @@ export const headerDictionary = {
     close: 'Закрыть',
   },
   kk: {
-    announcement: 'Қазақстан бойынша 50 000 ₸ бастап тегін жеткізу',
+    announcement: (amount: string) => `Қазақстан бойынша ${amount} бастап тегін жеткізу`,
     searchPlaceholder: 'Тауарларды іздеу',
     searchLabel: 'Іздеу',
     searchTitle: 'Каталогтан іздеу',
@@ -36,7 +36,7 @@ export const headerDictionary = {
     close: 'Жабу',
   },
   en: {
-    announcement: 'Free delivery across Kazakhstan on orders over 50,000 ₸',
+    announcement: (amount: string) => `Free delivery across Kazakhstan on orders over ${amount}`,
     searchPlaceholder: 'Search products',
     searchLabel: 'Search',
     searchTitle: 'Search the catalog',
@@ -52,4 +52,10 @@ export const headerDictionary = {
     contacts: 'Contacts',
     close: 'Close',
   },
-} as const satisfies Record<AppLocale | 'en', Record<string, string>>;
+} as const satisfies Record<
+  AppLocale,
+  { announcement: (amount: string) => string } & Record<
+    string,
+    string | ((amount: string) => string)
+  >
+>;

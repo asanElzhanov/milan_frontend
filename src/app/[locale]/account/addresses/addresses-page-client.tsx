@@ -198,7 +198,7 @@ export function AddressesPageClient({ locale }: { locale: AppLocale }) {
           onSetDefault={handleSetDefault}
         />
       ) : (
-        <AddressEmptyState labels={labels} onAdd={openCreateForm} />
+        <AddressEmptyState labels={labels} />
       )}
 
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>

@@ -14,11 +14,31 @@ export function AccountSettings({ labels, user }: AccountUserProps) {
   const [firstName, setFirstName] = useState(user.firstName ?? '');
   const [lastName, setLastName] = useState(user.lastName ?? '');
   const [phone, setPhone] = useState(formatPhoneInput(user.phone ?? ''));
+  const [savedProfile, setSavedProfile] = useState(() => ({
+    firstName: (user.firstName ?? '').trim(),
+    lastName: (user.lastName ?? '').trim(),
+    phone: formatPhoneInput(user.phone ?? '').trim(),
+  }));
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const currentProfile = {
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
+    phone: phone.trim(),
+  };
+  const hasProfileChanges =
+    currentProfile.firstName !== savedProfile.firstName ||
+    currentProfile.lastName !== savedProfile.lastName ||
+    currentProfile.phone !== savedProfile.phone;
+
   const handleProfileSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!hasProfileChanges) {
+      return;
+    }
+
     setMessage(null);
     setError(null);
 
@@ -29,7 +49,10 @@ export function AccountSettings({ labels, user }: AccountUserProps) {
         phone: phone.trim() || undefined,
       },
       {
-        onSuccess: () => setMessage(labels.profile),
+        onSuccess: () => {
+          setSavedProfile(currentProfile);
+          setMessage(labels.profile);
+        },
         onError: (mutationError) => setError(getApiErrorMessage(mutationError)),
       },
     );
@@ -72,21 +95,15 @@ export function AccountSettings({ labels, user }: AccountUserProps) {
             value={phone}
           />
         </div>
-        <Button className="mt-5" loading={updateProfileMutation.isPending} type="submit">
+        <Button
+          className="mt-5"
+          disabled={!hasProfileChanges}
+          loading={updateProfileMutation.isPending}
+          type="submit"
+        >
           {labels.apply}
         </Button>
       </form>
-
-      <section className="border border-sara-beige-dark bg-sara-white p-5 md:p-6">
-        <div className="space-y-2">
-          <p className="text-caption">{labels.security}</p>
-          <h2 className="font-serif text-3xl text-sara-graphite">{labels.security}</h2>
-        </div>
-        <Alert className="mt-5" title={labels.changePasswordPending} variant="info" />
-        <Button className="mt-5" disabled variant="outline">
-          {labels.security}
-        </Button>
-      </section>
     </div>
   );
 }

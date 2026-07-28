@@ -6,6 +6,7 @@ export {
   getActiveDeliveryMethods,
   getDefaultDeliveryMethod,
   getDeliveryMethodPrice,
+  getFreeDeliveryThreshold,
   isDeliveryFreeForAmount,
   isManagerCalculationDelivery,
 } from './lib/delivery-method.selectors';

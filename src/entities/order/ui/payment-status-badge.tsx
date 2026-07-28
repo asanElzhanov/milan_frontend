@@ -9,12 +9,22 @@ export type PaymentStatusBadgeProps = {
 
 const statusVariants = {
   paid: 'success',
+  success: 'success',
+  completed: 'success',
   failed: 'danger',
+  error: 'danger',
   cancelled: 'danger',
+  canceled: 'danger',
+  expired: 'danger',
   refunded: 'outline',
   not_required: 'muted',
   pending: 'warning',
   payment_pending: 'warning',
+  unpaid: 'warning',
+  waiting: 'warning',
+  processing: 'warning',
+  created: 'warning',
+  requires_action: 'warning',
 } as const;
 
 export function PaymentStatusBadge({ labels, status }: PaymentStatusBadgeProps) {

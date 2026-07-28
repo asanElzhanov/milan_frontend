@@ -44,11 +44,12 @@ export function formatOrderAddress(order?: Order | null): string {
   const address = order?.deliveryAddress;
 
   if (!address) {
-    return '';
+    return order?.deliveryAddressText?.trim() ?? '';
   }
 
-  return [
+  const formattedAddress = [
     address.addressLine1,
+    address.addressLine2,
     address.country,
     address.region,
     address.city,
@@ -60,6 +61,8 @@ export function formatOrderAddress(order?: Order | null): string {
   ]
     .filter(Boolean)
     .join(', ');
+
+  return formattedAddress || order?.deliveryAddressText?.trim() || '';
 }
 
 export function isKnownOrderStatus(status?: OrderStatus | null): boolean {

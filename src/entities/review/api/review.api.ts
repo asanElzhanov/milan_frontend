@@ -13,9 +13,9 @@ const CREATE_REVIEW_ENDPOINT = '/api/v1/catalog/reviews/';
 export const reviewEndpointConfig = {
   productList: PRODUCT_REVIEWS_ENDPOINT,
   productCreate: CREATE_REVIEW_ENDPOINT,
-  accountList: null,
+  accountList: CREATE_REVIEW_ENDPOINT,
   productCreateConfigured: true,
-  accountListConfigured: false,
+  accountListConfigured: true,
 } as const;
 
 export const createEmptyReviewList = (page = 1): ReviewListResponse => ({
@@ -41,9 +41,7 @@ export const reviewApi = {
     return adaptReviewList(response);
   },
 
-  async createProductReview(
-    payload: CreateProductReviewPayload,
-  ): Promise<ProductReview | null> {
+  async createProductReview(payload: CreateProductReviewPayload): Promise<ProductReview | null> {
     if (isMockApiMode) {
       throw new Error('Создание отзывов недоступно в текущем режиме API.');
     }
@@ -66,6 +64,11 @@ export const reviewApi = {
 
     if (isMockApiMode) return createEmptyReviewList(page);
 
-    throw new Error('Backend endpoint для отзывов текущего пользователя пока не подтвержден.');
+    const response = await apiClient.get<unknown>(CREATE_REVIEW_ENDPOINT, {
+      cartToken: false,
+      query: page > 1 ? { page } : undefined,
+    });
+
+    return adaptReviewList(response);
   },
 };

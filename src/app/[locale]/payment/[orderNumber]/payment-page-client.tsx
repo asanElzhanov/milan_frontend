@@ -19,6 +19,10 @@ import { Alert, Badge, Button, Container, SectionTitle } from '@/shared/ui';
 
 import { PaymentResultCard } from '../payment-result-card';
 import type { PaymentDictionary } from '../payment.dictionary';
+import {
+  getOrdersDictionary,
+  getPaymentStatusLabels,
+} from '../../account/orders/orders.dictionary';
 
 type PaymentPageClientProps = {
   labels: PaymentDictionary;
@@ -35,6 +39,10 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
 
   const statusResult = statusQuery.data ?? null;
   const statusLabel = statusResult?.paymentStatus ?? statusResult?.status ?? 'pending';
+  const localizedStatus =
+    getPaymentStatusLabels(getOrdersDictionary(locale))[
+      statusLabel.toLowerCase() as keyof ReturnType<typeof getPaymentStatusLabels>
+    ] ?? statusLabel;
   const resultCardStatus = useMemo(() => {
     if (isPaymentPaid(statusLabel)) {
       return 'success';
@@ -120,7 +128,7 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
               <div>
                 <p className="text-overline text-sara-bronze">{labels.status}</p>
                 <Badge className="mt-2" variant={resultCardStatus === 'fail' ? 'danger' : 'muted'}>
-                  {statusLabel}
+                  {localizedStatus}
                 </Badge>
               </div>
             </div>

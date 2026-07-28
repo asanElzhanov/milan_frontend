@@ -5,8 +5,10 @@ import Link from 'next/link';
 
 import { NotificationHeaderBadge } from '@/features/notifications';
 import { getCartItemsCount, useCartQuery } from '@/entities/cart';
+import { getFreeDeliveryThreshold, useDeliveryMethodsQuery } from '@/entities/delivery-method';
 import type { AppLocale } from '@/shared/config';
 import { withLocale } from '@/shared/config';
+import { formatPriceKzt } from '@/shared/lib';
 
 import { headerDictionary } from '../lib/header.dictionary';
 import type { HeaderNavItem } from '../model/types';
@@ -25,21 +27,21 @@ export function HeaderClient({
 }) {
   const dictionary = headerDictionary[locale];
   const cartQuery = useCartQuery();
+  const deliveryMethodsQuery = useDeliveryMethodsQuery({ locale });
   const currentCartCount = cartQuery.data ? getCartItemsCount(cartQuery.data) : cartCount;
+  const freeDeliveryThreshold = getFreeDeliveryThreshold(deliveryMethodsQuery.data ?? []);
 
   return (
     <>
-      <div className="bg-sara-bronze px-5 py-2 text-center text-xs font-medium uppercase tracking-[0.18em] text-sara-white">
-        {dictionary.announcement}
-      </div>
+      {freeDeliveryThreshold !== null ? (
+        <div className="bg-sara-bronze px-5 py-2 text-center text-xs font-medium uppercase tracking-[0.18em] text-sara-white">
+          {dictionary.announcement(formatPriceKzt(freeDeliveryThreshold))}
+        </div>
+      ) : null}
       <header className="sticky top-0 z-40 border-b border-sara-beige-dark/60 bg-sara-beige/95 backdrop-blur">
         <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 md:px-[80px]">
           <div className="flex flex-1 items-center gap-3">
-            <MobileMenu
-              dictionary={dictionary}
-              locale={locale}
-              navItems={navItems}
-            />
+            <MobileMenu dictionary={dictionary} locale={locale} navItems={navItems} />
             <nav className="hidden items-center gap-7 lg:flex">
               {navItems.map((item) => (
                 <Link
@@ -66,7 +68,10 @@ export function HeaderClient({
 
           <div className="flex flex-1 items-center justify-end gap-1 md:gap-3">
             <SearchDrawer dictionary={dictionary} locale={locale} />
-            <HeaderIconLink href={withLocale(locale, '/account/wishlist')} label={dictionary.wishlist}>
+            <HeaderIconLink
+              href={withLocale(locale, '/account/wishlist')}
+              label={dictionary.wishlist}
+            >
               <Heart aria-hidden className="h-5 w-5" />
             </HeaderIconLink>
             <HeaderIconLink href={withLocale(locale, '/account')} label={dictionary.account}>

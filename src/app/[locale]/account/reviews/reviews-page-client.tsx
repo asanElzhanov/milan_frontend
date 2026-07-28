@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import { useMyReviewsQuery } from '@/entities/review';
-import { getApiErrorMessage } from '@/shared/api';
 import type { AppLocale } from '@/shared/config';
 import { localizedRoutes } from '@/shared/config';
 import { Button, EmptyState, ErrorState, SectionTitle, Skeleton } from '@/shared/ui';
@@ -38,7 +37,7 @@ export function ReviewsPageClient({
     return (
       <ErrorState
         action={<Button onClick={() => void query.refetch()}>{labels.retry}</Button>}
-        description={getApiErrorMessage(query.error)}
+        description={labels.loadError}
         title={labels.loadError}
       />
     );

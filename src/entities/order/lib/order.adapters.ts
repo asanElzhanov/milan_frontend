@@ -212,6 +212,26 @@ export function adaptOrder(raw: unknown): Order | null {
   const itemsCount =
     toNumberOrNull(source.items_count ?? source.itemsCount ?? source.total_items) ??
     items.reduce((total, item) => total + item.quantity, 0);
+  const deliveryDetails = isRecord(source.delivery_details) ? source.delivery_details : {};
+  const deliveryAddressRaw = [
+    source.delivery_address_snapshot,
+    source.delivery_address_data,
+    source.shipping_address_snapshot,
+    source.shipping_address,
+    deliveryDetails.address,
+    deliveryDetails.delivery_address,
+    source.delivery_address,
+    source.deliveryAddress,
+    source.address,
+  ].find((value) => isRecord(value) || (typeof value === 'string' && Boolean(value.trim())));
+  const deliveryAddressText = isRecord(deliveryAddressRaw)
+    ? readString(
+        deliveryAddressRaw.full_address,
+        deliveryAddressRaw.formatted_address,
+        deliveryAddressRaw.address,
+        deliveryAddressRaw.address_line_1,
+      )
+    : readString(deliveryAddressRaw);
 
   return {
     id,
@@ -235,10 +255,8 @@ export function adaptOrder(raw: unknown): Order | null {
     ),
     customerEmail: readString(source.customer_email, source.customerEmail, source.email),
     customerPhone: readString(source.customer_phone, source.customerPhone, source.phone),
-    deliveryAddress: adaptAddress(
-      source.delivery_address ?? source.deliveryAddress ?? source.address,
-    ),
-    deliveryAddressText: readString(source.delivery_address, source.deliveryAddress),
+    deliveryAddress: adaptAddress(deliveryAddressRaw),
+    deliveryAddressText,
     delivery: adaptDelivery(source.delivery ?? source.delivery_method ?? source.deliveryMethod),
     deliveryMethodCode: readString(source.delivery_method_code, source.deliveryMethodCode),
     deliveryMethodName: readString(source.delivery_method_name, source.deliveryMethodName),
