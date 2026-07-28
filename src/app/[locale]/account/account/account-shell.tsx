@@ -21,13 +21,15 @@ export function AccountShell({
   return (
     <main className="bg-sara-beige/35">
       <Container className="py-10 md:py-14">
-        <div className="mb-8 max-w-3xl space-y-3">
-          <p className="text-caption">{labels.profile}</p>
-          <h1 className="font-serif text-4xl text-sara-graphite md:text-5xl">
-            {labels.accountTitle}
-          </h1>
-          <p className="text-body text-sara-graphite/70">{labels.accountSubtitle}</p>
-        </div>
+        {activeKey !== 'wishlist' ? (
+          <div className="mb-8 max-w-3xl space-y-3">
+            <p className="text-caption">{labels.profile}</p>
+            <h1 className="font-serif text-4xl text-sara-graphite md:text-5xl">
+              {labels.accountTitle}
+            </h1>
+            <p className="text-body text-sara-graphite/70">{labels.accountSubtitle}</p>
+          </div>
+        ) : null}
         <AccountShellClient activeKey={activeKey} locale={locale}>
           {children}
         </AccountShellClient>

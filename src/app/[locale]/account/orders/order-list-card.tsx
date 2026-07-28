@@ -5,6 +5,7 @@ import {
   getOrderTotal,
   OrderStatusBadge,
   PaymentStatusBadge,
+  shouldDisplayOrderStatus,
   type Order,
 } from '@/entities/order';
 import { type AppLocale, localizedRoutes } from '@/shared/config';
@@ -44,7 +45,9 @@ export function OrderListCard({ labels, locale, order }: OrderListCardProps) {
             <h2 className="mt-1 font-fashion text-2xl text-sara-black">#{order.orderNumber}</h2>
           </div>
           <div className="flex flex-wrap gap-2">
-            <OrderStatusBadge labels={getOrderStatusLabels(labels)} status={order.status} />
+            {shouldDisplayOrderStatus(order) ? (
+              <OrderStatusBadge labels={getOrderStatusLabels(labels)} status={order.status} />
+            ) : null}
             <PaymentStatusBadge
               labels={getPaymentStatusLabels(labels)}
               status={order.paymentStatus}

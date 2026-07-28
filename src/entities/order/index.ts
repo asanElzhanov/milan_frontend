@@ -16,6 +16,7 @@ export {
   isOrderCancelled,
   isOrderPaid,
   isOrderPaymentPending,
+  shouldDisplayOrderStatus,
 } from './lib/order.selectors';
 export { OrderStatusBadge } from './ui/order-status-badge';
 export { OrderTimeline } from './ui/order-timeline';

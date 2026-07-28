@@ -6,6 +6,7 @@ import {
   OrderStatusBadge,
   OrderTimeline,
   PaymentStatusBadge,
+  shouldDisplayOrderStatus,
   useOrderQuery,
 } from '@/entities/order';
 import { getApiErrorMessage } from '@/shared/api';
@@ -17,7 +18,6 @@ import {
   getPaymentStatusLabels,
   type OrdersDictionary,
 } from '../orders.dictionary';
-import { OrderPaymentLink } from '../order-payment-link';
 import { OrderDeliveryCard } from './order-delivery-card';
 import { OrderItemsList } from './order-items-list';
 import { OrderPaymentCard } from './order-payment-card';
@@ -84,20 +84,24 @@ export function OrderDetailPageClient({ labels, locale, orderNumber }: OrderDeta
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <OrderStatusBadge labels={getOrderStatusLabels(labels)} status={order.status} />
+        {shouldDisplayOrderStatus(order) ? (
+          <OrderStatusBadge labels={getOrderStatusLabels(labels)} status={order.status} />
+        ) : null}
         <PaymentStatusBadge labels={getPaymentStatusLabels(labels)} status={order.paymentStatus} />
       </div>
 
-      <OrderTimeline
-        status={order.status}
-        labels={{
-          created: labels.created,
-          processing: labels.processing,
-          shipped: labels.shipped,
-          delivered: labels.delivered,
-          cancelled: labels.cancelled,
-        }}
-      />
+      {shouldDisplayOrderStatus(order) ? (
+        <OrderTimeline
+          status={order.status}
+          labels={{
+            created: labels.created,
+            processing: labels.processing,
+            shipped: labels.shipped,
+            delivered: labels.delivered,
+            cancelled: labels.cancelled,
+          }}
+        />
+      ) : null}
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="space-y-6">

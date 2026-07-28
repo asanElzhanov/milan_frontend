@@ -15,6 +15,18 @@ const paymentPendingStatuses = [
 ];
 const paidStatuses = ['paid', 'success', 'completed'];
 const cancelledStatuses = ['cancelled', 'canceled'];
+const paymentOnlyOrderStatuses = [
+  'paid',
+  'success',
+  'payment_pending',
+  'unpaid',
+  'waiting',
+  'requires_action',
+  'refunded',
+  'not_required',
+  'error',
+  'expired',
+];
 
 export function isOrderPaymentPending(order?: Order | null): boolean {
   return paymentPendingStatuses.includes(normalize(order?.paymentStatus));
@@ -26,6 +38,12 @@ export function isOrderPaid(order?: Order | null): boolean {
 
 export function isOrderCancelled(order?: Order | null): boolean {
   return cancelledStatuses.includes(normalize(order?.status));
+}
+
+export function shouldDisplayOrderStatus(order?: Order | null): boolean {
+  const status = normalize(order?.status);
+
+  return Boolean(status) && !paymentOnlyOrderStatuses.includes(status);
 }
 
 export function canContinuePayment(order?: Order | null): boolean {
