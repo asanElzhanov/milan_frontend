@@ -49,6 +49,7 @@ export default async function PaymentPendingPage({ params }: PaymentStatusPagePr
           title={labels.pendingTitle}
           description={labels.pendingDescription}
           status="pending"
+          statusLabel={labels.pendingTitle}
           actions={
             <>
               <Button asChild>

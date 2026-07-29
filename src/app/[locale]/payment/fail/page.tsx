@@ -49,6 +49,7 @@ export default async function PaymentFailPage({ params }: PaymentStatusPageProps
           title={labels.failTitle}
           description={labels.failDescription}
           status="fail"
+          statusLabel={labels.failTitle}
           actions={
             <>
               <Button asChild>

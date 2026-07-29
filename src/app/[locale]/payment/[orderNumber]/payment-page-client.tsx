@@ -102,6 +102,7 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
         <div className="space-y-5">
           <PaymentResultCard
             status={resultCardStatus}
+            statusLabel={localizedStatus}
             title={cardTitle}
             description={cardDescription}
             actions={

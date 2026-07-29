@@ -47,11 +47,12 @@ export function OrderListCard({ labels, locale, order }: OrderListCardProps) {
           <div className="flex flex-wrap gap-2">
             {shouldDisplayOrderStatus(order) ? (
               <OrderStatusBadge labels={getOrderStatusLabels(labels)} status={order.status} />
-            ) : null}
-            <PaymentStatusBadge
-              labels={getPaymentStatusLabels(labels)}
-              status={order.paymentStatus}
-            />
+            ) : (
+              <PaymentStatusBadge
+                labels={getPaymentStatusLabels(labels)}
+                status={order.paymentStatus}
+              />
+            )}
           </div>
         </div>
 

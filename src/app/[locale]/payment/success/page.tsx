@@ -49,6 +49,7 @@ export default async function PaymentSuccessPage({ params }: PaymentStatusPagePr
           title={labels.successTitle}
           description={labels.successDescription}
           status="success"
+          statusLabel={labels.successTitle}
           actions={
             <>
               <Button asChild>

@@ -6,6 +6,7 @@ import {
   OrderStatusBadge,
   OrderTimeline,
   PaymentStatusBadge,
+  isOrderCancelled,
   shouldDisplayOrderStatus,
   useOrderQuery,
 } from '@/entities/order';
@@ -86,11 +87,12 @@ export function OrderDetailPageClient({ labels, locale, orderNumber }: OrderDeta
       <div className="flex flex-wrap gap-2">
         {shouldDisplayOrderStatus(order) ? (
           <OrderStatusBadge labels={getOrderStatusLabels(labels)} status={order.status} />
-        ) : null}
-        <PaymentStatusBadge labels={getPaymentStatusLabels(labels)} status={order.paymentStatus} />
+        ) : (
+          <PaymentStatusBadge labels={getPaymentStatusLabels(labels)} status={order.paymentStatus} />
+        )}
       </div>
 
-      {shouldDisplayOrderStatus(order) ? (
+      {shouldDisplayOrderStatus(order) && !isOrderCancelled(order) ? (
         <OrderTimeline
           status={order.status}
           labels={{
