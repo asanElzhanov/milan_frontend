@@ -236,8 +236,8 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           title: 'Сапа және таңдау',
           body: [
-            'Каталог бір-бірімен және негізгі гардеробпен оңай үйлесетін модельдер айналасында құрылады.',
-            'Тауардың болуы, өлшемдері және сипаттамалары дүкен деректеріне сүйеніп көрсетіледі және тапсырыс кезінде нақтыланады.',
+            'Сіз үшін арнайы жасалған мінсіз сапа мен трендтегі дизайн! Сізге ең жақсысын ұсыну үшін сәннің ең қызу трендтерін қадағалаймыз.',
+            'Тауарларды қызығушылықтарыңызға қарай таңдаймыз.',
           ],
         },
         {
@@ -281,17 +281,11 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       sections: [
         {
           title: 'Төлем қалай өтеді',
-          body: [
-            'Тапсырыс рәсімделгеннен кейін backend төлем сілтемесін немесе қолжетімді төлем әдісін қайтара алады.',
-            'Сыртқы төлем провайдері қосылған болса, сатып алушы провайдердің қауіпсіз бетіне бағытталуы мүмкін.',
-          ],
+          body: ['Төлемдерді ыңғайлы әрі жедел жүргізу үшін Freedom Pay жүйесін қолданамыз.'],
         },
         {
           title: 'Төлем статусы',
-          body: [
-            'Төлемнің соңғы статусы дүкеннің backend жүйесі арқылы расталады.',
-            'Фронтенд расталған статус көзі болмаса, төлем сәтті өтті деп көрсетпейді.',
-          ],
+          body: ['Төлемнің соңғы статусы дүкен жүйесі арқылы расталады.'],
         },
       ],
     },
@@ -305,7 +299,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           question: 'Тапсырысты қалай рәсімдеймін?',
           answer:
-            'Тауарларды себетке қосып, тапсырыс құрамын тексеріңіз және рәсімдеуге өтіңіз. Жеткізу мен төлем әдістері checkout кезінде көрсетіледі.',
+            'Тауарларды себетке қосып, тапсырыс құрамын тексеріңіз де, рәсімдеуге өтіңіз. Қолжетімді жеткізу және төлем тәсілдері тапсырысты рәсімдеу кезінде көрсетіледі.',
         },
         {
           question: 'Тапсырысты рәсімдегеннен кейін өзгертуге бола ма?',
@@ -325,7 +319,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           question: 'Пікірді қалай қалдырамын?',
           answer:
-            'Пікірлер тауар бетінде қолжетімді. Жариялау мүмкіндігі мен модерация backend жүйесі арқылы басқарылады.',
+            'Пікірлер тауар бетінде қолжетімді. Пікірді тауарды алғаннан кейін ғана жариялауға болады.',
         },
         {
           question: 'Төлем өтпесе не істеу керек?',
@@ -379,8 +373,8 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           title: 'Тапсырыс, төлем және жеткізу',
           body: [
-            'Тапсырыс қажетті деректер толтырылып, checkout арқылы расталғаннан кейін рәсімделген болып саналады.',
-            'Төлем мен жеткізу таңдалған әдіске және қолжетімді backend баптауларына байланысты.',
+            'Тапсырыс қажетті деректер толтырылып, төлем арқылы расталғаннан кейін рәсімделген болып саналады.',
+            'Төлем мен жеткізу таңдалған әдіске байланысты.',
             'Қайтару және айырбастау шарттарын дүкеннің өзекті саясаты бойынша нақтылау керек.',
           ],
         },
@@ -417,7 +411,8 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           title: 'Our approach',
           body: [
-            'A curated catalog, clear product information, and attentive service make every choice easier.',
+            'Perfect quality and on-trend design, created especially for you! We follow the hottest fashion trends to bring you the very best.',
+            'We select products based on your interests.',
           ],
         },
       ],
@@ -449,15 +444,11 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       sections: [
         {
           title: 'Payment methods',
-          body: [
-            'Available options may include Kaspi and bank card payment. The exact methods are shown during checkout.',
-          ],
+          body: ['For convenient and efficient payments, we use the Freedom Pay system.'],
         },
         {
           title: 'Payment status',
-          body: [
-            'Payment status updates after confirmation from the payment provider. You can follow it in your account.',
-          ],
+          body: ['The final payment status is confirmed by the store system.'],
         },
       ],
     },
@@ -470,7 +461,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           question: 'How do I place an order?',
           answer:
-            'Add products to your cart, proceed to checkout, and enter your contact and delivery details.',
+            'Add products to your cart, review your order, and proceed to checkout. Available delivery and payment methods will appear while you place your order.',
         },
         {
           question: 'How can I pay?',
@@ -484,6 +475,11 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
           question: 'Can I change my delivery address?',
           answer:
             'You can manage saved addresses in your account or enter a new address during checkout.',
+        },
+        {
+          question: 'How can I leave a review?',
+          answer:
+            'Reviews are available on the product page. You can publish a review only after receiving the product.',
         },
         {
           question: 'How do returns work?',
@@ -538,8 +534,8 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           title: 'Orders, payment, and delivery',
           body: [
-            'An order is placed after the required checkout details are submitted.',
-            'Payment and delivery depend on the selected method and available service settings.',
+            'An order is considered placed after the required information is completed and payment is confirmed.',
+            'Payment and delivery depend on the selected method.',
             'Contact the store to confirm current return and exchange terms.',
           ],
         },

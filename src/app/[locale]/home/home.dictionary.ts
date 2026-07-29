@@ -96,7 +96,7 @@ const homeDictionary = {
       eyebrow: 'Санаттар',
       title: 'Бағытты таңдаңыз',
       description:
-        'Каталогтың негізгі бөлімдеріне жылдам өту. Санаттар backend-тен келеді және тест деректерімен алмастырылмайды.',
+        'Қажетті каталогты дәл қазір таңдаңыз да, бірегей ассортиментімізбен бірден танысып, мінсіз таңдауыңызды жасаңыз.',
       emptyTitle: 'Санаттар жақында пайда болады',
       emptyDescription: 'Backend санаттар ағашын қайтарған кезде бөлім автоматты түрде толады.',
       cta: 'Барлық санаттар',
@@ -104,7 +104,7 @@ const homeDictionary = {
     newProducts: {
       eyebrow: 'Жаңа',
       title: 'Жаңа түсімдер',
-      description: 'Каталогтағы жаңа белгісі бар өзекті модельдер.',
+      description: 'Стиліңізді жаңартуға арналған жаңа модельдер.',
       cta: 'Барлық жаңалықтар',
       emptyTitle: 'Жаңа тауарлар әзірге жүктелмеді',
       emptyDescription: 'Каталог жауап бергеннен кейін бөлім тауарлармен толады.',
@@ -121,8 +121,7 @@ const homeDictionary = {
     promo: {
       eyebrow: 'Маусым акценті',
       title: 'Өзіңіздің ырғағыңызға сай жұп таңдаңыз',
-      description:
-        'Таңдаулы баннерлер негізгі кампанияларды, коллекцияларды және промоны бөлек логикасыз көрсетуге көмектеседі.',
+      description: 'Еш қиындықсыз бірегей стиліңізді мінсіз айқындайтын киімді таңдаңыз.',
       cta: 'Жинаққа өту',
     },
     story: {
@@ -173,7 +172,7 @@ const homeDictionary = {
       eyebrow: 'Categories',
       title: 'Find your direction',
       description:
-        'Explore the main catalog categories and find the right pair for every occasion.',
+        'Choose the catalog you need right now to instantly discover our unique assortment and make the perfect purchase.',
       emptyTitle: 'Categories are coming soon',
       emptyDescription: 'This section will update automatically when categories become available.',
       cta: 'All categories',
@@ -181,7 +180,7 @@ const homeDictionary = {
     newProducts: {
       eyebrow: 'New in',
       title: 'New arrivals',
-      description: 'Fresh styles from the latest catalog update.',
+      description: 'Fresh styles to update your look.',
       cta: 'View all new arrivals',
       emptyTitle: 'New arrivals are not available yet',
       emptyDescription: 'Products will appear here after the catalog is updated.',
@@ -197,7 +196,7 @@ const homeDictionary = {
     promo: {
       eyebrow: 'Seasonal edit',
       title: 'Find a pair for your pace',
-      description: 'Discover selected campaigns, collections, and current offers.',
+      description: 'Find clothing that perfectly highlights your unique style—without the hassle.',
       cta: 'Explore the edit',
     },
     story: {
