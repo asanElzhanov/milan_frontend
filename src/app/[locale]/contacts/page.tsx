@@ -11,13 +11,30 @@ import { StaticPageShell } from '../static/static-page-shell';
 
 type StaticRouteProps = Readonly<{ params: Promise<{ locale: string }> }>;
 
-const getContactItems = (labels: ReturnType<typeof getStaticDictionary>['labels']) =>
-  [
-    { label: labels.phone, value: env.contact.phone },
-    { label: labels.email, value: env.contact.email },
-    { label: labels.instagram, value: env.contact.instagram },
-    { label: labels.address, value: env.contact.address },
+const getContactItems = (labels: ReturnType<typeof getStaticDictionary>['labels']) => {
+  const phoneDigits = env.contact.phone.replace(/\D/g, '');
+  const whatsappDigits = env.contact.whatsapp.replace(/\D/g, '');
+
+  return [
+    {
+      label: labels.whatsapp,
+      value: env.contact.whatsapp,
+      href: whatsappDigits ? `https://wa.me/${whatsappDigits}` : null,
+    },
+    {
+      label: labels.phone,
+      value: env.contact.phone,
+      href: phoneDigits ? `tel:+${phoneDigits}` : null,
+    },
+    {
+      label: labels.email,
+      value: env.contact.email,
+      href: env.contact.email ? `mailto:${env.contact.email}` : null,
+    },
+    { label: labels.instagram, value: env.contact.instagram, href: null },
+    { label: labels.address, value: env.contact.address, href: null },
   ].filter((item) => item.value.trim());
+};
 
 export async function generateMetadata({ params }: StaticRouteProps): Promise<Metadata> {
   const { locale } = await params;
@@ -63,7 +80,16 @@ export default async function ContactsPage({ params }: StaticRouteProps) {
             {contacts.map((item) => (
               <div className="border border-sara-beige-dark/70 p-4" key={item.label}>
                 <p className="text-caption mb-2">{item.label}</p>
-                <p className="break-words text-sara-graphite">{item.value}</p>
+                {item.href ? (
+                  <a
+                    className="break-words text-sara-graphite underline-offset-4 hover:underline"
+                    href={item.href}
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <p className="break-words text-sara-graphite">{item.value}</p>
+                )}
               </div>
             ))}
           </div>

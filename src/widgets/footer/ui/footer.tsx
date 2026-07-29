@@ -12,6 +12,8 @@ export function Footer({ locale }: FooterProps) {
   const groups = getFooterLinkGroups(locale);
   const dictionary = footerDictionary[locale];
   const showNewsletter = env.features.newsletter;
+  const phoneDigits = env.contact.phone.replace(/\D/g, '');
+  const whatsappDigits = env.contact.whatsapp.replace(/\D/g, '');
 
   return (
     <footer className="bg-sara-graphite text-sara-white">
@@ -52,7 +54,27 @@ export function Footer({ locale }: FooterProps) {
             <div>
               <h2 className="text-overline mb-5 text-sara-beige">{dictionary.contacts}</h2>
               <div className="space-y-3 text-sm text-sara-beige/75">
-                <p>{dictionary.contactsPlaceholder}</p>
+                {env.contact.whatsapp && whatsappDigits ? (
+                  <p>
+                    <a className="hover:text-sara-white" href={`https://wa.me/${whatsappDigits}`}>
+                      {dictionary.whatsapp}: {env.contact.whatsapp}
+                    </a>
+                  </p>
+                ) : null}
+                {env.contact.phone && phoneDigits ? (
+                  <p>
+                    <a className="hover:text-sara-white" href={`tel:+${phoneDigits}`}>
+                      {dictionary.phone}: {env.contact.phone}
+                    </a>
+                  </p>
+                ) : null}
+                {env.contact.email ? (
+                  <p>
+                    <a className="hover:text-sara-white" href={`mailto:${env.contact.email}`}>
+                      {dictionary.email}: {env.contact.email}
+                    </a>
+                  </p>
+                ) : null}
               </div>
             </div>
 

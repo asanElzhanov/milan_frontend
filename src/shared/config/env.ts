@@ -20,9 +20,7 @@ const publicApiUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8
 
 export const env = {
   apiUrl:
-    typeof window === 'undefined'
-      ? (process.env.INTERNAL_API_BASE_URL ?? publicApiUrl)
-      : '/api/v1',
+    typeof window === 'undefined' ? (process.env.INTERNAL_API_BASE_URL ?? publicApiUrl) : '/api/v1',
   apiMode,
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'ru',
@@ -32,8 +30,9 @@ export const env = {
     newsletter: readBoolean(process.env.NEXT_PUBLIC_ENABLE_NEWSLETTER),
   },
   contact: {
-    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? '',
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? '',
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '+7 747 207 5443',
+    whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP || '+7 747 207 5443',
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'saramilan@inbox.ru',
     instagram: process.env.NEXT_PUBLIC_CONTACT_INSTAGRAM ?? '',
     address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS ?? '',
   },

@@ -29,11 +29,12 @@ canonical links, and alternate locale links.
 The contacts page reads public contact values from `env.contact`, backed by:
 
 - `NEXT_PUBLIC_CONTACT_PHONE`
+- `NEXT_PUBLIC_CONTACT_WHATSAPP`
 - `NEXT_PUBLIC_CONTACT_EMAIL`
 - `NEXT_PUBLIC_CONTACT_INSTAGRAM`
 - `NEXT_PUBLIC_CONTACT_ADDRESS`
 
-If they are missing, the page shows a graceful pending message and does not invent contacts.
+The confirmed phone, WhatsApp number and email are used as defaults when these variables are missing.
 
 ## SEO Helpers
 

@@ -20,6 +20,7 @@ type StaticDictionary = Record<
     checkout: string;
     contactsPending: string;
     contactChannels: string;
+    whatsapp: string;
     phone: string;
     email: string;
     instagram: string;
@@ -35,6 +36,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       checkout: 'Перейти к оформлению',
       contactsPending: 'Контакты будут добавлены после настройки проекта.',
       contactChannels: 'Напишите нам в доступные каналы связи.',
+      whatsapp: 'WhatsApp',
       phone: 'Телефон',
       email: 'Email',
       instagram: 'Instagram',
@@ -57,8 +59,8 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           title: 'Качество и подбор',
           body: [
-            'Каталог строится вокруг моделей, которые легко сочетать между собой и с базовым гардеробом.',
-            'Наличие, размеры и характеристики товаров отображаются на основе данных магазина и уточняются при оформлении заказа.',
+            'Товар идеального качества с трендовым дизайном созданный именно для вас! Мы ловим самые горячие модные течения, чтобы подарить вам лучшее.',
+            'Подбираем товар на основе ваших интересов.',
           ],
         },
         {
@@ -103,16 +105,12 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           title: 'Как проходит оплата',
           body: [
-            'После оформления заказа backend может вернуть ссылку на оплату или предложить доступный способ оплаты.',
-            'Если подключен внешний платежный провайдер, покупатель может быть перенаправлен на защищенную страницу провайдера.',
+            'Для обеспечения удобства и оперативности проведения платежей мы применяем систему Freedom Pay.',
           ],
         },
         {
           title: 'Статус платежа',
-          body: [
-            'Финальный статус оплаты подтверждается backend-системой магазина.',
-            'Фронтенд не показывает успешную оплату без подтвержденного источника статуса.',
-          ],
+          body: ['Финальный статус оплаты подтверждается системой магазина'],
         },
       ],
     },
@@ -126,7 +124,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           question: 'Как оформить заказ?',
           answer:
-            'Добавьте товары в корзину, проверьте состав заказа и перейдите к оформлению. Доступные способы доставки и оплаты появятся на checkout.',
+            'Добавьте товары в корзину, проверьте состав заказа и перейдите к оформлению. Доступные способы доставки и оплаты появятся во время оформления заказа.',
         },
         {
           question: 'Можно ли изменить заказ после оформления?',
@@ -146,7 +144,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           question: 'Как оставить отзыв?',
           answer:
-            'Отзывы доступны на странице товара. Возможность публикации и модерация контролируются backend-системой.',
+            'Отзывы доступны на странице товара. Возможность публикации только после получения товара.',
         },
         {
           question: 'Что делать, если оплата не прошла?',
@@ -200,8 +198,8 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
         {
           title: 'Заказы, оплата и доставка',
           body: [
-            'Заказ считается оформленным после заполнения необходимых данных и подтверждения через checkout.',
-            'Оплата и доставка зависят от выбранного способа и доступных backend-настроек.',
+            'Заказ считается оформленным после заполнения необходимых данных и подтверждения через оплату',
+            'Оплата и доставка зависят от выбранного способа',
             'Условия возврата и обмена должны уточняться по актуальной политике магазина.',
           ],
         },
@@ -215,6 +213,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       checkout: 'Рәсімдеуге өту',
       contactsPending: 'Байланыс деректері жоба бапталғаннан кейін қосылады.',
       contactChannels: 'Қолжетімді байланыс арналары арқылы жазыңыз.',
+      whatsapp: 'WhatsApp',
       phone: 'Телефон',
       email: 'Email',
       instagram: 'Instagram',
@@ -395,6 +394,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       checkout: 'Go to checkout',
       contactsPending: 'Contact details will be added after project setup.',
       contactChannels: 'Contact us through any available channel.',
+      whatsapp: 'WhatsApp',
       phone: 'Phone',
       email: 'Email',
       instagram: 'Instagram',

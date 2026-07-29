@@ -45,8 +45,9 @@ Create a local `.env.local` from `.env.example` when local overrides are needed.
 | `NEXT_PUBLIC_SUPPORTED_LOCALES` | `ru,kk`                        | Supported locales.                                     |
 | `NEXT_PUBLIC_ENABLE_WISHLIST`   | `false`                        | Wishlist feature flag.                                 |
 | `NEXT_PUBLIC_ENABLE_NEWSLETTER` | `false`                        | Newsletter feature flag.                               |
-| `NEXT_PUBLIC_CONTACT_PHONE`     | empty                          | Optional public phone shown on contacts page.          |
-| `NEXT_PUBLIC_CONTACT_EMAIL`     | empty                          | Optional public email shown on contacts page.          |
+| `NEXT_PUBLIC_CONTACT_PHONE`     | `+7 747 207 5443`              | Public phone shown on contacts page and in footer.     |
+| `NEXT_PUBLIC_CONTACT_WHATSAPP`  | `+7 747 207 5443`              | Public WhatsApp number shown in contacts and footer.   |
+| `NEXT_PUBLIC_CONTACT_EMAIL`     | `saramilan@inbox.ru`           | Public email shown on contacts page and in footer.     |
 | `NEXT_PUBLIC_CONTACT_INSTAGRAM` | empty                          | Optional public Instagram shown on contacts page.      |
 | `NEXT_PUBLIC_CONTACT_ADDRESS`   | empty                          | Optional public address shown on contacts page.        |
 
