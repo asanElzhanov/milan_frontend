@@ -1,6 +1,7 @@
 import { PaymentStatusBadge, type Order } from '@/entities/order';
 import type { AppLocale } from '@/shared/config';
 
+import { OrderCancelButton } from '../order-cancel-button';
 import { getPaymentStatusLabels, type OrdersDictionary } from '../orders.dictionary';
 import { OrderPaymentLink } from '../order-payment-link';
 
@@ -31,10 +32,11 @@ export function OrderPaymentCard({ labels, locale, order }: OrderPaymentCardProp
           </dd>
         </div>
       </dl>
-      <div className="mt-5">
+      <div className="mt-5 space-y-3">
         <OrderPaymentLink locale={locale} order={order} variant="primary">
           {labels.payNow}
         </OrderPaymentLink>
+        <OrderCancelButton fullWidth labels={labels} order={order} />
       </div>
     </section>
   );

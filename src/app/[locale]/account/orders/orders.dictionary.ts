@@ -40,11 +40,19 @@ export type OrdersDictionary = {
   paymentPending: string;
   paid: string;
   paymentFailed: string;
+  paymentExpired: string;
   refunded: string;
   paymentNotRequired: string;
   provider: string;
   method: string;
   noData: string;
+  cancelOrder: string;
+  cancelTitle: string;
+  cancelDescription: string;
+  cancelConfirm: string;
+  keepOrder: string;
+  cancelling: string;
+  cancelError: string;
 };
 
 const ordersDictionary = {
@@ -88,11 +96,20 @@ const ordersDictionary = {
     paymentPending: 'Ожидает оплаты',
     paid: 'Оплачен',
     paymentFailed: 'Ошибка оплаты',
+    paymentExpired: 'Время оплаты истекло',
     refunded: 'Возвращён',
     paymentNotRequired: 'Оплата не требуется',
     provider: 'Провайдер',
     method: 'Способ',
     noData: 'Не указано',
+    cancelOrder: 'Отменить заказ',
+    cancelTitle: 'Отменить заказ?',
+    cancelDescription:
+      'Товары из заказа снова станут доступны для покупки, а оплата будет отменена. Это действие нельзя отменить.',
+    cancelConfirm: 'Да, отменить заказ',
+    keepOrder: 'Оставить заказ',
+    cancelling: 'Отменяем заказ',
+    cancelError: 'Не удалось отменить заказ',
   },
   kk: {
     title: 'Тапсырыстар',
@@ -134,11 +151,20 @@ const ordersDictionary = {
     paymentPending: 'Төлем күтілуде',
     paid: 'Төленді',
     paymentFailed: 'Төлем қатесі',
+    paymentExpired: 'Төлем уақыты өтті',
     refunded: 'Қайтарылды',
     paymentNotRequired: 'Төлем қажет емес',
     provider: 'Провайдер',
     method: 'Әдіс',
     noData: 'Көрсетілмеген',
+    cancelOrder: 'Тапсырысты болдырмау',
+    cancelTitle: 'Тапсырысты болдырмайсыз ба?',
+    cancelDescription:
+      'Тапсырыстағы тауарлар қайтадан сатуға қолжетімді болады, төлем болдырылмайды. Бұл әрекетті қайтару мүмкін емес.',
+    cancelConfirm: 'Иә, тапсырысты болдырмау',
+    keepOrder: 'Тапсырысты қалдыру',
+    cancelling: 'Тапсырыс болдырылуда',
+    cancelError: 'Тапсырысты болдырмау мүмкін болмады',
   },
   en: {
     title: 'Orders',
@@ -180,11 +206,20 @@ const ordersDictionary = {
     paymentPending: 'Awaiting payment',
     paid: 'Paid',
     paymentFailed: 'Payment failed',
+    paymentExpired: 'Payment time expired',
     refunded: 'Refunded',
     paymentNotRequired: 'Payment not required',
     provider: 'Provider',
     method: 'Method',
     noData: 'Not specified',
+    cancelOrder: 'Cancel order',
+    cancelTitle: 'Cancel this order?',
+    cancelDescription:
+      'The items will become available for purchase again and the payment will be cancelled. This action cannot be undone.',
+    cancelConfirm: 'Yes, cancel the order',
+    keepOrder: 'Keep order',
+    cancelling: 'Cancelling order',
+    cancelError: 'Failed to cancel the order',
   },
 } as const satisfies Record<AppLocale, OrdersDictionary>;
 
@@ -221,7 +256,7 @@ export const getPaymentStatusLabels = (labels: OrdersDictionary) => ({
   error: labels.paymentFailed,
   cancelled: labels.cancelled,
   canceled: labels.cancelled,
-  expired: labels.paymentFailed,
+  expired: labels.paymentExpired,
   refunded: labels.refunded,
   not_required: labels.paymentNotRequired,
 });

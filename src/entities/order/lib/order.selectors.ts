@@ -50,6 +50,23 @@ export function canContinuePayment(order?: Order | null): boolean {
   return Boolean(order?.orderNumber && isOrderPaymentPending(order) && !isOrderCancelled(order));
 }
 
+// Статусы заказа, из которых покупатель может отменить его сам (ещё не оплачен).
+const customerCancellableStatuses = ['new', 'waiting_payment', 'pending', 'created', 'draft'];
+
+export function canCancelOrder(order?: Order | null): boolean {
+  if (!order?.orderNumber) {
+    return false;
+  }
+  if (isOrderCancelled(order) || isOrderPaid(order)) {
+    return false;
+  }
+
+  return (
+    customerCancellableStatuses.includes(normalize(order?.status)) ||
+    isOrderPaymentPending(order)
+  );
+}
+
 export function getOrderItemsCount(order?: Order | null): number {
   return order?.itemsCount ?? 0;
 }

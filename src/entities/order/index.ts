@@ -1,6 +1,6 @@
 export { orderApi, orderEndpointConfig } from './api/order.api';
 export { orderKeys } from './api/order.keys';
-export { useOrderQuery, useOrdersQuery } from './api/order.queries';
+export { useCancelOrderMutation, useOrderQuery, useOrdersQuery } from './api/order.queries';
 export {
   adaptCheckoutOrder,
   adaptCheckoutResult,
@@ -9,6 +9,7 @@ export {
   adaptOrderList,
 } from './lib/order.adapters';
 export {
+  canCancelOrder,
   canContinuePayment,
   formatOrderAddress,
   getOrderItemsCount,
