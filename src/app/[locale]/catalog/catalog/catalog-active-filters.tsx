@@ -72,7 +72,7 @@ export function CatalogActiveFilters({
       </span>
       {categorySlug ? (
         <Badge variant="muted">
-          {dictionary.selectedCategory}: {categorySlug}
+          {dictionary.selectedCategory}: {localizeBackendValue(categorySlug, locale, categorySlug)}
         </Badge>
       ) : null}
       {items.map((item) => (
