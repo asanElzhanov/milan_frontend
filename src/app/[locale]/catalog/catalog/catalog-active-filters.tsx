@@ -45,18 +45,17 @@ export function CatalogActiveFilters({
         return [];
       }
 
-      const values = key === 'brand' || key === 'color' || key === 'size'
-        ? getSearchParams(searchParams, key)
-        : Array.isArray(value)
-          ? value
-          : [value];
+      const values =
+        key === 'brand' || key === 'color' || key === 'size'
+          ? getSearchParams(searchParams, key)
+          : Array.isArray(value)
+            ? value
+            : [value];
 
-      return values
-        .filter(Boolean)
-        .map((item) => ({
-          key,
-          value: item,
-        }));
+      return values.filter(Boolean).map((item) => ({
+        key,
+        value: item,
+      }));
     })
     .filter((item): item is { key: (typeof activeFilterKeys)[number]; value: string } =>
       Boolean(item),

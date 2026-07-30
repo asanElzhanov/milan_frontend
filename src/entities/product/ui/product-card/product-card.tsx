@@ -139,7 +139,7 @@ export function ProductCard({
         <div className="space-y-1">
           {product.categoryName ? (
             <p className="text-overline text-sara-bronze">
-              {localizeBackendValue(product.categoryName, locale)}
+              {localizeBackendValue(product.categoryName, locale, product.categorySlug)}
             </p>
           ) : null}
           <Link

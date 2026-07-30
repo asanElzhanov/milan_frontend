@@ -20,4 +20,10 @@ describe('localizeBackendValue', () => {
   ] as const)('localizes a color filter slug in %s', (locale, expected) => {
     expect(localizeBackendValue('black', locale, 'black')).toBe(expected);
   });
+
+  it('uses the category slug when the backend name is in another locale', () => {
+    expect(
+      localizeBackendValue('\u0416\u0435\u043d\u0449\u0438\u043d\u0430\u043c', 'en', 'women'),
+    ).toBe('Women');
+  });
 });
