@@ -12,7 +12,7 @@ import {
 } from '@/entities/cart';
 import { getAccessToken } from '@/features/auth';
 import type { AppLocale } from '@/shared/config';
-import { getSafeCallbackUrl, withLocale } from '@/shared/config';
+import { loginWithCallback, withLocale } from '@/shared/config';
 import { Alert, Button, Container, SectionTitle } from '@/shared/ui';
 import { CartSummary } from '@/widgets/cart-summary';
 
@@ -129,16 +129,12 @@ export function CartPageClient({ labels, locale }: CartPageClientProps) {
   const isMutating =
     updateItemMutation.isPending || removeItemMutation.isPending || clearCartMutation.isPending;
 
-  // Guest checkout is not allowed: unauthenticated shoppers are sent to the account
-  // page to sign in, after which the guest cart is merged into their account cart.
-  // The `callbackUrl` returns them to checkout once authenticated.
+  // Guest checkout is not allowed: unauthenticated shoppers are sent to the login
+  // page (same as the wishlist flow), after which the guest cart is merged into their
+  // account cart. The `callbackUrl` returns them to checkout once authenticated.
   const isAuthenticated = Boolean(getAccessToken());
   const checkoutPath = withLocale(locale, '/checkout');
-  const checkoutHref = isAuthenticated
-    ? checkoutPath
-    : `${withLocale(locale, '/account')}?callbackUrl=${encodeURIComponent(
-        getSafeCallbackUrl(checkoutPath, checkoutPath),
-      )}`;
+  const checkoutHref = isAuthenticated ? checkoutPath : loginWithCallback(locale, checkoutPath);
 
   return (
     <Container className="sara-section">

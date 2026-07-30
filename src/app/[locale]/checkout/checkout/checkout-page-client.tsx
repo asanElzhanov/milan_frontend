@@ -19,7 +19,7 @@ import {
   type CheckoutFormValues,
 } from '@/features/checkout';
 import { getAccessToken, useCurrentUserQuery } from '@/features/auth';
-import { getSafeCallbackUrl, type AppLocale, localizedRoutes, withLocale } from '@/shared/config';
+import { type AppLocale, localizedRoutes, loginWithCallback } from '@/shared/config';
 import { getApiErrorMessage } from '@/shared/api';
 import { Button, Container, ErrorState, SectionTitle, Skeleton } from '@/shared/ui';
 import { CartSummary } from '@/widgets/cart-summary';
@@ -81,8 +81,8 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
   const [addressModeTouched, setAddressModeTouched] = useState(false);
 
   // Guest checkout is not allowed. If someone reaches checkout without a session
-  // (e.g. direct navigation), send them to the account page to sign in first; the
-  // callbackUrl returns them here once authenticated and their cart is merged.
+  // (e.g. direct navigation), send them to the login page first; the callbackUrl
+  // returns them here once authenticated and their cart is merged.
   const isAuthenticated = Boolean(getAccessToken());
 
   useEffect(() => {
@@ -90,11 +90,7 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
       return;
     }
 
-    const callbackUrl = encodeURIComponent(
-      getSafeCallbackUrl(localizedRoutes.checkout(locale), localizedRoutes.checkout(locale)),
-    );
-
-    router.replace(`${withLocale(locale, '/account')}?callbackUrl=${callbackUrl}`);
+    router.replace(loginWithCallback(locale, localizedRoutes.checkout(locale)));
   }, [isAuthenticated, locale, router]);
 
   const addresses = useMemo(() => addressesQuery.data ?? [], [addressesQuery.data]);
