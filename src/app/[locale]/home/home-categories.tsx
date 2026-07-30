@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { withLocale, type AppLocale } from '@/shared/config';
-import { cn } from '@/shared/lib';
 import { Button, Container, EmptyState, SectionTitle } from '@/shared/ui';
 
 import type { HomeCategory, HomeDictionary } from './home.types';
@@ -29,15 +28,10 @@ export function HomeCategories({ categories, dictionary, locale }: HomeCategorie
 
         {categories.length > 0 ? (
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map((category, index) => (
+            {categories.map((category) => (
               <Link
                 key={category.id}
-                className={cn(
-                  'group relative flex flex-col justify-end overflow-hidden rounded-sara-lg bg-sara-beige p-6 text-sara-white',
-                  index === 0
-                    ? 'min-h-72 sm:col-span-2 lg:col-span-3 lg:min-h-96'
-                    : 'min-h-56 lg:min-h-64',
-                )}
+                className="group relative flex min-h-56 flex-col justify-end overflow-hidden rounded-sara-lg bg-sara-beige p-6 text-sara-white lg:min-h-64"
                 href={category.href}
               >
                 {category.imageUrl ? (
