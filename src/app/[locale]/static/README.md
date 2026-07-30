@@ -2,8 +2,7 @@
 
 ## Purpose
 
-Localized production informational pages for Sara Milan that do not depend on catalog, order, or CMS
-data.
+Localized production informational pages for Sara Milan.
 
 ## Routes
 
@@ -17,24 +16,14 @@ data.
 
 ## Localization
 
-Content lives in `static.dictionary.ts` for `ru` and `kk`. The project does not use `next-intl`.
+About, delivery, payment, FAQ, and contacts are loaded from `/api/v1/cms/pages/{slug}/`. Kazakh
+uses the backend's historical `_kz` field suffix, with Russian as a fallback. Privacy and terms
+continue to use `static.dictionary.ts`. The project does not use `next-intl`.
 
 ## Metadata
 
 Static pages use `createPageMetadata()` for localized title, description, Open Graph defaults,
 canonical links, and alternate locale links.
-
-## Contact Data
-
-The contacts page reads public contact values from `env.contact`, backed by:
-
-- `NEXT_PUBLIC_CONTACT_PHONE`
-- `NEXT_PUBLIC_CONTACT_WHATSAPP`
-- `NEXT_PUBLIC_CONTACT_EMAIL`
-- `NEXT_PUBLIC_CONTACT_INSTAGRAM`
-- `NEXT_PUBLIC_CONTACT_ADDRESS`
-
-The confirmed phone, WhatsApp number and email are used as defaults when these variables are missing.
 
 ## SEO Helpers
 
@@ -45,8 +34,6 @@ configured site URL.
 
 - complex SEO microdata
 - blog
-- CMS integration
-- dynamic content API
 - dynamic product sitemap
 - fake legal/company details
 - fake contact details

@@ -48,7 +48,9 @@ export function StaticPageShell({
         />
         <div className="mb-10 max-w-3xl space-y-4">
           <h1 className="font-serif text-4xl text-sara-graphite md:text-6xl">{title}</h1>
-          {subtitle ? <p className="text-body text-sara-graphite/70">{subtitle}</p> : null}
+          {subtitle ? (
+            <p className="text-body whitespace-pre-line text-sara-graphite/70">{subtitle}</p>
+          ) : null}
         </div>
         <div className="space-y-5">{children}</div>
       </Container>
