@@ -1,6 +1,9 @@
-import Link from 'next/link';
+'use client';
 
-import { withLocale, type AppLocale } from '@/shared/config';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+
+import { getSafeCallbackUrl, withLocale, type AppLocale } from '@/shared/config';
 import { Button, EmptyState } from '@/shared/ui';
 
 import type { AccountDictionary } from './account.types';
@@ -12,7 +15,12 @@ export function AccountAuthRequired({
   labels: AccountDictionary;
   locale: AppLocale;
 }) {
-  const callbackUrl = encodeURIComponent(withLocale(locale, '/account'));
+  const searchParams = useSearchParams();
+  // Preserve an incoming callbackUrl (e.g. checkout for guests coming from the cart)
+  // so sign-in returns the shopper to where they were, defaulting to the account page.
+  const callbackUrl = encodeURIComponent(
+    getSafeCallbackUrl(searchParams.get('callbackUrl'), withLocale(locale, '/account')),
+  );
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -25,7 +33,9 @@ export function AccountAuthRequired({
               </Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href={withLocale(locale, '/register')}>{labels.goToRegister}</Link>
+              <Link href={`${withLocale(locale, '/register')}?callbackUrl=${callbackUrl}`}>
+                {labels.goToRegister}
+              </Link>
             </Button>
             <Button asChild variant="ghost">
               <Link href={withLocale(locale, '/catalog')}>{labels.backToCatalog}</Link>
