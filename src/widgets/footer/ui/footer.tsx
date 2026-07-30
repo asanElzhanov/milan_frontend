@@ -1,19 +1,17 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { env, withLocale } from '@/shared/config';
+import { withLocale } from '@/shared/config';
 import { LanguageSwitcher } from '@/widgets/header/ui/language-switcher';
 
 import { footerDictionary } from '../lib/footer.dictionary';
 import { getFooterLinkGroups } from '../lib/footer-links';
 import type { FooterProps } from '../model/types';
+import { FooterContacts } from './footer-contacts';
 
 export function Footer({ locale }: FooterProps) {
   const groups = getFooterLinkGroups(locale);
   const dictionary = footerDictionary[locale];
-  const showNewsletter = env.features.newsletter;
-  const phoneDigits = env.contact.phone.replace(/\D/g, '');
-  const whatsappDigits = env.contact.whatsapp.replace(/\D/g, '');
 
   return (
     <footer className="bg-sara-graphite text-sara-white">
@@ -50,55 +48,8 @@ export function Footer({ locale }: FooterProps) {
             ))}
           </div>
 
-          <div className="space-y-5">
-            <div>
-              <h2 className="text-overline mb-5 text-sara-beige">{dictionary.contacts}</h2>
-              <div className="space-y-3 text-sm text-sara-beige/75">
-                {env.contact.whatsapp && whatsappDigits ? (
-                  <p>
-                    <a className="hover:text-sara-white" href={`https://wa.me/${whatsappDigits}`}>
-                      {dictionary.whatsapp}: {env.contact.whatsapp}
-                    </a>
-                  </p>
-                ) : null}
-                {env.contact.phone && phoneDigits ? (
-                  <p>
-                    <a className="hover:text-sara-white" href={`tel:+${phoneDigits}`}>
-                      {dictionary.phone}: {env.contact.phone}
-                    </a>
-                  </p>
-                ) : null}
-                {env.contact.email ? (
-                  <p>
-                    <a className="hover:text-sara-white" href={`mailto:${env.contact.email}`}>
-                      {dictionary.email}: {env.contact.email}
-                    </a>
-                  </p>
-                ) : null}
-              </div>
-            </div>
-
-            {showNewsletter ? (
-              <form className="space-y-3" aria-label={dictionary.newsletterTitle}>
-                <label className="text-overline block text-sara-beige" htmlFor="footer-email">
-                  {dictionary.newsletterTitle}
-                </label>
-                <input
-                  className="w-full border border-sara-beige/30 bg-transparent px-3 py-3 text-sm text-sara-white placeholder:text-sara-beige/45"
-                  disabled
-                  id="footer-email"
-                  placeholder={dictionary.newsletterSoon}
-                  type="email"
-                />
-                <p className="text-xs leading-5 text-sara-beige/55">
-                  {dictionary.newsletterDescription}
-                </p>
-              </form>
-            ) : (
-              <p className="text-sm leading-6 text-sara-beige/65">
-                {dictionary.newsletterDescription}
-              </p>
-            )}
+          <div>
+            <FooterContacts fallbackTitle={dictionary.contacts} locale={locale} />
           </div>
         </div>
 
