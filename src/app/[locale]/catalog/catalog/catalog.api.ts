@@ -8,9 +8,10 @@ import { isMockApiMode, type PaginatedResponse } from '@/shared/api';
 import {
   extractPaginationMeta,
   extractProductList,
+  filterProductsByCategory,
   normalizeFilterOptions,
 } from './catalog.adapters';
-import { isRecommendedSort, parseCatalogSearchParams } from './catalog-url';
+import { parseCatalogSearchParams, shouldUseRecommendations } from './catalog-url';
 import { recommendationsApi, type RecommendationResult } from './recommendations.api';
 import type { CatalogData, CatalogSearchParams } from './catalog.types';
 
@@ -37,7 +38,7 @@ export async function getCatalogData(args: {
   const currentPage = query.page ?? 1;
 
   const loadProducts = async () => {
-    if (!isRecommendedSort(args.searchParams.ordering)) {
+    if (!shouldUseRecommendations(args.searchParams, args.categorySlug)) {
       return productApi.getProducts(query);
     }
 
@@ -84,13 +85,17 @@ export async function getCatalogData(args: {
     pagination = extractPaginationMeta(catalogResponse, products);
   }
 
+  const categories =
+    categoriesResult.status === 'fulfilled' ? normalizeFilterOptions(categoriesResult.value) : [];
+  const categoryProducts = filterProductsByCategory(products, categories, args.categorySlug);
+  const rejectedCategoryProducts = categoryProducts.length !== products.length;
+
   return {
-    products,
-    totalCount: pagination.totalCount,
-    totalPages: pagination.totalPages,
+    products: categoryProducts,
+    totalCount: rejectedCategoryProducts ? categoryProducts.length : pagination.totalCount,
+    totalPages: rejectedCategoryProducts ? 1 : pagination.totalPages,
     currentPage,
-    categories:
-      categoriesResult.status === 'fulfilled' ? normalizeFilterOptions(categoriesResult.value) : [],
+    categories,
     brands: brandsResult.status === 'fulfilled' ? normalizeFilterOptions(brandsResult.value) : [],
     colors: colorsResult.status === 'fulfilled' ? normalizeFilterOptions(colorsResult.value) : [],
     sizes: sizesResult.status === 'fulfilled' ? normalizeFilterOptions(sizesResult.value) : [],

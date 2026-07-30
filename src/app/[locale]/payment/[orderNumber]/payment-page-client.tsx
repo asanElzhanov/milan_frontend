@@ -2,7 +2,7 @@
 
 import { CreditCard, ExternalLink, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   getPaymentRedirectUrl,
@@ -13,7 +13,7 @@ import {
   usePaymentStatusQuery,
   useStartPaymentMutation,
 } from '@/entities/payment';
-import { getApiErrorMessage } from '@/shared/api';
+import { clearGuestOrderEmail, getApiErrorMessage, getGuestOrderEmail } from '@/shared/api';
 import { type AppLocale, localizedRoutes } from '@/shared/config';
 import { Alert, Badge, Button, Container, SectionTitle } from '@/shared/ui';
 
@@ -33,7 +33,14 @@ type PaymentPageClientProps = {
 export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageClientProps) {
   const startPaymentMutation = useStartPaymentMutation();
   const [notice, setNotice] = useState<string | null>(null);
+  // Для гостевого заказа доступ к платежу авторизуется по email заказа,
+  // сохранённому при оформлении. Для авторизованного пользователя он не нужен
+  // (бэкенд проверяет владельца по токену), и здесь будет undefined.
+  const [guestEmail] = useState<string | undefined>(
+    () => getGuestOrderEmail(orderNumber) ?? undefined,
+  );
   const statusQuery = usePaymentStatusQuery(orderNumber, {
+    email: guestEmail,
     refetchInterval: 5000,
   });
 
@@ -61,12 +68,20 @@ export function PaymentPageClient({ labels, locale, orderNumber }: PaymentPageCl
 
   const isPaid = resultCardStatus === 'success';
 
+  // Заказ дошёл до финального статуса — сохранённый email больше не нужен.
+  useEffect(() => {
+    if (resultCardStatus === 'success' || resultCardStatus === 'fail') {
+      clearGuestOrderEmail(orderNumber);
+    }
+  }, [resultCardStatus, orderNumber]);
+
   const handleStartPayment = async () => {
     setNotice(null);
 
     try {
       const session = await startPaymentMutation.mutateAsync({
         order_number: orderNumber,
+        email: guestEmail,
         locale,
         provider: 'freedom',
       });

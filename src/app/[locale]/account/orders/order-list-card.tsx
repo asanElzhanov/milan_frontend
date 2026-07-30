@@ -12,6 +12,7 @@ import { type AppLocale, localizedRoutes } from '@/shared/config';
 import { formatPriceKzt } from '@/shared/lib';
 import { Button } from '@/shared/ui';
 
+import { OrderCancelButton } from './order-cancel-button';
 import {
   getOrderStatusLabels,
   getPaymentStatusLabels,
@@ -81,6 +82,7 @@ export function OrderListCard({ labels, locale, order }: OrderListCardProps) {
         <OrderPaymentLink locale={locale} order={order}>
           {labels.continuePayment}
         </OrderPaymentLink>
+        <OrderCancelButton labels={labels} order={order} />
       </div>
     </article>
   );

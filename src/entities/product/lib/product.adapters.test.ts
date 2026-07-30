@@ -3,6 +3,21 @@ import { describe, expect, it } from 'vitest';
 import { adaptProductDetail, adaptProductListItem } from './product.adapters';
 
 describe('product media adapters', () => {
+  it('keeps the nested category slug for localized product-card labels', () => {
+    expect(
+      adaptProductListItem({
+        id: 1,
+        name: 'Sara Milan',
+        slug: 'sara-milan',
+        category_name: '\u0416\u0435\u043d\u0449\u0438\u043d\u0430\u043c',
+        category: { id: 2, name: 'Women', slug: 'women' },
+      }),
+    ).toMatchObject({
+      categoryName: '\u0416\u0435\u043d\u0449\u0438\u043d\u0430\u043c',
+      categorySlug: 'women',
+    });
+  });
+
   it('maps the main product media type used by product cards', () => {
     expect(
       adaptProductListItem({

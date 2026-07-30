@@ -9,6 +9,7 @@ export type ProductOrdering =
   | '-orders_count';
 
 export type ProductListQuery = {
+  category?: string;
   category_slug?: string;
   brand?: string | string[];
   color?: string | string[];

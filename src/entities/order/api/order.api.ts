@@ -46,4 +46,29 @@ export const orderApi = {
 
     return adaptOrder(response);
   },
+
+  async cancelOrder(
+    orderNumber: string | number,
+    payload?: { email?: string; comment?: string },
+  ): Promise<Order | null> {
+    if (isMockApiMode) {
+      return null;
+    }
+
+    const body: Record<string, string> = {};
+    if (payload?.email) {
+      body.email = payload.email;
+    }
+    if (payload?.comment) {
+      body.comment = payload.comment;
+    }
+
+    const response = await apiClient.post<unknown>(
+      `/api/v1/orders/${encodeURIComponent(String(orderNumber))}/cancel/`,
+      body,
+      { cartToken: false },
+    );
+
+    return adaptOrder(response);
+  },
 };

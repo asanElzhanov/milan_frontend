@@ -13,6 +13,7 @@ export type ProductListItem = {
   sku?: string | null;
   brandName?: string | null;
   categoryName?: string | null;
+  categorySlug?: string | null;
   price?: number | string | null;
   oldPrice?: number | string | null;
   discount?: number | string | null;

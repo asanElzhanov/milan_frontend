@@ -138,6 +138,7 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
 
   const id = readId(value, name);
   const slug = toStringOrNull(value.slug) ?? slugifyFallback(id);
+  const category = isRecord(value.category) ? value.category : undefined;
 
   return {
     id,
@@ -148,7 +149,8 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
     slug,
     sku: toStringOrNull(value.sku),
     brandName: toStringOrNull(value.brand_name),
-    categoryName: toStringOrNull(value.category_name),
+    categoryName: toStringOrNull(value.category_name) ?? toStringOrNull(category?.name),
+    categorySlug: toStringOrNull(value.category_slug) ?? toStringOrNull(category?.slug),
     price: readPrice(value.price),
     oldPrice: readPrice(value.old_price ?? value.oldPrice),
     discount: readPrice(value.discount),

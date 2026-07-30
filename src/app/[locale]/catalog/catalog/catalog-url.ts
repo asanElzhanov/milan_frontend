@@ -35,6 +35,19 @@ export const RECOMMENDED_SORT = 'recommended';
 export const isRecommendedSort = (value: string | string[] | undefined): boolean =>
   firstValue(value) === RECOMMENDED_SORT;
 
+export const shouldUseRecommendations = (
+  searchParams: CatalogSearchParams,
+  categorySlug?: string,
+): boolean => {
+  if (!isRecommendedSort(searchParams.ordering) || categorySlug) {
+    return false;
+  }
+
+  const normalized = normalizeCatalogSearchParams(searchParams);
+
+  return !CATALOG_QUERY_KEYS.some((key) => key !== 'ordering' && key !== 'page' && normalized[key]);
+};
+
 const firstValue = (value: string | string[] | undefined): string | undefined =>
   Array.isArray(value) ? value[0] : value;
 
@@ -43,7 +56,10 @@ const cleanValues = (value: string | string[] | undefined): string[] => {
 
   return Array.from(
     new Set(
-      values.flatMap((item) => item.split(',')).map((item) => item.trim()).filter(Boolean),
+      values
+        .flatMap((item) => item.split(','))
+        .map((item) => item.trim())
+        .filter(Boolean),
     ),
   );
 };
@@ -117,6 +133,7 @@ export const parseCatalogSearchParams = (
   const ordering = cleanValue(params.ordering);
 
   return {
+    category: categorySlug,
     category_slug: categorySlug,
     brand: cleanValues(params.brand),
     color: cleanValues(params.color),
@@ -148,9 +165,7 @@ export const buildCatalogHref = (
   const search = new URLSearchParams();
 
   CATALOG_QUERY_KEYS.forEach((key) => {
-    const value = isMultiValueParam(key)
-      ? cleanValues(params[key])
-      : cleanValue(params[key]);
+    const value = isMultiValueParam(key) ? cleanValues(params[key]) : cleanValue(params[key]);
 
     if (Array.isArray(value)) {
       if (isRepeatedParam(key)) {

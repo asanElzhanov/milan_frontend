@@ -5,6 +5,7 @@ import {
   clearCartToken,
   getAccessToken,
   isMockApiMode,
+  saveGuestOrderEmail,
   syncCartTokenFromResponse,
 } from '@/shared/api';
 
@@ -35,6 +36,9 @@ export const checkoutApi = {
 
     if (!getAccessToken() && result.order?.orderNumber) {
       clearCartToken();
+      // Гостевой заказ авторизуется по email — сохраняем его, чтобы страница
+      // оплаты могла инициировать платёж и опрашивать статус.
+      saveGuestOrderEmail(result.order.orderNumber, payload.email);
     }
 
     return result;

@@ -41,7 +41,11 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
     description: getLocalizedField(data.product, 'description', locale),
     composition: getLocalizedField(data.product, 'composition', locale),
     material: getLocalizedField(data.product, 'material', locale),
-    categoryName: localizeBackendValue(data.product.categoryName, locale),
+    categoryName: localizeBackendValue(
+      data.product.categoryName,
+      locale,
+      data.product.categorySlug,
+    ),
     availableColors: data.product.availableColors?.map((color) =>
       localizeBackendValue(color, locale),
     ),

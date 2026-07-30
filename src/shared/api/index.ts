@@ -3,6 +3,7 @@ export * from './cart-token-manager';
 export * from './cart-token-storage';
 export * from './config';
 export * from './errors';
+export * from './guest-order-email-storage';
 export * from './http-client';
 export * from './query-client';
 export * from './query-params';
