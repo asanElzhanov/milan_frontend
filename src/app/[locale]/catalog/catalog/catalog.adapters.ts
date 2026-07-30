@@ -71,6 +71,46 @@ const findCategory = (
   return undefined;
 };
 
+const flattenCategoryBranch = (category: Category): Category[] => [
+  category,
+  ...(category.children ?? []).flatMap(flattenCategoryBranch),
+];
+
+const normalizeCategoryLabel = (value?: string | null): string =>
+  value?.trim().toLocaleLowerCase() ?? '';
+
+export const filterProductsByCategory = (
+  products: ProductListItem[],
+  categories: Category[],
+  categorySlug?: string,
+): ProductListItem[] => {
+  if (!categorySlug) return products;
+
+  const match = findCategory(categories, categorySlug);
+
+  // Without the category tree we cannot safely distinguish descendants from
+  // unrelated categories, so retain the backend response.
+  if (!match) return products;
+
+  const allowedCategories = flattenCategoryBranch(match.node);
+  const allowedSlugs = new Set(allowedCategories.map((category) => category.slug));
+  const allowedNames = new Set(
+    allowedCategories.flatMap((category) =>
+      [category.name, category.name_ru, category.name_kz, category.name_en]
+        .map(normalizeCategoryLabel)
+        .filter(Boolean),
+    ),
+  );
+
+  return products.filter((product) => {
+    if (product.categorySlug) {
+      return allowedSlugs.has(product.categorySlug);
+    }
+
+    return allowedNames.has(normalizeCategoryLabel(product.categoryName));
+  });
+};
+
 /**
  * Header links point at root categories, so the filter list must show the level below the
  * selected category instead of repeating the header. A child slug keeps its siblings visible.
