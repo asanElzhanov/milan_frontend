@@ -10,7 +10,7 @@ import {
   extractProductList,
   normalizeFilterOptions,
 } from './catalog.adapters';
-import { isRecommendedSort, parseCatalogSearchParams } from './catalog-url';
+import { parseCatalogSearchParams, shouldUseRecommendations } from './catalog-url';
 import { recommendationsApi, type RecommendationResult } from './recommendations.api';
 import type { CatalogData, CatalogSearchParams } from './catalog.types';
 
@@ -37,7 +37,7 @@ export async function getCatalogData(args: {
   const currentPage = query.page ?? 1;
 
   const loadProducts = async () => {
-    if (!isRecommendedSort(args.searchParams.ordering)) {
+    if (!shouldUseRecommendations(args.searchParams, args.categorySlug)) {
       return productApi.getProducts(query);
     }
 
