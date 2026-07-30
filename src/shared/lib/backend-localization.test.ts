@@ -12,4 +12,12 @@ describe('localizeBackendValue', () => {
     expect(localizeBackendValue('Black', 'kk')).toBe('Қара');
     expect(localizeBackendValue('Custom collection', 'ru')).toBe('Custom collection');
   });
+
+  it.each([
+    ['ru', '\u0427\u0451\u0440\u043d\u044b\u0439'],
+    ['kk', '\u049a\u0430\u0440\u0430'],
+    ['en', 'Black'],
+  ] as const)('localizes a color filter slug in %s', (locale, expected) => {
+    expect(localizeBackendValue('black', locale, 'black')).toBe(expected);
+  });
 });

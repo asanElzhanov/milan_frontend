@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { X } from 'lucide-react';
 
+import { localizeBackendValue } from '@/shared/lib';
 import { Badge, Button } from '@/shared/ui';
 
 import {
@@ -86,7 +87,9 @@ export function CatalogActiveFilters({
               categorySlug,
             )}
           >
-            {item.value}
+            {item.key === 'color'
+              ? localizeBackendValue(item.value, locale, item.value)
+              : item.value}
             <X aria-hidden className="h-3 w-3" />
           </Link>
         </Button>
