@@ -25,6 +25,7 @@ type StaticDictionary = Record<
     email: string;
     instagram: string;
     address: string;
+    documents: string;
   };
 };
 
@@ -41,6 +42,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       email: 'Email',
       instagram: 'Instagram',
       address: 'Адрес',
+      documents: 'Документы',
     },
     about: {
       title: 'О Sara Milan',
@@ -302,6 +304,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       email: 'Email',
       instagram: 'Instagram',
       address: 'Мекенжай',
+      documents: 'Құжаттар',
     },
     about: {
       title: 'Sara Milan туралы',
@@ -561,6 +564,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       email: 'Email',
       instagram: 'Instagram',
       address: 'Address',
+      documents: 'Documents',
     },
     about: {
       title: 'About Sara Milan',
