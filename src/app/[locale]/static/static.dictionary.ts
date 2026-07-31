@@ -196,11 +196,95 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
           ],
         },
         {
+          title: 'Договор-оферта и акцепт',
+          body: [
+            'Настоящее соглашение является публичной офертой ТОО «Sara Milan» в соответствии со статьями 395, 396 и 447 Гражданского кодекса Республики Казахстан.',
+            'Оформляя заказ на сайте, покупатель безоговорочно и в полном объёме принимает условия оферты. Договор считается заключённым с момента оформления заказа.',
+            'Магазин вправе изменять условия соглашения; актуальная редакция публикуется на сайте.',
+          ],
+        },
+        {
+          title: 'Статус и обязанности покупателя',
+          body: [
+            'Покупатель отвечает за достоверность данных, указанных при оформлении заказа, и их чистоту от претензий третьих лиц.',
+            'Отметка о согласии с условиями договора при оформлении заказа подтверждает принятие соглашения.',
+            'Товары приобретаются для личных, семейных и домашних нужд, не связанных с предпринимательской деятельностью; пользование сайтом является безвозмездным.',
+          ],
+        },
+        {
+          title: 'Информация о товарах',
+          body: [
+            'Изображения-образцы и описания на сайте носят справочный характер и могут не в полной мере передавать цвет, размер и иные характеристики товара.',
+            'По вопросам о свойствах товара покупатель может обратиться к специалисту магазина до оформления заказа.',
+            'Товары, указанные в счёте отдельными позициями, не являются комплектом.',
+          ],
+        },
+        {
           title: 'Заказы, оплата и доставка',
           body: [
             'Заказ считается оформленным после заполнения необходимых данных и подтверждения через оплату',
             'Оплата и доставка зависят от выбранного способа',
             'Условия возврата и обмена должны уточняться по актуальной политике магазина.',
+          ],
+        },
+        {
+          title: 'Цена и способы оплаты',
+          body: [
+            'Цены указаны в тенге Республики Казахстан и могут быть изменены магазином в одностороннем порядке; цена уже оплаченного заказа изменению не подлежит.',
+            'Доступные способы и порядок оплаты указаны в разделе «Оплата». Оплата возможна наличными при получении или безналичным расчётом.',
+            'При безналичной оплате обязанность покупателя считается исполненной с момента зачисления средств на счёт магазина.',
+          ],
+        },
+        {
+          title: 'Оплата банковскими картами',
+          body: [
+            'К оплате принимаются карты VISA и MasterCard. Ввод данных карты выполняется на защищённой платёжной странице FreedomPay с использованием шифрования.',
+            'Для подтверждения платежа покупатель перенаправляется на страницу банка для ввода кода 3DSecure из СМС.',
+            'Данные банковской карты передаются только в зашифрованном виде и не сохраняются на сервере магазина.',
+          ],
+        },
+        {
+          title: 'Доставка и получение заказа',
+          body: [
+            'Доступны самовывоз, доставка магазином и доставка перевозчиком; способ выбирается при оформлении заказа.',
+            'Право собственности и риск случайной гибели или повреждения товара переходят к покупателю в момент передачи товара покупателю, его представителю или перевозчику.',
+            'Срок поставки товара составляет не более 30 календарных дней. При получении покупатель проверяет соответствие, количество и комплектность товара.',
+          ],
+        },
+        {
+          title: 'Гарантии на товар',
+          body: [
+            'Гарантийный срок на товар составляет 14 дней с момента передачи товара покупателю или его представителю, если иное не предусмотрено дополнительным соглашением.',
+            'Гарантия не распространяется на товары, использованные не по назначению или с нарушением правил эксплуатации.',
+          ],
+        },
+        {
+          title: 'Возврат и обмен товара',
+          body: [
+            'Покупатель вправе отказаться от товара до его передачи, а после передачи — в течение 14 календарных дней в порядке, предусмотренном ЗРК «О защите прав потребителей».',
+            'Возврат товара надлежащего качества возможен при сохранении товарного вида, потребительских свойств и документа, подтверждающего покупку. Товары с индивидуально-определёнными свойствами возврату не подлежат.',
+            'При оплате картой возврат средств производится на банковскую карту в течение 21 рабочего дня с момента получения заявления о возврате на sara_milan.kz@mail.ru.',
+          ],
+        },
+        {
+          title: 'Обработка персональных данных',
+          body: [
+            'Оформляя заказ и регистрируясь, покупатель даёт согласие на обработку персональных данных в целях исполнения соглашения в соответствии с Законом РК «О персональных данных и их защите».',
+            'Порядок обработки и защиты данных описан в Политике конфиденциальности магазина.',
+          ],
+        },
+        {
+          title: 'Ответственность и разрешение споров',
+          body: [
+            'Стороны несут ответственность в соответствии с законодательством Республики Казахстан и освобождаются от неё на время действия обстоятельств непреодолимой силы.',
+            'Споры решаются путём переговоров, а при недостижении согласия — в судебных органах Республики Казахстан по месту нахождения магазина.',
+          ],
+        },
+        {
+          title: 'Реквизиты продавца',
+          body: [
+            'ТОО «Sara Milan», юридический адрес: г. Алматы, ул. Мендикулова, дом 84. БИН: 200940011821.',
+            'Контакты: sara_milan.kz@mail.ru, +7 775 207 5443. Банк: АО «Kaspi Bank», БИК CASPKZKA, счёт KZ27722S000007860818.',
           ],
         },
       ],
@@ -371,11 +455,95 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
           ],
         },
         {
+          title: 'Шарт-оферта және акцепт',
+          body: [
+            'Осы келісім Қазақстан Республикасы Азаматтық кодексінің 395, 396 және 447-баптарына сәйкес «Sara Milan» ЖШС-нің жария офертасы болып табылады.',
+            'Сайтта тапсырыс рәсімдей отырып, сатып алушы оферта шарттарын сөзсіз әрі толық көлемде қабылдайды. Шарт тапсырыс рәсімделген сәттен бастап жасалған болып саналады.',
+            'Дүкен келісім шарттарын өзгертуге құқылы; өзекті редакция сайтта жарияланады.',
+          ],
+        },
+        {
+          title: 'Сатып алушының мәртебесі мен міндеттері',
+          body: [
+            'Сатып алушы тапсырыс рәсімдеу кезінде көрсетілген деректердің дұрыстығына және олардың үшінші тұлғалардың талаптарынан тазалығына жауап береді.',
+            'Тапсырыс рәсімдеу кезінде шарт талаптарымен келісу белгісі келісімнің қабылданғанын растайды.',
+            'Тауарлар кәсіпкерлік қызметпен байланысты емес жеке, отбасылық және тұрмыстық қажеттіліктер үшін сатып алынады; сайтты пайдалану тегін.',
+          ],
+        },
+        {
+          title: 'Тауар туралы ақпарат',
+          body: [
+            'Сайттағы үлгі суреттер мен сипаттамалар анықтамалық сипатта болады және тауардың түсін, өлшемін және басқа сипаттамаларын толық көлемде жеткізе алмауы мүмкін.',
+            'Тауардың қасиеттері туралы сұрақтар бойынша сатып алушы тапсырыс рәсімдеуге дейін дүкен маманына хабарласа алады.',
+            'Шотта жеке позициялармен көрсетілген тауарлар жинақ болып табылмайды.',
+          ],
+        },
+        {
           title: 'Тапсырыс, төлем және жеткізу',
           body: [
             'Тапсырыс қажетті деректер толтырылып, төлем арқылы расталғаннан кейін рәсімделген болып саналады.',
             'Төлем мен жеткізу таңдалған әдіске байланысты.',
             'Қайтару және айырбастау шарттарын дүкеннің өзекті саясаты бойынша нақтылау керек.',
+          ],
+        },
+        {
+          title: 'Баға және төлем әдістері',
+          body: [
+            'Бағалар Қазақстан Республикасының теңгесінде көрсетілген және дүкенмен біржақты өзгертілуі мүмкін; төленген тапсырыстың бағасы өзгертілмейді.',
+            'Қолжетімді төлем әдістері мен тәртібі «Төлем» бөлімінде көрсетілген. Төлем алу кезінде қолма-қол немесе қолма-қол ақшасыз есеп айырысу арқылы жасалады.',
+            'Қолма-қол ақшасыз төлемде сатып алушының міндеті қаражат дүкен шотына түскен сәттен бастап орындалған болып саналады.',
+          ],
+        },
+        {
+          title: 'Банк карталарымен төлеу',
+          body: [
+            'Төлемге VISA және MasterCard карталары қабылданады. Карта деректерін енгізу шифрлау қолданылатын FreedomPay қорғалған төлем бетінде орындалады.',
+            'Төлемді растау үшін сатып алушы СМС-тегі 3DSecure кодын енгізу үшін банк бетіне бағытталады.',
+            'Банк картасының деректері тек шифрланған түрде беріледі және дүкен серверінде сақталмайды.',
+          ],
+        },
+        {
+          title: 'Жеткізу және тапсырысты алу',
+          body: [
+            'Өзін-өзі алып кету, дүкеннің жеткізуі және тасымалдаушының жеткізуі қолжетімді; әдіс тапсырыс рәсімдеу кезінде таңдалады.',
+            'Меншік құқығы мен тауардың кездейсоқ жойылу немесе зақымдану тәуекелі тауар сатып алушыға, оның өкіліне немесе тасымалдаушыға берілген сәтте өтеді.',
+            'Тауарды жеткізу мерзімі 30 күнтізбелік күннен аспайды. Алу кезінде сатып алушы тауардың сәйкестігін, санын және жиынтықтылығын тексереді.',
+          ],
+        },
+        {
+          title: 'Тауарға кепілдік',
+          body: [
+            'Тауарға кепілдік мерзімі, егер қосымша келісімде өзгеше көзделмесе, тауар сатып алушыға немесе оның өкіліне берілген сәттен бастап 14 күнді құрайды.',
+            'Кепілдік мақсатына сай емес немесе пайдалану ережелерін бұзып қолданылған тауарларға қолданылмайды.',
+          ],
+        },
+        {
+          title: 'Тауарды қайтару және айырбастау',
+          body: [
+            'Сатып алушы тауарды беруге дейін, ал берілгеннен кейін — «Тұтынушылардың құқықтарын қорғау туралы» ҚР Заңында көзделген тәртіппен 14 күнтізбелік күн ішінде бас тартуға құқылы.',
+            'Сапалы тауарды қайтару оның тауарлық түрі, тұтынушылық қасиеттері және сатып алуды растайтын құжат сақталса мүмкін. Жеке-дара анықталған қасиеттері бар тауарлар қайтарылмайды.',
+            'Картамен төлеген жағдайда қаражат қайтару туралы өтініш sara_milan.kz@mail.ru мекенжайына түскеннен кейін 21 жұмыс күні ішінде банк картасына жүргізіледі.',
+          ],
+        },
+        {
+          title: 'Дербес деректерді өңдеу',
+          body: [
+            'Тапсырыс рәсімдеу және тіркелу арқылы сатып алушы «Дербес деректер және оларды қорғау туралы» ҚР Заңына сәйкес келісімді орындау мақсатында дербес деректерді өңдеуге келісім береді.',
+            'Деректерді өңдеу және қорғау тәртібі дүкеннің Құпиялылық саясатында сипатталған.',
+          ],
+        },
+        {
+          title: 'Жауапкершілік және дауларды шешу',
+          body: [
+            'Тараптар Қазақстан Республикасының заңнамасына сәйкес жауапкершілік көтереді және еңсерілмейтін күш жағдайлары әрекет еткен уақытта одан босатылады.',
+            'Даулар келіссөздер арқылы шешіледі, ал келісімге қол жеткізілмесе — дүкеннің орналасқан жері бойынша Қазақстан Республикасының сот органдарында шешіледі.',
+          ],
+        },
+        {
+          title: 'Сатушының деректемелері',
+          body: [
+            '«Sara Milan» ЖШС, заңды мекенжайы: Алматы қ., Меңдіқұлов көшесі, 84-үй. БСН: 200940011821.',
+            'Байланыс: sara_milan.kz@mail.ru, +7 775 207 5443. Банк: «Kaspi Bank» АҚ, БСК CASPKZKA, шот KZ27722S000007860818.',
           ],
         },
       ],
@@ -532,11 +700,95 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
           ],
         },
         {
+          title: 'Public offer and acceptance',
+          body: [
+            'These terms constitute a public offer by Sara Milan LLP under Articles 395, 396, and 447 of the Civil Code of the Republic of Kazakhstan.',
+            'By placing an order on the website, the customer unconditionally accepts these terms in full. The agreement takes effect when the order is placed.',
+            'The store may amend these terms; the current version is published on the website.',
+          ],
+        },
+        {
+          title: 'Customer status and obligations',
+          body: [
+            'The customer is responsible for the accuracy of the information provided at checkout and for keeping it free of third-party claims.',
+            'Confirming the terms at checkout constitutes acceptance of this agreement.',
+            'Products are purchased for personal, family, and household use unrelated to business activity; use of the website is free of charge.',
+          ],
+        },
+        {
+          title: 'Product information',
+          body: [
+            'Sample images and descriptions on the website are for reference and may not fully convey the color, size, or other characteristics of a product.',
+            'For questions about a product, the customer may contact the store before placing an order.',
+            'Products listed as separate line items on an invoice do not constitute a set.',
+          ],
+        },
+        {
           title: 'Orders, payment, and delivery',
           body: [
             'An order is considered placed after the required information is completed and payment is confirmed.',
             'Payment and delivery depend on the selected method.',
             'Contact the store to confirm current return and exchange terms.',
+          ],
+        },
+        {
+          title: 'Prices and payment methods',
+          body: [
+            'Prices are shown in Kazakhstani tenge and may be changed by the store unilaterally; the price of an order already paid for is not subject to change.',
+            'Available payment methods are shown in the Payment section. Payment can be made in cash on delivery or by bank transfer.',
+            'For bank transfers, the customer’s obligation is fulfilled once the funds are credited to the store’s account.',
+          ],
+        },
+        {
+          title: 'Card payments',
+          body: [
+            'VISA and MasterCard are accepted. Card details are entered on the secure FreedomPay payment page using encryption.',
+            'To confirm the payment, the customer is redirected to their bank’s page to enter the 3DSecure code sent by SMS.',
+            'Card details are transmitted only in encrypted form and are not stored on the store’s server.',
+          ],
+        },
+        {
+          title: 'Delivery and receiving orders',
+          body: [
+            'Pickup, store delivery, and courier delivery are available; the method is chosen at checkout.',
+            'Ownership and the risk of accidental loss or damage pass to the customer when the product is handed over to the customer, their representative, or the carrier.',
+            'The delivery period does not exceed 30 calendar days. On receipt, the customer checks the product against the order for condition, quantity, and completeness.',
+          ],
+        },
+        {
+          title: 'Product warranty',
+          body: [
+            'The warranty period is 14 days from the handover of the product to the customer or their representative, unless otherwise agreed.',
+            'The warranty does not cover products used improperly or in breach of operating rules.',
+          ],
+        },
+        {
+          title: 'Returns and exchanges',
+          body: [
+            'The customer may decline a product before handover and, after handover, within 14 calendar days under the Law of the Republic of Kazakhstan “On Consumer Protection”.',
+            'A return of a product of proper quality is possible if its presentation, consumer properties, and proof of purchase are preserved. Products with individually defined properties are non-returnable.',
+            'For card payments, refunds are made to the bank card within 21 business days of receiving the refund request at sara_milan.kz@mail.ru.',
+          ],
+        },
+        {
+          title: 'Personal data processing',
+          body: [
+            'By placing an order and registering, the customer consents to the processing of personal data to perform this agreement, in accordance with the Law of the Republic of Kazakhstan “On Personal Data and Its Protection”.',
+            'How data is processed and protected is described in the store’s Privacy Policy.',
+          ],
+        },
+        {
+          title: 'Liability and dispute resolution',
+          body: [
+            'The parties are liable under the laws of the Republic of Kazakhstan and are released from liability during force majeure events.',
+            'Disputes are resolved through negotiation and, failing agreement, in the courts of the Republic of Kazakhstan at the store’s location.',
+          ],
+        },
+        {
+          title: 'Seller details',
+          body: [
+            'Sara Milan LLP, registered address: Almaty, Mendikulov St., 84. BIN: 200940011821.',
+            'Contact: sara_milan.kz@mail.ru, +7 775 207 5443. Bank: Kaspi Bank JSC, BIC CASPKZKA, account KZ27722S000007860818.',
           ],
         },
       ],
