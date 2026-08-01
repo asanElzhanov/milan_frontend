@@ -198,14 +198,6 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
           ],
         },
         {
-          title: 'Договор-оферта и акцепт',
-          body: [
-            'Настоящее соглашение является публичной офертой ТОО «Sara Milan» в соответствии со статьями 395, 396 и 447 Гражданского кодекса Республики Казахстан.',
-            'Оформляя заказ на сайте, покупатель безоговорочно и в полном объёме принимает условия оферты. Договор считается заключённым с момента оформления заказа.',
-            'Магазин вправе изменять условия соглашения; актуальная редакция публикуется на сайте.',
-          ],
-        },
-        {
           title: 'Статус и обязанности покупателя',
           body: [
             'Покупатель отвечает за достоверность данных, указанных при оформлении заказа, и их чистоту от претензий третьих лиц.',
@@ -458,14 +450,6 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
           ],
         },
         {
-          title: 'Шарт-оферта және акцепт',
-          body: [
-            'Осы келісім Қазақстан Республикасы Азаматтық кодексінің 395, 396 және 447-баптарына сәйкес «Sara Milan» ЖШС-нің жария офертасы болып табылады.',
-            'Сайтта тапсырыс рәсімдей отырып, сатып алушы оферта шарттарын сөзсіз әрі толық көлемде қабылдайды. Шарт тапсырыс рәсімделген сәттен бастап жасалған болып саналады.',
-            'Дүкен келісім шарттарын өзгертуге құқылы; өзекті редакция сайтта жарияланады.',
-          ],
-        },
-        {
           title: 'Сатып алушының мәртебесі мен міндеттері',
           body: [
             'Сатып алушы тапсырыс рәсімдеу кезінде көрсетілген деректердің дұрыстығына және олардың үшінші тұлғалардың талаптарынан тазалығына жауап береді.',
@@ -701,14 +685,6 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
           body: [
             'The website allows customers to browse products, add items to the cart, and place orders through the available interfaces.',
             'Product information and availability may change as store data is updated.',
-          ],
-        },
-        {
-          title: 'Public offer and acceptance',
-          body: [
-            'These terms constitute a public offer by Sara Milan LLP under Articles 395, 396, and 447 of the Civil Code of the Republic of Kazakhstan.',
-            'By placing an order on the website, the customer unconditionally accepts these terms in full. The agreement takes effect when the order is placed.',
-            'The store may amend these terms; the current version is published on the website.',
           ],
         },
         {
