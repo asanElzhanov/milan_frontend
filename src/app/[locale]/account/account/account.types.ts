@@ -4,6 +4,7 @@ import type { AppLocale } from '@/shared/config';
 export type AccountNavKey =
   | 'overview'
   | 'settings'
+  | 'password'
   | 'orders'
   | 'addresses'
   | 'wishlist'
@@ -34,6 +35,7 @@ export type AccountDictionary = {
   accountSubtitle: string;
   overview: string;
   settings: string;
+  password: string;
   orders: string;
   addresses: string;
   wishlist: string;
@@ -65,6 +67,18 @@ export type AccountDictionary = {
   loadingProfile: string;
   profileUpdatePending: string;
   changePasswordPending: string;
+  changePasswordTitle: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+  changePasswordSubmit: string;
+  changePasswordSuccess: string;
+  passwordMismatch: string;
+  passwordTooShort: string;
+  requiredField: string;
+  showPassword: string;
+  hidePassword: string;
+  passwordChangeLockedHint: string;
   ordersPending: string;
   addressesPending: string;
   wishlistPending: string;

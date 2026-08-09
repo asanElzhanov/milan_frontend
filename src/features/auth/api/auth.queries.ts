@@ -10,6 +10,8 @@ import type {
   LoginPayload,
   LogoutPayload,
   ChangePasswordPayload,
+  PasswordResetConfirmPayload,
+  PasswordResetRequestPayload,
   RefreshPayload,
   RegisterPayload,
   UpdateProfilePayload,
@@ -116,6 +118,20 @@ export function useUpdateProfileMutation() {
 export function useChangePasswordMutation() {
   return useMutation({
     mutationFn: (payload: ChangePasswordPayload) => authApi.changePassword(payload),
+    retry: false,
+  });
+}
+
+export function useRequestPasswordResetMutation() {
+  return useMutation({
+    mutationFn: (payload: PasswordResetRequestPayload) => authApi.requestPasswordReset(payload),
+    retry: false,
+  });
+}
+
+export function useConfirmPasswordResetMutation() {
+  return useMutation({
+    mutationFn: (payload: PasswordResetConfirmPayload) => authApi.confirmPasswordReset(payload),
     retry: false,
   });
 }

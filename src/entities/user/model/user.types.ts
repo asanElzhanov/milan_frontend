@@ -15,4 +15,6 @@ export type User = {
   isEmailVerified?: boolean;
   isPhoneVerified?: boolean;
   dateJoined?: string | null;
+  passwordChangedAt?: string | null;
+  passwordChangeIntervalDays?: number | null;
 };

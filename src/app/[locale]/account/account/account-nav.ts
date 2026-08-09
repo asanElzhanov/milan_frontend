@@ -6,6 +6,7 @@ export function getAccountNavItems(locale: AppLocale, labels: AccountDictionary)
   return [
     { key: 'overview', label: labels.overview, href: withLocale(locale, '/account') },
     { key: 'settings', label: labels.settings, href: withLocale(locale, '/account/settings') },
+    { key: 'password', label: labels.password, href: withLocale(locale, '/account/password') },
     { key: 'orders', label: labels.orders, href: withLocale(locale, '/account/orders') },
     { key: 'addresses', label: labels.addresses, href: withLocale(locale, '/account/addresses') },
     { key: 'wishlist', label: labels.wishlist, href: withLocale(locale, '/account/wishlist') },
