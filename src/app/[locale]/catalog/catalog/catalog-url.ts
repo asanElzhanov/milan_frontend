@@ -209,7 +209,9 @@ export const setFilterValue = (
     delete next[key];
   }
 
-  next.page = '1';
+  if (key !== 'page') {
+    next.page = '1';
+  }
 
   return next;
 };
