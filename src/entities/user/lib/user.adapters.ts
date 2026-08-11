@@ -18,6 +18,18 @@ const readString = (value: unknown): string | null => {
 const readBoolean = (value: unknown): boolean | undefined =>
   typeof value === 'boolean' ? value : undefined;
 
+const readNumber = (value: unknown): number | null => {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string' && value.trim() !== '' && Number.isFinite(Number(value))) {
+    return Number(value);
+  }
+
+  return null;
+};
+
 const unwrapUser = (raw: unknown): unknown => {
   if (!isRecord(raw)) {
     return raw;
@@ -66,5 +78,7 @@ export function adaptUser(raw: unknown): User | null {
     isEmailVerified: readBoolean(record.is_email_verified),
     isPhoneVerified: readBoolean(record.is_phone_verified),
     dateJoined: readString(record.date_joined),
+    passwordChangedAt: readString(record.password_changed_at),
+    passwordChangeIntervalDays: readNumber(record.password_change_interval_days),
   };
 }

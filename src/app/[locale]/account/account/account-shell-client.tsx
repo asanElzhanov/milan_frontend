@@ -8,6 +8,7 @@ import { Skeleton } from '@/shared/ui';
 
 import { AccountAuthRequired } from './account-auth-required';
 import { getAccountDictionary } from './account.dictionary';
+import { AccountChangePassword } from './account-change-password';
 import { AccountMobileNav } from './account-mobile-nav';
 import { getAccountNavItems } from './account-nav';
 import { AccountOverview } from './account-overview';
@@ -51,6 +52,8 @@ function AccountContent({
       return <AccountOverview labels={labels} locale={locale} user={user} />;
     case 'settings':
       return <AccountSettings labels={labels} user={user} />;
+    case 'password':
+      return <AccountChangePassword labels={labels} user={user} />;
     case 'orders':
       return <AccountPlaceholder message={labels.ordersPending} title={labels.orders} />;
     case 'addresses':

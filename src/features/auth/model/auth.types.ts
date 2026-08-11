@@ -37,6 +37,19 @@ export type UpdateProfilePayload = {
 export type ChangePasswordPayload = {
   old_password: string;
   new_password: string;
+  new_password2: string;
+};
+
+export type PasswordResetRequestPayload = {
+  identifier: string;
+  locale?: string;
+};
+
+export type PasswordResetConfirmPayload = {
+  uid: string;
+  token: string;
+  new_password: string;
+  new_password2: string;
 };
 
 export type OtpPurpose = 'email_verify' | 'phone_verify';

@@ -5,6 +5,8 @@ export {
   useLoginMutation,
   useLogoutMutation,
   useChangePasswordMutation,
+  useRequestPasswordResetMutation,
+  useConfirmPasswordResetMutation,
   useRefreshTokenMutation,
   useRegisterMutation,
   useUpdateProfileMutation,
@@ -45,6 +47,8 @@ export type {
   ChangePasswordPayload,
   OtpRequestPayload,
   OtpVerifyPayload,
+  PasswordResetConfirmPayload,
+  PasswordResetRequestPayload,
   RefreshPayload,
   RegisterPayload,
   UpdateProfilePayload,
@@ -54,5 +58,6 @@ export { AuthDivider } from './ui/auth-divider';
 export { AuthLegalNote } from './ui/auth-legal-note';
 export { AuthShell } from './ui/auth-shell';
 export { ForgotPasswordForm } from './ui/forgot-password-form';
+export { ResetPasswordForm } from './ui/reset-password-form';
 export { LoginForm } from './ui/login-form';
 export { RegisterForm } from './ui/register-form';

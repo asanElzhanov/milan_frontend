@@ -17,6 +17,8 @@ import type {
   LogoutPayload,
   OtpRequestPayload,
   OtpVerifyPayload,
+  PasswordResetConfirmPayload,
+  PasswordResetRequestPayload,
   RefreshPayload,
   RegisterPayload,
   UpdateProfilePayload,
@@ -131,6 +133,34 @@ export const authApi = {
     }
 
     await apiClient.post<unknown>('/api/v1/auth/change-password/', payload);
+  },
+
+  async requestPasswordReset(payload: PasswordResetRequestPayload): Promise<void> {
+    if (isMockApiMode) {
+      throw new ApiError({
+        status: 503,
+        message: AUTH_DISABLED_ERROR,
+        code: 'auth_mock_mode',
+      });
+    }
+
+    await apiClient.post<unknown>('/api/v1/auth/password-reset/request/', payload, {
+      auth: false,
+    });
+  },
+
+  async confirmPasswordReset(payload: PasswordResetConfirmPayload): Promise<void> {
+    if (isMockApiMode) {
+      throw new ApiError({
+        status: 503,
+        message: AUTH_DISABLED_ERROR,
+        code: 'auth_mock_mode',
+      });
+    }
+
+    await apiClient.post<unknown>('/api/v1/auth/password-reset/confirm/', payload, {
+      auth: false,
+    });
   },
 
   async requestOtp(payload: OtpRequestPayload): Promise<unknown> {

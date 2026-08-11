@@ -25,6 +25,7 @@ type StaticDictionary = Record<
     email: string;
     instagram: string;
     address: string;
+    documents: string;
   };
 };
 
@@ -41,6 +42,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       email: 'Email',
       instagram: 'Instagram',
       address: 'Адрес',
+      documents: 'Документы',
     },
     about: {
       title: 'О Sara Milan',
@@ -187,23 +189,6 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       metaTitle: 'Пользовательское соглашение — Sara Milan',
       metaDescription:
         'Общие условия использования сайта Sara Milan, оформления заказов, оплаты и доставки.',
-      sections: [
-        {
-          title: 'Использование сайта',
-          body: [
-            'Используя сайт, покупатель просматривает каталог, добавляет товары в корзину и оформляет заказы через доступные интерфейсы.',
-            'Информация о товарах, наличии и характеристиках может обновляться по данным магазина.',
-          ],
-        },
-        {
-          title: 'Заказы, оплата и доставка',
-          body: [
-            'Заказ считается оформленным после заполнения необходимых данных и подтверждения через оплату',
-            'Оплата и доставка зависят от выбранного способа',
-            'Условия возврата и обмена должны уточняться по актуальной политике магазина.',
-          ],
-        },
-      ],
     },
   },
   kk: {
@@ -218,6 +203,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       email: 'Email',
       instagram: 'Instagram',
       address: 'Мекенжай',
+      documents: 'Құжаттар',
     },
     about: {
       title: 'Sara Milan туралы',
@@ -362,23 +348,6 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       metaTitle: 'Пайдаланушы келісімі — Sara Milan',
       metaDescription:
         'Sara Milan сайтын пайдалану, тапсырыс рәсімдеу, төлем және жеткізу бойынша жалпы шарттар.',
-      sections: [
-        {
-          title: 'Сайтты пайдалану',
-          body: [
-            'Сайтты пайдалана отырып, сатып алушы каталогты қарайды, тауарларды себетке қосады және қолжетімді интерфейстер арқылы тапсырыс рәсімдейді.',
-            'Тауарлар, қолжетімділік және сипаттамалар туралы ақпарат дүкен деректеріне қарай жаңартылуы мүмкін.',
-          ],
-        },
-        {
-          title: 'Тапсырыс, төлем және жеткізу',
-          body: [
-            'Тапсырыс қажетті деректер толтырылып, төлем арқылы расталғаннан кейін рәсімделген болып саналады.',
-            'Төлем мен жеткізу таңдалған әдіске байланысты.',
-            'Қайтару және айырбастау шарттарын дүкеннің өзекті саясаты бойынша нақтылау керек.',
-          ],
-        },
-      ],
     },
   },
   en: {
@@ -393,6 +362,7 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       email: 'Email',
       instagram: 'Instagram',
       address: 'Address',
+      documents: 'Documents',
     },
     about: {
       title: 'About Sara Milan',
@@ -523,23 +493,6 @@ export const staticDictionary: Record<AppLocale, StaticDictionary> = {
       title: 'Terms of use',
       metaTitle: 'Terms of use — Sara Milan',
       metaDescription: 'General terms for using the Sara Milan website and placing orders.',
-      sections: [
-        {
-          title: 'Using the website',
-          body: [
-            'The website allows customers to browse products, add items to the cart, and place orders through the available interfaces.',
-            'Product information and availability may change as store data is updated.',
-          ],
-        },
-        {
-          title: 'Orders, payment, and delivery',
-          body: [
-            'An order is considered placed after the required information is completed and payment is confirmed.',
-            'Payment and delivery depend on the selected method.',
-            'Contact the store to confirm current return and exchange terms.',
-          ],
-        },
-      ],
     },
   },
 };

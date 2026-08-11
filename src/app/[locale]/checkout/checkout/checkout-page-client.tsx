@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useMemo, useState, type FormEvent } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 
 import { getDefaultAddress, useAddressesQuery } from '@/entities/address';
 import { useCartQuery } from '@/entities/cart';
@@ -18,8 +18,8 @@ import {
   type CheckoutAddressMode,
   type CheckoutFormValues,
 } from '@/features/checkout';
-import { useCurrentUserQuery } from '@/features/auth';
-import { type AppLocale, localizedRoutes } from '@/shared/config';
+import { getAccessToken, useCurrentUserQuery } from '@/features/auth';
+import { type AppLocale, localizedRoutes, loginWithCallback } from '@/shared/config';
 import { getApiErrorMessage } from '@/shared/api';
 import { Button, Container, ErrorState, SectionTitle, Skeleton } from '@/shared/ui';
 import { CartSummary } from '@/widgets/cart-summary';
@@ -79,6 +79,19 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
     Partial<Record<keyof CheckoutFormValues, true>>
   >({});
   const [addressModeTouched, setAddressModeTouched] = useState(false);
+
+  // Guest checkout is not allowed. If someone reaches checkout without a session
+  // (e.g. direct navigation), send them to the login page first; the callbackUrl
+  // returns them here once authenticated and their cart is merged.
+  const isAuthenticated = Boolean(getAccessToken());
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      return;
+    }
+
+    router.replace(loginWithCallback(locale, localizedRoutes.checkout(locale)));
+  }, [isAuthenticated, locale, router]);
 
   const addresses = useMemo(() => addressesQuery.data ?? [], [addressesQuery.data]);
   const activeDeliveryMethods = useMemo(
@@ -172,7 +185,8 @@ export function CheckoutPageClient({ labels, locale }: CheckoutPageClientProps) 
     }
   };
 
-  if (cartQuery.isLoading) {
+  if (!isAuthenticated || cartQuery.isLoading) {
+    // Show the skeleton while the guest redirect above is in flight.
     return <CheckoutPageSkeleton labels={labels} />;
   }
 

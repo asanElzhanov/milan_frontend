@@ -7,10 +7,13 @@ export type AuthDictionary = {
   registerSubtitle: string;
   forgotTitle: string;
   forgotSubtitle: string;
+  resetTitle: string;
+  resetSubtitle: string;
   identifier: string;
   email: string;
   phone: string;
   password: string;
+  newPassword: string;
   confirmPassword: string;
   firstName: string;
   lastName: string;
@@ -19,6 +22,7 @@ export type AuthDictionary = {
   forgotPassword: string;
   loginButton: string;
   registerButton: string;
+  resetButton: string;
   sendInstructions: string;
   haveAccount: string;
   noAccount: string;
@@ -31,6 +35,9 @@ export type AuthDictionary = {
   privacy: string;
   authComingSoon: string;
   passwordResetEndpointPending: string;
+  passwordResetRequestSuccess: string;
+  resetSuccess: string;
+  resetInvalidLink: string;
   registerPendingVerification: string;
   requiredField: string;
   invalidEmailOrPhone: string;

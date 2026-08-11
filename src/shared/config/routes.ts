@@ -31,6 +31,7 @@ export const routePaths = {
   register: '/register',
   otp: '/otp',
   forgotPassword: '/forgot-password',
+  resetPassword: '/reset-password',
   payment: '/payment',
   paymentSuccess: '/payment/success',
   paymentFail: '/payment/fail',
@@ -57,6 +58,7 @@ export const localizedRoutes = {
   register: (locale: AppLocale) => withLocale(locale, routePaths.register),
   otp: (locale: AppLocale) => withLocale(locale, routePaths.otp),
   forgotPassword: (locale: AppLocale) => withLocale(locale, routePaths.forgotPassword),
+  resetPassword: (locale: AppLocale) => withLocale(locale, routePaths.resetPassword),
   payment: (locale: AppLocale, orderNumber: string | number) =>
     withLocale(locale, `${routePaths.payment}/${encodeURIComponent(String(orderNumber))}`),
   paymentSuccess: (locale: AppLocale) => withLocale(locale, routePaths.paymentSuccess),
