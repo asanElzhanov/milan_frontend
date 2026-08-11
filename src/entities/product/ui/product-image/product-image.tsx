@@ -82,7 +82,10 @@ export function ProductImage({
         <Image
           alt=""
           aria-hidden
-          className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className={cn(
+            'object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100',
+            imageClassName,
+          )}
           fill
           onError={() => setHoverFailed(true)}
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"

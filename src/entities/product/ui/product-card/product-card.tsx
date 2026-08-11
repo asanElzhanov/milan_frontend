@@ -98,6 +98,7 @@ export function ProductCard({
           alt={productName}
           className={cn(isOutOfStock && 'grayscale')}
           href={href}
+          imageClassName="object-contain"
           mediaType={product.mainMediaType}
           priority={priority}
           src={product.mainImage}
