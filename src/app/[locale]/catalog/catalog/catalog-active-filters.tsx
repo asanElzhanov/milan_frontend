@@ -86,7 +86,7 @@ export function CatalogActiveFilters({
               categorySlug,
             )}
           >
-            {item.key === 'color'
+            {item.key === 'color' || item.key === 'season'
               ? localizeBackendValue(item.value, locale, item.value)
               : item.value}
             <X aria-hidden className="h-3 w-3" />

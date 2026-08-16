@@ -57,6 +57,7 @@ export type CatalogDictionary = {
   priceFrom: string;
   priceTo: string;
   season: string;
+  anySeason: string;
   material: string;
   inStock: string;
   sale: string;

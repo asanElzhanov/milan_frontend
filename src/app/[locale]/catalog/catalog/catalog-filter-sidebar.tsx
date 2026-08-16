@@ -7,9 +7,10 @@ import { FormEvent, useState } from 'react';
 import type { Brand } from '@/entities/brand';
 import type { Category } from '@/entities/category';
 import type { ProductColor } from '@/entities/color';
+import { getSeasonOptions } from '@/entities/product';
 import type { ProductSize } from '@/entities/size';
 import { getLocalizedField } from '@/shared/lib';
-import { Button, Checkbox, Input } from '@/shared/ui';
+import { Button, Checkbox, Input, Select } from '@/shared/ui';
 
 import { getCategoryFilterOptions } from './catalog.adapters';
 import {
@@ -31,6 +32,10 @@ type CatalogFilterSidebarProps = Pick<
   dictionary: CatalogDictionary;
   sizes: ProductSize[];
 };
+
+// Radix Select cannot use an empty-string item value, so "no season filter" is
+// represented by this sentinel and mapped back to '' when building the URL.
+const SEASON_ANY = 'any';
 
 type LinkOptionProps = {
   active?: boolean;
@@ -269,10 +274,14 @@ export function CatalogFilterSidebar({
           onChange={(event) => setMaterial(event.target.value)}
           value={material}
         />
-        <Input
+        <Select
           label={dictionary.season}
-          onChange={(event) => setSeason(event.target.value)}
-          value={season}
+          onValueChange={(value) => setSeason(value === SEASON_ANY ? '' : value)}
+          options={[
+            { value: SEASON_ANY, label: dictionary.anySeason },
+            ...getSeasonOptions(locale),
+          ]}
+          value={season || SEASON_ANY}
         />
 
         <section className="space-y-3">
