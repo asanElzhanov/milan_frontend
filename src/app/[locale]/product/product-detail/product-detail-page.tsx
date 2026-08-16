@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { createColorLocalizer } from '@/entities/product';
 import { withLocale } from '@/shared/config';
 import { getLocalizedField, localizeBackendValue } from '@/shared/lib';
 import { Button, Container, ErrorState } from '@/shared/ui';
@@ -35,6 +36,7 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
   }
 
   const galleryItems = getProductGalleryItems(data.product);
+  const localizeColor = createColorLocalizer(data.product.availableColorSwatches, locale);
   const localizedProduct = {
     ...data.product,
     name: getLocalizedField(data.product, 'name', locale),
@@ -46,14 +48,12 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
       locale,
       data.product.categorySlug,
     ),
-    availableColors: data.product.availableColors?.map((color) =>
-      localizeBackendValue(color, locale),
-    ),
+    availableColors: data.product.availableColors?.map((color) => localizeColor(color)),
     availableSizes: data.product.availableSizes?.map((size) => localizeBackendValue(size, locale)),
     season: localizeBackendValue(data.product.season, locale),
     variants: data.product.variants?.map((variant) => ({
       ...variant,
-      color: localizeBackendValue(variant.color, locale),
+      color: localizeColor(variant.color),
       size: localizeBackendValue(variant.size, locale),
     })),
   };
