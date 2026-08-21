@@ -12,7 +12,13 @@ export type ProductListItem = {
   slug: string;
   sku?: string | null;
   brandName?: string | null;
+  brandName_ru?: string | null;
+  brandName_kz?: string | null;
+  brandName_en?: string | null;
   categoryName?: string | null;
+  categoryName_ru?: string | null;
+  categoryName_kz?: string | null;
+  categoryName_en?: string | null;
   categorySlug?: string | null;
   price?: number | string | null;
   oldPrice?: number | string | null;

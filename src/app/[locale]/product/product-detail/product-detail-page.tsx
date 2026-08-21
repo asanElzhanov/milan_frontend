@@ -41,10 +41,26 @@ export async function ProductDetailPage({ locale, slug }: ProductDetailPageProps
     description: getLocalizedField(data.product, 'description', locale),
     composition: getLocalizedField(data.product, 'composition', locale),
     material: getLocalizedField(data.product, 'material', locale),
-    categoryName: localizeBackendValue(
-      data.product.categoryName,
+    brandName: getLocalizedField(
+      {
+        brandName: data.product.brandName,
+        brandName_ru: data.product.brandName_ru,
+        brandName_kz: data.product.brandName_kz,
+        brandName_en: data.product.brandName_en,
+      },
+      'brandName',
       locale,
-      data.product.categorySlug,
+    ),
+    categoryName: getLocalizedField(
+      {
+        categoryName: data.product.categoryName,
+        categoryName_ru: data.product.categoryName_ru,
+        categoryName_kz: data.product.categoryName_kz,
+        categoryName_en: data.product.categoryName_en,
+        slug: data.product.categorySlug,
+      },
+      'categoryName',
+      locale,
     ),
     availableColors: data.product.availableColors?.map((color) =>
       localizeBackendValue(color, locale),

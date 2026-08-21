@@ -140,7 +140,17 @@ export function ProductCard({
         <div className="space-y-1">
           {product.categoryName ? (
             <p className="text-overline text-sara-bronze">
-              {localizeBackendValue(product.categoryName, locale, product.categorySlug)}
+              {getLocalizedField(
+                {
+                  categoryName: product.categoryName,
+                  categoryName_ru: product.categoryName_ru,
+                  categoryName_kz: product.categoryName_kz,
+                  categoryName_en: product.categoryName_en,
+                  slug: product.categorySlug,
+                },
+                'categoryName',
+                locale,
+              )}
             </p>
           ) : null}
           <Link
@@ -150,7 +160,18 @@ export function ProductCard({
             {productName}
           </Link>
           {product.brandName ? (
-            <p className="text-sm text-sara-graphite/55">{product.brandName}</p>
+            <p className="text-sm text-sara-graphite/55">
+              {getLocalizedField(
+                {
+                  brandName: product.brandName,
+                  brandName_ru: product.brandName_ru,
+                  brandName_kz: product.brandName_kz,
+                  brandName_en: product.brandName_en,
+                },
+                'brandName',
+                locale,
+              )}
+            </p>
           ) : null}
         </div>
 

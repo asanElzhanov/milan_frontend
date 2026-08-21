@@ -139,6 +139,7 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
   const id = readId(value, name);
   const slug = toStringOrNull(value.slug) ?? slugifyFallback(id);
   const category = isRecord(value.category) ? value.category : undefined;
+  const brand = isRecord(value.brand) ? value.brand : undefined;
 
   return {
     id,
@@ -148,8 +149,24 @@ export const adaptProductListItem = (value: unknown): ProductListItem | null => 
     name_en: toStringOrNull(value.name_en),
     slug,
     sku: toStringOrNull(value.sku),
-    brandName: toStringOrNull(value.brand_name),
-    categoryName: toStringOrNull(value.category_name) ?? toStringOrNull(category?.name),
+    brandName:
+      toStringOrNull(value.brand_name) ??
+      toStringOrNull(brand?.name) ??
+      toStringOrNull(brand?.name_ru) ??
+      toStringOrNull(brand?.name_en) ??
+      toStringOrNull(brand?.name_kz),
+    brandName_ru: toStringOrNull(brand?.name_ru),
+    brandName_kz: toStringOrNull(brand?.name_kz),
+    brandName_en: toStringOrNull(brand?.name_en),
+    categoryName:
+      toStringOrNull(value.category_name) ??
+      toStringOrNull(category?.name) ??
+      toStringOrNull(category?.name_ru) ??
+      toStringOrNull(category?.name_en) ??
+      toStringOrNull(category?.name_kz),
+    categoryName_ru: toStringOrNull(category?.name_ru),
+    categoryName_kz: toStringOrNull(category?.name_kz),
+    categoryName_en: toStringOrNull(category?.name_en),
     categorySlug: toStringOrNull(value.category_slug) ?? toStringOrNull(category?.slug),
     price: readPrice(value.price),
     oldPrice: readPrice(value.old_price ?? value.oldPrice),

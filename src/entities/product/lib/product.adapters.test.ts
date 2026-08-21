@@ -18,6 +18,25 @@ describe('product media adapters', () => {
     });
   });
 
+  it('extracts per-locale category and brand names from the nested objects', () => {
+    expect(
+      adaptProductListItem({
+        id: 1,
+        name: 'Sara Milan',
+        slug: 'sara-milan',
+        category: { id: 2, name_ru: 'Кроссовки', name_kz: 'Кроссовкалар', name_en: 'Sneakers', slug: 'sneakers' },
+        brand: { id: 3, name_ru: 'Найк', name_kz: 'Найк', name_en: 'Nike', slug: 'nike' },
+      }),
+    ).toMatchObject({
+      categoryName_ru: 'Кроссовки',
+      categoryName_en: 'Sneakers',
+      categoryName_kz: 'Кроссовкалар',
+      brandName_ru: 'Найк',
+      brandName_en: 'Nike',
+      brandName_kz: 'Найк',
+    });
+  });
+
   it('maps the main product media type used by product cards', () => {
     expect(
       adaptProductListItem({
