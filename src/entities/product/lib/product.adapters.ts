@@ -76,8 +76,14 @@ const readColorSwatches = (value: unknown): ProductColorSwatch[] | undefined => 
           return null;
         }
 
+        // Preserve the per-locale names the backend provides so the color can be
+        // localized at render time instead of being frozen to a single language.
         return {
           name: name ?? hex ?? '',
+          name_ru: toStringOrNull(item.name_ru),
+          name_kz: toStringOrNull(item.name_kz),
+          name_en: toStringOrNull(item.name_en),
+          slug: toStringOrNull(item.slug),
           hex: hex && HEX_COLOR_PATTERN.test(hex.trim()) ? hex.trim() : null,
         };
       }

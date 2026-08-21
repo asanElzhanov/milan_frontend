@@ -196,7 +196,7 @@ export function ProductCard({
               ariaLabel={copy.availableColors}
               colors={product.availableColors?.map((color) => localizeBackendValue(color, locale))}
               swatches={product.availableColorSwatches?.map((swatch) => ({
-                name: localizeBackendValue(swatch.name, locale),
+                name: getLocalizedField(swatch, 'name', locale) || swatch.name,
                 hex: swatch.hex,
               }))}
             />
