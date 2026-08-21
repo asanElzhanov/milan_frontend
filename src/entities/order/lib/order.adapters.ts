@@ -302,9 +302,13 @@ export function adaptOrderList(raw: unknown): OrderListResponse {
   const count = toNumberOrNull(record.count) ?? orders.length;
   const pageSize = Math.max(orders.length, 1);
   const currentPage = toNumberOrNull(record.current_page ?? record.currentPage ?? record.page) ?? 1;
+  // The API doesn't report page size, so it can only be inferred from a page that isn't
+  // the last one — the last page is often partial and would understate it, inflating
+  // totalPages. When there's no next page, the current page IS the last one.
+  const hasNextPage = Boolean(toStringOrNull(record.next));
   const totalPages =
     toNumberOrNull(record.total_pages ?? record.totalPages) ??
-    Math.max(Math.ceil(count / pageSize), 1);
+    (hasNextPage ? Math.max(Math.ceil(count / pageSize), 1) : Math.max(currentPage, 1));
 
   return {
     orders,

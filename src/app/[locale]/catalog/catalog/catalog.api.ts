@@ -82,7 +82,7 @@ export async function getCatalogData(args: {
       | PaginatedResponse<ProductListItem>
       | ProductListItem[];
     products = extractProductList(catalogResponse);
-    pagination = extractPaginationMeta(catalogResponse, products);
+    pagination = extractPaginationMeta(catalogResponse, products, currentPage);
   }
 
   const categories =

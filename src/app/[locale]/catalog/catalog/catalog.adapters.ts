@@ -18,6 +18,7 @@ export const extractProductList = (
 export const extractPaginationMeta = (
   response: PaginatedResponse<ProductListItem> | ProductListItem[],
   products: ProductListItem[],
+  currentPage: number,
 ): CatalogPaginationMeta => {
   if (!isPaginatedProductResponse(response)) {
     return {
@@ -27,6 +28,18 @@ export const extractPaginationMeta = (
   }
 
   const totalCount = response.count;
+
+  // The API paginates by a fixed page size but doesn't report it, so it can only be
+  // inferred from a page that isn't the last one — the last page is often partial and
+  // would understate the page size, inflating totalPages. When there's no next page,
+  // the current page IS the last one, regardless of how many items it holds.
+  if (!response.next) {
+    return {
+      totalCount,
+      totalPages: Math.max(currentPage, 1),
+    };
+  }
+
   const totalPages = products.length > 0 ? Math.ceil(totalCount / products.length) : 1;
 
   return {

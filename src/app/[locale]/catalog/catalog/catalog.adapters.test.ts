@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { Category } from '@/entities/category';
 import type { ProductListItem } from '@/entities/product';
 
-import { filterProductsByCategory } from './catalog.adapters';
+import { extractPaginationMeta, filterProductsByCategory } from './catalog.adapters';
 
 const categories: Category[] = [
   {
@@ -50,5 +50,37 @@ describe('filterProductsByCategory', () => {
     expect(filterProductsByCategory(products, categories, 'women').map(({ id }) => id)).toEqual([
       2,
     ]);
+  });
+});
+
+describe('extractPaginationMeta', () => {
+  const products = (count: number): ProductListItem[] =>
+    Array.from({ length: count }, (_, index) => product(index + 1));
+
+  it('derives totalPages from a full page that has more pages after it', () => {
+    const response = { count: 101, next: 'http://api/products/?page=2', previous: null, results: products(24) };
+
+    expect(extractPaginationMeta(response, products(24), 1)).toEqual({
+      totalCount: 101,
+      totalPages: 5,
+    });
+  });
+
+  it('does not overcount pages when the last page is only partially filled', () => {
+    const response = { count: 101, next: null, previous: 'http://api/products/?page=4', results: products(5) };
+
+    expect(extractPaginationMeta(response, products(5), 5)).toEqual({
+      totalCount: 101,
+      totalPages: 5,
+    });
+  });
+
+  it('treats a single, non-final page as the only page', () => {
+    const response = { count: 3, next: null, previous: null, results: products(3) };
+
+    expect(extractPaginationMeta(response, products(3), 1)).toEqual({
+      totalCount: 3,
+      totalPages: 1,
+    });
   });
 });
